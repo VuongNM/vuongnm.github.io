@@ -69,7 +69,7 @@ The church of Bayesian, unlike other churches, has their beliefs in working orde
 
 
 ![image](/images/toronto_wake_up.jpg )
-<center>Toronto this morning, nicer when you don't see the sewage system.</center>
+<center><em>Toronto this morning, nicer when you don't see the sewage system.</em></center>
 
 
 
