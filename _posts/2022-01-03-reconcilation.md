@@ -9,7 +9,7 @@ excerpt: Manage your inventory with science, find out now!
 The COVID pandemic is inching to an end, but its effects on global economics is still a painful ache. Retailers across the globe (checkmate flat earther!) are having a seizure looking at their drop dead sale timeseries. Something looking like this:
 
 
-![image](/images/dead.png )
+![image](/images/dead.png ){: width="200" }
 
 
 
