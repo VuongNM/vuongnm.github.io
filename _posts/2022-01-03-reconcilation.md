@@ -88,7 +88,9 @@ End of story!
 
 Okay, here are more technical details of the method. Let's say that we have an assortment of N products. Each with a certain forecast of sales next month. The problem is how do we take those forecasts and adjust it to match an exact grand total number. 
 
-We can do this by resample the sale, taking in normalized sales as sampling probabilities. This constitutes a Dirichlet distribution probabilities. We will draw random samples from this distribution until we reach our goal. It could be used to rescale the sale total higher or lower than the original total forecast. 
+The question now is: How we do allocate this amount of sales to each of our product ? 
+
+We can do this by resample the sale, taking in normalized sales as sampling probabilities. This can be modeled as a Dirichlet distribution probabilities. We will draw random samples from this distribution until we reach our total goal. This method could be used to rescale the sale total higher or lower than the original total forecast. 
 
 Anecdote: The distribution could have any shape, but real world evidence suggests that sales usually concentrated in a small number of products, and little distributed to others. But your shape of distribution may vary. However, the algorithm works the same. 
 
