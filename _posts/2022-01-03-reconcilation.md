@@ -108,7 +108,7 @@ I've tested this method against others like in the goofy conversation above. Evi
 
 
 
-The choice of priors for the Dirichlet is quite interesting. In practice, many products have zero for its original distribution (the forecast). And by that, it will not be resampled by the method. Adding 1 to each number (of the forecast, or the vector V) gives it a little chance to show up in the sampling process. This is equal to the Uniform prior, or Dirichlet (1).
+The choice of priors for the Dirichlet is quite interesting. In practice, many products have zero for its original distribution (the forecast). And by that, it will not be resampled by the method. Adding 1 to each number (of the forecast, or the vector V) gives it a little chance to show up in the sampling process. This is equal to the Uniform prior, or Dirichlet (__1__).
 
 
 
