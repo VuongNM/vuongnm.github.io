@@ -96,7 +96,7 @@ Anecdote: The distribution could have any shape, but real world evidence suggest
 
 
 
-The theoretical background for this method is as follows:
+The theoretical data generating process as background for this method is as follows:
 - __We assume sales across the assortment is a Dirichlet distribution D(V)__, where V is a vector of size N, each element of V is the number of sales for each product. Generally, Dirichlet prior used a vector of ones as a weak prior. We can choose an even weaker prior like a vector of 1/2 (Jeffrey) or zeros (Haldane prior). 
 
 - __The sample likelihood is a Categorical distribution__ 
