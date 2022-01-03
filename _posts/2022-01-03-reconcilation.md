@@ -13,15 +13,23 @@ The COVID pandemic is inching to an end, but its effects on global economics is 
 
 
 
+
+
+
+
 Okay may be not like that, but more like this:
 
 ![image](/images/pandemic_sale.png )
-<center>merchandise spending declines in the US, credit to World Economic Center.</center>
+<center><em>Merchandise spending declines in the US, credit to World Economic Center.</em></center>
+
+
 
 
 
 
 At one retailer named Everything On Sale, there goes the conversation:
+
+
 
 Alice: Now the problem for us the retailer is that how do we adjust the financial outlook to this new timeline, and how do we adjust our inventory outlook to match the amount of money we have ?
 
@@ -42,11 +50,14 @@ Bob: Does not work, our sales don't look like that. See, diapers sell a lot more
 
 
 
+
+
 And then gospel music plays, descending Deacon, a fanatic from the church of Bayesian, across the street. Deacon said:
 
 Hear me children! You can randomly sample units, based on the sale ratio of each product. 
 
 The prophecy struct their ears. Bob and Alice exploded. They are in awe, asking Deacon for the sauce. 
+
 
 
 Deacon draws on the board the mathematical squiggles, dazzles Alice and Bob. The board is full of drawings like worms on sand (integrals and such), characters that do not constitute any word, very strange to Bob and Alice. However, they still believe.
@@ -55,8 +66,12 @@ Deacon draws on the board the mathematical squiggles, dazzles Alice and Bob. The
 The church of Bayesian, unlike other churches, has their beliefs in working order with their theories. That's why it's spreading faster than Toronto sewage steam on a cold day. 
 
 
+
+
 ![image](/images/toronto_wake_up.jpg )
 <center>Toronto this morning, nicer when you don't see the sewage system.</center>
+
+
 
 
 
