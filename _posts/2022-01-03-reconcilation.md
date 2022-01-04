@@ -90,16 +90,16 @@ Okay, here are more technical details of the method. Let's say that we have an a
 
 The question now is: How we do allocate this amount of sales to each of our product ? 
 
-We can do this by resample the sale, taking in normalized sales as sampling probabilities. This can be modeled as a Dirichlet distribution probabilities. We will draw random samples from this distribution until we reach our total goal. This method could be used to rescale the sale total higher or lower than the original total forecast. 
+We can do this by resample the sale, taking in normalized sales as sampling probabilities. This can be modeled as a Categorical distribution probabilities. We will draw random samples from this distribution until we reach our total goal.  
 
-Anecdote: The distribution could have any shape, but real world evidence suggests that sales usually concentrated in a small number of products, and little distributed to others. But your shape of distribution may vary. However, the algorithm works the same. 
+Anecdote: The distribution could have any shape. Many time we see sales usually concentrated in a small number of products, and little distributed to others. But your shape of distribution may vary. The algorithm works the same. 
 
 
 
 The theoretical data generating process as background for this method is as follows:
 - __We assume sales across the assortment is a Dirichlet distribution D(V)__, where V is a vector of size N, each element of V is the number of sales for each product. Generally, Dirichlet prior used a vector of ones as a weak prior. We can choose an even weaker prior like a vector of 1/2 (Jeffrey) or zeros (Haldane prior). 
 
-- __The sample likelihood is a Categorical distribution__ 
+- __The likelihood is a Categorical distribution__ 
 
 - __The posterior is a Dirichlet D(V')__ , as a consequence of conjugation with the Categorical likelihood. The elements in vector V' is now the sale of each product after scaling.
 
