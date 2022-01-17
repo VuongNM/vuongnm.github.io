@@ -5,7 +5,7 @@ title: Product Embedding Beyond Word2vec Models
 ---
 
 ![image](/images/embedding.png )
-<center> <em>Can we make something like this but for products? </em> </center>
+<center> <em>Leveraging product attributes to enhance accuracy, is it possible ? </em> </center>
 
 Word Embedding has been around for quite a while. Let's apply these techniques for products.
 
