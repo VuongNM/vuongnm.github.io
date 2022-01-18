@@ -20,7 +20,7 @@ The COVID pandemic is inching to an end, but its effects on global economics is 
 Okay may be not like that, but more like this:
 
 ![image](/images/pandemic_sale.png )
-<center><em>Merchandise spending declines in the US, credit to World Economic Center.</em></center>
+<center><em>Merchandise spending declines in the US during Covid, credit to World Economic Center.</em></center>
 
 
 
