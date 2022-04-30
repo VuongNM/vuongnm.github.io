@@ -12,7 +12,7 @@ Now the thing is that the Chi distribution only depends on the number of dimensi
 
 
 [!image](/images/chi.png)
-<center><em>Chi distribution pdf with a single parameter d</em>></center>
+<center><em>Chi distribution pdf with a single parameter d</em></center>
 
 
 For MCMC inference, we want the chains to explore the space where the bulk of the distribution is. This region of space is called the Typical Set.
@@ -20,4 +20,4 @@ For MCMC inference, we want the chains to explore the space where the bulk of th
 Thus, setting the initial points to MAP values is just premature optimization, and does not offer anything and even make the sampling process worse. Modern MCMC frameworks such as Pymc3 has several tricks to initialize the chain in order to reach the typical set most efficiently.
 
 [!image](/images/lucia.png)
-<center><em>Lucia Popp looking at you when you initialize your chains with MAP</em>></center>
+<center><em>Lucia Popp looking at you when you initialize your chains with MAP</em></center>
