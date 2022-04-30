@@ -11,7 +11,7 @@ Let say that you have a unit Normal N in d dimensions. Then the variance is Chi-
 Now the thing is that the Chi distribution only depends on the number of dimensions of the original Normal N, and it grows ~ O(log(d)). So when the number of dimensions d grows, the points of N do not concentrate around the mean anymore, but in a space between 2 hypersphere, as you can see from the distance of the points to the center is concentrated around log(d).
 
 
-[!image](chi.png)
+[!image](/images/chi.png)
 <center><em>Chi distribution pdf with a single parameter d</em>></center>
 
 
@@ -19,5 +19,5 @@ For MCMC inference, we want the chains to explore the space where the bulk of th
 
 Thus, setting the initial points to MAP values is just premature optimization, and does not offer anything and even make the sampling process worse. Modern MCMC frameworks such as Pymc3 has several tricks to initialize the chain in order to reach the typical set most efficiently.
 
-[!image](lucia.png)
+[!image](/images/lucia.png)
 <center><em>Lucia Popp looking at you when you initialize your chains with MAP</em>></center>
