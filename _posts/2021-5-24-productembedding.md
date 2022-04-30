@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Product Embedding Beyond Word2vec Models
+title: Product Embedding With FastText, have you tried ?
 <!-- excerpt: Applying NLP methods for ecommerce, works wonders! -->
 ---
 
