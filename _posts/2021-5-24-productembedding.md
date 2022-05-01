@@ -44,8 +44,9 @@ Theoretically, bag-of-item for this task is very well suited than BOW for modell
 
 However, Word2vec only gets you so far. It's been pointed out that we have a hard time modeling rare words with Word2vec. The same with modelling rarely bought items in our problem. That's where Fasttext comes in.
 
-Fasttext assumes that the words morphics with the same root. For example: "Suggestion" and "Suggesting" are derived from the verb "Suggest". Thus, by leveraging the sub-word information, we can train better word embedding, especially for rare words. We can even construct a good baseline embedding vector for new words, by combining its sub-word components. This is quite nice if you do embedding in noisy datasets (e.g: Online tweets), or in expansive languages.
- 
+Fasttext assumes that the words morphics with the same root. This works particularly well in English or similar languages. For example: "Suggestion" and "Suggesting" are derived from the verb "Suggest". Thus, by leveraging the sub-word information, we can train better word embedding, especially for rare words. We can even construct a good baseline embedding vector for new words, by combining its sub-word components. This is quite nice if you do embedding in noisy datasets (e.g: Online tweets), or in expansive languages.
+
+
 
 This idea also applied well in training embedding for products. By representing a product with a list of it's attributes, we can train a much better embedding model.
 
