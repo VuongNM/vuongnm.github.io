@@ -8,7 +8,7 @@ excerpt: Using MAP as chain starting point is just premature optimzation of Mont
 
 Let say that you have a unit Normal N in d dimensions. Then the variance is Chi-square distributed, and the standard deviation is Chi distributed. In other words, the distance between a random point drawn from N to the origin has the Chi distribution. 
 
-Now the thing is that the Chi distribution only depends on the number of dimensions of the original Normal N, and it grows ~ sqrt(d). So when the number of dimensions d grows, the points of N do not concentrate around the mean anymore, but in a space between 2 hypersphere, as you can see from the distance of the points to the center is concentrated around log(d).
+Now the thing is that the Chi distribution only depends on the number of dimensions of the original Normal N, and it grows ~ sqrt(d). So when the number of dimensions d grows, the points of N do not concentrate around the mean anymore, but in a space between 2 hypersphere, as you can see from the distance of the points to the center is concentrated around sqrt(d).
 
 
 ![image](/images/chi.png)
