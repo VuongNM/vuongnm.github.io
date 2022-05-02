@@ -19,6 +19,7 @@ Still not convinced ? Here the plot of distance of points to the origin drawn fr
 ![image](/images/norm_dist.png)
 
 
+
 For MCMC inference, we want the chains to explore the space where the bulk of the distribution is. This region of space is called the Typical Set.
 
 Thus, setting the initial points to MAP values is just premature optimization, and does not offer anything and even make the sampling process worse. Modern MCMC frameworks such as Pymc3 has several tricks to initialize the chain in order to reach the typical set most efficiently.
