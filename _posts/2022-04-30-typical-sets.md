@@ -15,6 +15,10 @@ Now the thing is that the Chi distribution only depends on the number of dimensi
 <center><em>Chi distribution pdf with a single parameter d</em></center>
 
 
+Still not convinced ? Here the plot of distance of points to the origin drawn from some unit multivariate Normal. [Source](https://gist.github.com/VuongNM/085b256f41e1241ad7032662fb9cc421)
+![image](/images/norm_dist.png)
+
+
 For MCMC inference, we want the chains to explore the space where the bulk of the distribution is. This region of space is called the Typical Set.
 
 Thus, setting the initial points to MAP values is just premature optimization, and does not offer anything and even make the sampling process worse. Modern MCMC frameworks such as Pymc3 has several tricks to initialize the chain in order to reach the typical set most efficiently.
