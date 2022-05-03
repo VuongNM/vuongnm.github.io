@@ -72,3 +72,8 @@ In Gensim, one of the most popular word2vec / fasttext training lib, and which I
 
 Let's look into the most famous example of word2vec: Vector(king) - Vector(man) + Vector(woman) = Vector(Queen). This suggests that there is a vector ( with a magnitude and direction) representing the King-ly-ness in the embedding space. In the embedding space of products, we can find such vectors for different relationships between products: Cheapness, Blue-ness...etc. This is very helpful for setting up recommendation engines, such as finding the cheap replacement for a product for example.
 
+
+
+
+Update: [Example notebook](https://github.com/VuongNM/study/blob/main/Product%20Embedding%20with%20Word2vec%20and%20Fasttext.ipynb), using a public dataset from [kaggke](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations)
+
