@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Quantized Space SVM With Entropy Based Sampling
+title: Quantized space SVM with entropy based sampling
 <!-- excer  pt: Choosing points to train SVM by using entropy of space around it. -->
 ---
 

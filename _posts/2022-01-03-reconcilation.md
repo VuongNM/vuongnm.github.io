@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Match Your Forecast With Your Plan, Bayesian Style.
+title: Match your forecast with your plan, bayesian style
 excerpt: Manage your inventory with science, find out now!
 ---
 

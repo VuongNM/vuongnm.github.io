@@ -1,6 +1,6 @@
 ---
 layout: post
-title: On Kaggle Public - Private Leaderboard
+title: On kaggle public - private leaderboard
 ---
 
 One of the goals of building machine learning model is to accurately predict the future. 

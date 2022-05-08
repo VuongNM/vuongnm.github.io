@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Predictions and Smedictions
+title: Predictions smedictions
 excerpt: How I improve my boosted tree using a plasma globe.
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Product Embedding With FastText, have you tried ?
+title: Product embedding with fasttext, have you tried ?
 <!-- excerpt: Applying NLP methods for ecommerce, works wonders! -->
 ---
 

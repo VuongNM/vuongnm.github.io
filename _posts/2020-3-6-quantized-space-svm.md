@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Quantized Space SVM
+title: Quantized space SVM
 ---
 
 
