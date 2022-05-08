@@ -4,9 +4,7 @@ title: Author
 permalink: /about/
 ---
 
-Hello there, It's Vincent. Here is my personal blog that I write goofy stuffs.All opinions are my own!
-
-Right now, I'm working as a Data Scientist in Canada. 
+Hello there, It's Vincent. Here is my personal blog and all opinions are my own!
 
 
 Chào bạn, tôi tên Vương quê Nam Định, hiện đang làm tại Cà Ná Đại. Ý kiến trên blog này là của tôi!
