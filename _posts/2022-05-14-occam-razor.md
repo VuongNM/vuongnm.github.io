@@ -8,7 +8,7 @@ excerpt: Model selection with Occam razor
 
 ## Grandma's wisdom
 
-Model selection is hard. Model selection when all you do is to treat a ML model as a blackbox is very hard. And fucking dangerous. If you do it, then you are on a treadmill of never ending horror. One day your model will fail, this is a certainty. And you do not know why. 
+Model selection is hard. Model selection when all you do is to treat a ML model as a blackbox is very hard. It's lazy thinking, and fucking dangerous. If you do it, then you are on a treadmill of never ending horror. One day your model will fail, this is a certainty. And you do not know why. 
 
 You either pray that your model is unimportant that you amongst all people, let it slide. Or you cook up some new blackbox model and hope it solves the problem this time. Or you can lie. Tuning the random seed is accepted and upvoted these days in Kaggle. Gold medal and such, what lying are you talking of ? 
 
