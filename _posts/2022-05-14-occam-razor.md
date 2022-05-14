@@ -58,6 +58,8 @@ Let me convince you with something more scientific.
 Let say you have a regression problem, you pick an estimator of choice. Then you got the Pythagoras theorem for your estimator:
 
 	` Mean Squared error = Bias**2 + Variance `
+
+	
 Your model error can always come from 2 sources: bias and variance. When you reduce the bias, the variance will increase and vice versa. This is a trade off. This tradeoff leads to the problem of model selection.
 
 
