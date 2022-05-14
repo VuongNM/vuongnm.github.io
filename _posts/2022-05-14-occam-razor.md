@@ -59,7 +59,7 @@ Let say you have a regression problem, you pick an estimator of choice. Then you
 
 	` Mean Squared error = Bias**2 + Variance `
 
-	
+
 Your model error can always come from 2 sources: bias and variance. When you reduce the bias, the variance will increase and vice versa. This is a trade off. This tradeoff leads to the problem of model selection.
 
 
@@ -71,5 +71,5 @@ Generally, simpler models tend to have less bias. Not always, but most. But a le
 Another example: In a Bayesian setting, one can introduce bias into a model by introducing hierarchical structure, or impose constraints on the parameter space. The latter is usually well understood in ML literature, but the former is not, let alone practiced. With better structure, one can even afford a model having more parameters than training samples.
 
 
-And among models of similar performance, it's the one with higher bias that we want. We can manipulate them far more easily. We can introduce bias in the algorithm we choose, the constraints in the parameter space, or from the structure in the training and validation procedure. This infused bias is the control over the model. It's Tony's Grandma wisdom. This should be your Occam razors when doing model selection. 
+And amongst models of similar performance, it's the one with higher bias that we want. We can manipulate them far more easily. We can introduce bias in the algorithm we choose, the constraints in the parameter space, or from the structure in the training and model selection procedure. This infused bias is the control we have over the model. It's Tony's Grandma wisdom. This should be your Occam razors when doing model selection. 
 
