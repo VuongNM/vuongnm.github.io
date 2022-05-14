@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Occam's razor, machine learning version
-excerpt: tldr same errors? Choose the one with higher bias.
+title: Treet fighting machine learning part 1
+excerpt: Model selection with Occam razor
 
 ---
 
