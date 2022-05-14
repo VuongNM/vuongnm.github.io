@@ -68,8 +68,11 @@ In ML pop culture, people say choose the one model which is simpler (given the s
 Generally, simpler models tend to have more bias. Not always, but most. But a less biased model is not always simpler. Given the forecast model I built for Tony, it's sure as hell not simpler. But it is certainly more biased. I contort the model to make it behave in a certain, predictable way. I introduce biases in my model.
 
 
-Another example: In a Bayesian setting, one can introduce bias into a model by introducing hierarchical structure, or impose constraints on the parameter space. The latter is usually well understood in ML literature, but the former is not, let alone practiced. With better structure, one can even afford a model having more parameters than training samples.
+Another example: In a Bayesian setting, one can introduce bias into a model by introducing a hierarchical structure, or impose constraints on the parameter space. The latter is usually well understood in ML literature, but the former is not, let alone practiced. With better structure, one can even afford a model having more parameters than training samples.
 
 
-And amongst models of similar performance, it's the one with higher bias that we want. We can manipulate them far more easily. We can introduce bias in the algorithm we choose, the constraints in the parameter space, or from the structure in the training and model selection procedure. This infused bias is the control we have over the model. It's Tony's Grandma wisdom. This should be your Occam razors when doing model selection. 
+And amongst models of similar performance, it's the one with higher bias that we favor. Especially structural bias. We can manipulate them far more easily. We can introduce bias in the algorithm we choose, the constraints in the parameter space, or from the structure in the training and model selection procedure. This infused bias is the control we have over the model. It's Tony's Grandma wisdom. 
+
+
+When we know what we are doing and how well we're doing, it's way better than to have something completely blackbox that is slightly better. This should be your Occam razors when doing model selection. 
 
