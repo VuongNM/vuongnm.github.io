@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Treet fighting machine learning part 1
+title: Street fighting machine learning part 1
 excerpt: Model selection with Occam razor
 
 ---
