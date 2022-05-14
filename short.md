@@ -1,4 +1,3 @@
-# Mostly food for thought, for the future
 
 
 ### Metrics
