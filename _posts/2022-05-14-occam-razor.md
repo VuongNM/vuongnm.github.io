@@ -46,7 +46,7 @@ Now, give you 2 models of the same MAPE error, one with Tony's pill and other wi
 ![image](/images/pills.jpg)
 
 
-More daunting question: would a model treated as blackbox and trained by random param search pass Tony the chad ? Probably not! Quite frankly, I fear doing it that way.
+More daunting question: would a model treated as blackbox and trained by random param search pass Tony the Chad ? Probably not! Quite frankly, I fear doing it that way.
 
 
 Let me convince you with something more scientific.
@@ -57,7 +57,7 @@ Let me convince you with something more scientific.
 
 Let say you have a regression problem, you pick an estimator of choice. Then you got the Pythagoras theorem for your estimator:
 
-	` Mean Squared error = Bias**2 + Variance `
+	`Mean Squared Error = Bias**2 + Variance`
 
 
 Your model error can always come from 2 sources: bias and variance. When you reduce the bias, the variance will increase and vice versa. This is a trade off. This tradeoff leads to the problem of model selection.
@@ -65,7 +65,7 @@ Your model error can always come from 2 sources: bias and variance. When you red
 
 In ML pop culture, people say choose the one model which is simpler (given the same error), but rarely elaborate what simpler means. So what ppl usually take out of that is about choosing simpler algorithms. Then throws a fit when the results are worse. Fuck off I want my trees, right ?
 
-Generally, simpler models tend to have less bias. Not always, but most. But a less biased model is not always simpler. Given the forecast model I built for Tony, it's sure as hell not simpler. But it is certainly more biased. I contort the model to make it behave in a certain, predictable way. I introduce biases in my model.
+Generally, simpler models tend to have more bias. Not always, but most. But a less biased model is not always simpler. Given the forecast model I built for Tony, it's sure as hell not simpler. But it is certainly more biased. I contort the model to make it behave in a certain, predictable way. I introduce biases in my model.
 
 
 Another example: In a Bayesian setting, one can introduce bias into a model by introducing hierarchical structure, or impose constraints on the parameter space. The latter is usually well understood in ML literature, but the former is not, let alone practiced. With better structure, one can even afford a model having more parameters than training samples.
