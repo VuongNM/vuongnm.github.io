@@ -1,6 +1,5 @@
 ---
 layout: post
-title: Be real
 ---
 
 ### Does god have human emotion ? 
