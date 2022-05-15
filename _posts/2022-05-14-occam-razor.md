@@ -22,11 +22,11 @@ Now let me tell you a story when this matters.
 
 I was working on a forecasting project, and dealing with a guy named Tony. Tony is the head of merchandising. This chad is the human version of a forecasting system, runs on carbohydrates. He has years of experience working with forecasting.
 
-He does everything in Excel. His excel file is an ecosystem in itself. He can smell a number and tell it's over or under forecast right off his nose. It's fucking special. Tony's knowledge is something I called grandma wisdom (Taleb's words). He just knows. He does not need any fAnCy formular to explain it. And he single handedly holds the previous version of the forecast engine inplace. Now the problem is we only have one Tony and a quarter millions of products. There is so much he can go through. 
+He does everything in Excel. His excel file is an ecosystem in itself, having birds and bugs. It's fucking special. He can smell a number and tell it's over or under forecast right off his nose. Tony's knowledge is something I called grandma wisdom (Taleb's words). He just knows. He does not need any fAnCy formular to explain it. And he single handedly holds the previous version of the forecast engine inplace. Now the problem is we only have one Tony and a quarter millions of products. There is so much he can go through. 
 
 
 ![image](/images/chad.jpg)
-<center> <em>Tony the Chad, Bearer of Grandma wisdom.</em> </center>
+<center> <em>Tony the Chad, bearer of grandma's wisdom.</em> </center>
 
 
 
