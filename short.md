@@ -1,5 +1,6 @@
 ---
 layout: post
+title: Questions and sometime half thoughts
 ---
 
 ### Does god have human emotion ? 
