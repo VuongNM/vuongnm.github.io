@@ -13,7 +13,7 @@ Eve is just as skillful: “The serpent deceived me, and I ate.”
 
 explanations are used exclusively for passing responsibilities.
 ```
-Then would a man, the one who can explain things, feel guilty ? 
+Then would a man, the one who can explain things, feel guilty if the outcome is bad, or would he feel deserved the outcome when it's good ?
 
 
 
