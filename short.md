@@ -3,8 +3,7 @@ layout: post
 title: Questions and sometime half thoughts
 ---
 
-### 
-The book of why, Epilogue - Judea Pearl
+### The book of why, Epilogue - Judea Pearl
 ```
 When God asks: “Did you eat from that tree?”
 This is what Adam replies: “The woman whom you gave to be with me, She handed me the fruit from the tree; and I ate.”
