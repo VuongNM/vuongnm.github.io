@@ -6,8 +6,9 @@ title: Questions and sometime half thoughts
 
 
 ### Dataset drift detection is a silly idea
-The whole point of model based machine learning, or modelling as a method of understanding the world, is that such model
-can behave as expected on unseen data. In canonical literature, it's the concept of model generalization that one should be thinking about.
+The whole point of model based machine learning, or modelling as a method of understanding the world, is that your model can generalize. 
+From practical point of view, generalized model can perform well on unseen (even drifted) data.
+From understanding point of view, genralized model encapsulate what man think how the world works.
 Focus on making your model genenalizing well.
 
 
