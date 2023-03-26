@@ -3,6 +3,20 @@ layout: post
 title: Questions and sometime half thoughts
 ---
 
+
+
+### Dataset drift detection is a silly idea
+The whole point of model based machine learning, or modelling as a method of understanding the world, is that such model
+can behave as expected on unseen data. In canonical literature, it's the concept of model generalization that one should be thinking about.
+Focus on making your model genenalizing well.
+
+
+
+### Writing code that's breakable with tests
+Taking the idea of modern scientific discovery by Karl Popper, a programmer should write code that's breakable in tests.
+This is crucial for production grade code, where we asolutely need to know the boundary of the logic of the code and how it can break.
+
+
 ### The Art and Science of Cause and Effect - Judea Pearl
 ```
 When God asks: “Did you eat from that tree?”
