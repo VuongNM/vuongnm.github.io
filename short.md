@@ -3,6 +3,9 @@ layout: post
 title: Questions and sometime half thoughts
 ---
 
+### Making money 
+Man makes money either by realizing a Platoninc ideal or corrupting one. I want to be in the 1st category.
+
 ### Have you ever seen a failed machine learning project ?
 And the answer if yes, you haven't seeon one, then ask yourself if you have seen the boundaries of what's possible ?
 If all that you see are successes, how much of it is just spending time on worn out path doing something everyone has done ?
