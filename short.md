@@ -3,6 +3,17 @@ layout: post
 title: Questions and sometime half thoughts
 ---
 
+
+### Aging as an evolutionary advantage
+
+Human, throughout our life, gather experience and the older the man, the wiser they become. So these older man will have a much better survival and procreative advantage. If there is no aging and slowing down of the old animal, future generation will be less diverse. This homogeneity make the whole species an easy target for a sweeping disease. Longer the time, higher the risk. 
+
+
+So you can see, taking advantage away bring back the balance and give the species the strength via diversity.
+
+
+
+
 ### Making money 
 Man makes money either by realizing a Platoninc ideal or corrupting one. I want to be in the 1st category.
 
