@@ -71,3 +71,7 @@ Is there objective randomness out there, which is not just randomness observable
 ### Grandma
 
 Pity the one whose grandma doesn't cook good food
+
+### Thinking and calculating
+
+Without gaps in knowledge, thinking is reduced to calculation - Byung-Chul Han
