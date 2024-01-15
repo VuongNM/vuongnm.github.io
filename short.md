@@ -75,3 +75,6 @@ Pity the one whose grandma doesn't cook good food
 ### Thinking and calculating
 
 Without gaps in knowledge, thinking is reduced to calculation - Byung-Chul Han
+
+### Best technologies
+The best kind of technology is the invisibile one, like wifi
