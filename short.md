@@ -78,3 +78,6 @@ Without gaps in knowledge, thinking is reduced to calculation - Byung-Chul Han
 
 ### Best technologies
 The best kind of technology is the invisibile one, like wifi
+
+###Value of a test set
+The more you use a test set, the less valuable it becomes. In some cases, we can measure this value by something like information gain i.e how much information you have gained (in bits)  from modifying your model using your test set. As a result, the best test set is only used once.
