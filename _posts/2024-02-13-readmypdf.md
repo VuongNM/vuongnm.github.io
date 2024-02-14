@@ -1,7 +1,7 @@
 ---
 layout: post
 title: I wrote Read My PDF to read my pdf
-excerpt: Because, first, I can, and second, it would be lovely for something like that to exists.
+excerpt: Because, first, I can, and second, it would be lovely for something like that to exist.
 
 ---
 
