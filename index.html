@@ -4,20 +4,17 @@ layout: canvas
 
 <div id="stage"><div id="cam"><div id="plane"></div></div></div>
 
-<div class="topbar">
+<header class="topbar">
   <a class="brand" href="{{ site.baseurl }}/" id="recenter">
     <img src="{{ site.avatar }}" alt="">
-    <div>
-      <div class="n">{{ site.name | split: " - " | first | split: " – " | first }}</div>
-      <div class="d">{{ site.description }}</div>
-    </div>
+    <span class="n">{{ site.name | split: " - " | first | split: " – " | first }}</span>
   </a>
-  <nav class="topnav">
+  <nav>
     <a href="{{ site.baseurl }}/" id="home">Home</a>
     <a href="{{ site.baseurl }}/short" title="Half a thought">Short</a>
     <a href="{{ site.baseurl }}/about" title="Whodis?">About</a>
   </nav>
-</div>
+</header>
 
 <div class="controls">
   <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
@@ -36,7 +33,7 @@ var POSTS = [
   {%- assign parts = post.content | split: 'src="' -%}
   {%- if parts.size > 1 -%}{%- assign img = parts[1] | split: '"' | first -%}{%- endif -%}
   {%- if img == "" or img contains "wikimedia" or img contains ".svg" -%}{%- assign img = pd[pdi] -%}{%- assign pdi = pdi | plus: 1 -%}{%- if pdi >= pd.size -%}{%- assign pdi = 0 -%}{%- endif -%}{%- endif -%}
-  {"t":{{ post.title | jsonify }},"u":{{ post.url | prepend: site.baseurl | jsonify }},"i":{{ img | jsonify }}},
+  {"t":{{ post.title | jsonify }},"u":{{ post.url | prepend: site.baseurl | jsonify }},"i":{{ img | jsonify }},"e":{{ post.excerpt | strip_html | normalize_whitespace | truncate: 180 | jsonify }}},
 {% endif %}{% endfor %}
 ];
 
@@ -49,6 +46,7 @@ var POSTS = [
   var accents=['var(--accent)','var(--accent2)','var(--accent3)','var(--accent4)'];
 
   function hash(n){ var x=Math.sin(n*127.1+311.7)*43758.5453; return x-Math.floor(x); }
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   // ---- square cards of varying size: 1x1 or a 2x2 (= 4-card, 4x area) block ----
   // Greedy seeded packer; every card stays fully inside the tile so the infinite
@@ -93,7 +91,8 @@ var POSTS = [
       var capStyle='background:'+capBg+';font-size:'+capFont+'px;'+(capBg.indexOf('accent3')>-1?'color:#000':'');
       a.innerHTML='<span class="thumb"><img decoding="async" referrerpolicy="no-referrer" draggable="false" src="'+p.i+'" alt=""'+
                   ' onerror="this.style.display=\'none\'"></span>'+
-                  '<span class="cap" style="'+capStyle+'">'+p.t+'</span>';
+                  '<span class="cap" style="'+capStyle+'">'+esc(p.t)+'</span>'+
+                  (p.e?'<span class="excerpt">'+esc(p.e)+'</span>':'');
       a.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+tilt+'deg)';
       plane.appendChild(a);
     }
