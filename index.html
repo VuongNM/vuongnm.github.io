@@ -40,7 +40,7 @@ var POSTS = [
 (function(){
   var stage=document.getElementById('stage'), cam=document.getElementById('cam'), plane=document.getElementById('plane');
   if(!POSTS.length){ POSTS=[{t:"Hello",u:"#",i:"{{ site.avatar }}"}]; }
-  var CARD_W=220, CARD_H=220, GAP_X=40, GAP_Y=40;  // square base cell
+  var CARD_W=220, CARD_H=220, GAP_X=60, GAP_Y=60;  // square base cell, roomier gutter
   var CELL_W=CARD_W+GAP_X, CELL_H=CARD_H+GAP_Y;
   var COLS=6, ROWS=Math.max(4, Math.ceil(POSTS.length/COLS));
   var accents=['var(--accent)','var(--accent2)','var(--accent3)','var(--accent4)'];
