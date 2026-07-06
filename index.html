@@ -23,6 +23,23 @@ layout: canvas
 
 <div class="hint" id="hint">drag &nbsp;·&nbsp; scroll any direction &nbsp;·&nbsp; pinch / +&minus; to zoom</div>
 
+<div id="detail" aria-hidden="true">
+  <div class="backdrop"></div>
+  <div class="detailcard">
+    <div class="flip">
+      <div class="face front">
+        <span class="thumb"><img id="d-img" alt="" referrerpolicy="no-referrer"></span>
+        <span class="cap" id="d-cap"></span>
+      </div>
+      <div class="face back">
+        <div class="bar"><span id="d-title"></span></div>
+        <div class="content" id="d-content"></div>
+      </div>
+    </div>
+    <button class="close" id="d-close" aria-label="Close">&times;</button>
+  </div>
+</div>
+
 <script>
 {% comment %} Public-domain fallback images (pdimagearchive.org) for posts with no picture {% endcomment %}
 {% assign pd = "https://images.pdimagearchive.org/collections/hainhofer-stammbuch/hainhofer-stammbuch-079.jpeg?width=520|https://images.pdimagearchive.org/collections/the-woman-and-the-car/120928_0036.jpg?width=520|https://images.pdimagearchive.org/collections/colorised-stereographs-of-the-russo-japanese-war-1905/11237549534_e5eda78e01_b.jpg?width=520|https://images.pdimagearchive.org/collections/the-civil-war-sketches-of-adolph-metzner-1861-64/21-1.jpg?width=520|https://images.pdimagearchive.org/collections/adriaen-coenen-s-fish-book-1580/14788728663_c656f8c613_o.jpg?width=520|https://images.pdimagearchive.org/collections/documerica/documerica-39.jpg?width=520|https://images.pdimagearchive.org/collections/antiquities-of-mexico/antiquities-of-mexico-00076.jpg?width=520|https://images.pdimagearchive.org/collections/the-art-of-dreams/lesrvesetlesmoye00herv_0013.jpeg?width=520|https://images.pdimagearchive.org/collections/baraduc-soul/bara_0233.jpg?width=520|https://images.pdimagearchive.org/collections/arbeid-van-mars/arbeid-van-mars-00011.jpg?width=520|https://images.pdimagearchive.org/collections/basohli-beetle-paintings/basohli-beetles-6.jpg?width=520|https://images.pdimagearchive.org/collections/the-american-woods/20661261779_130a7bc618_o.jpg?width=520|https://images.pdimagearchive.org/collections/rogues-a-study-of-characters-samuel-g-szabo/rogues-samuel-g-szabo-00048.jpeg?width=520|https://images.pdimagearchive.org/collections/sowerby-mineralogy/sowerby-mineral-15.jpeg?width=520|https://images.pdimagearchive.org/collections/mayer-medusae/medusae03-0305.jpg?width=520|https://images.pdimagearchive.org/collections/images-from-german-caterpillar-calendar-1837/25855317678_1fa4fd5a50_o.jpg?width=520|https://images.pdimagearchive.org/collections/marcus-selmer-s-photographs-of-19th-century-norwegians/33062670481_17de926d80_b.jpg?width=520|https://images.pdimagearchive.org/collections/celestial-phenomena-16th-century-germany/celestial-phenomena-00001.jpeg?width=520|https://images.pdimagearchive.org/collections/watercolours-from-a-16th-century-de-materia-medica/20879595101_be37994770_o.jpg?width=520|https://images.pdimagearchive.org/collections/nature-through-microscope-and-camera-1909/14990011182_c845fc495b_o.jpg?width=520|https://images.pdimagearchive.org/collections/fungi-of-shropshire/lewis-fungi-13a2.jpg?width=520|https://images.pdimagearchive.org/collections/the-cubies-abc-1913/cubiesabcnewyork00lyal_0065.jpg?width=520|https://images.pdimagearchive.org/collections/campi-phlegraei/campi-phlegraei-10.jpg?width=520|https://images.pdimagearchive.org/collections/chinese-fishes/histoirenaturell00bill_0089.jpg?width=520|https://images.pdimagearchive.org/collections/album-of-seaweed-pictures-1848/QK567_Se1_Sea_Weeds_p022_PS4.jpg?width=520|https://images.pdimagearchive.org/collections/woodcuts-from-18th-century-chapbooks/8067336638_68204f8484_o.jpg?width=520|https://images.pdimagearchive.org/collections/through-the-first-antarctic-night-1900/48103576191_523876959d_c.jpg?width=520|https://images.pdimagearchive.org/collections/smillie-smithsonian/smillie-smithsonian-15.jpg?width=520|https://images.pdimagearchive.org/collections/hippolyte-hodeau-trench-art/Leaves-5.jpg?width=520|https://images.pdimagearchive.org/collections/aratea-making-pictures-with-words-in-the-9th-century/32597289794_fcea84ba30_c.jpg?width=520|https://images.pdimagearchive.org/collections/babb-photographs/Babb-11.jpg?width=520|https://images.pdimagearchive.org/collections/uranias-mirror-or-a-view-of-the-heavens/dec2019-21.jpg?width=520|https://images.pdimagearchive.org/collections/visualizing-migraines/diseasesofnervo00jell_0119.jpg?width=520|https://images.pdimagearchive.org/collections/images-from-william-saville-kent-s-the-great-barrier-reef-of-australia-1893/image-from-rawpixel-id-414412-jpeg.jpg?width=520" | split: "|" %}
@@ -74,7 +91,7 @@ var POSTS = [
   var order=[]; for(var k=0;k<layout.length;k++) order.push(POSTS[k % POSTS.length]);
   for(var k=order.length-1;k>0;k--){ var j=Math.floor(hash(k*7.3)*(k+1)); var t=order[k]; order[k]=order[j]; order[j]=t; }
 
-  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, INITIAL_ZOOM=1.25, vX=0, vY=0;
+  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, INITIAL_ZOOM=0.87, vX=0, vY=0;
   function wrap(v,T){ var m=v%T; if(m>0) m-=T; return m; }
 
   function buildTile(ox, oy){
@@ -83,7 +100,7 @@ var POSTS = [
       var x=ox+L.c*CELL_W, y=oy+L.r*CELL_H;
       var cw=w*CELL_W-GAP_X, ch=h*CELL_H-GAP_Y;
       var a=document.createElement('a');
-      a.className='card'; a.href=p.u;
+      a.className='card'; a.href=p.u; a._post=p;
       var tilt=((hash(idx*3.1)*8-4)/Math.max(w,h)).toFixed(2);  // gentler tilt on big cards
       a.style.width=cw+'px'; a.style.height=ch+'px';
       a.dataset.x=x; a.dataset.y=y; a.dataset.tilt=tilt;
@@ -144,12 +161,13 @@ var POSTS = [
   });
   function endPtr(e){
     var tap = e.type==='pointerup' && pointers.size===1 && moved<=6 && downCard;
-    var href = tap ? downCard.getAttribute('href') : null;
+    var tapped = tap ? downCard : null;
     pointers.delete(e.pointerId); if(pointers.size<2) pinchStart=null;
     if(pointers.size===0){
       dragging=false; last=null; stage.classList.remove('grabbing');
-      if(tap && href && href!=='#'){ location.href=href; return; }  // navigate on a real click
-      releasePress(); inertia();
+      releasePress();
+      if(tapped && tapped._post){ openDetail(tapped._post); return; }  // flip open instead of navigating
+      inertia();
     }
   }
   stage.addEventListener('pointerup', endPtr);
@@ -175,6 +193,34 @@ var POSTS = [
     (function step(){ vX*=0.94; vY*=0.94;
       if(Math.abs(vX)<0.1 && Math.abs(vY)<0.1){ raf=null; return; }
       panX+=vX; panY+=vY; apply(); raf=requestAnimationFrame(step); })(); }
+
+  // ---- detail overlay: tap a card to flip + enlarge it and show the post details ----
+  var detail=document.getElementById('detail');
+  var dImg=document.getElementById('d-img'), dCap=document.getElementById('d-cap'),
+      dTitle=document.getElementById('d-title'), dContent=document.getElementById('d-content'), closeTimer=null;
+  function openDetail(p){
+    if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
+    dImg.style.visibility='visible'; dImg.onerror=function(){ this.style.visibility='hidden'; }; dImg.src=p.i||'';
+    dCap.textContent=p.t; dTitle.textContent=p.t;
+    dContent.innerHTML='<p class="lead">'+esc(p.e||'')+'</p><p class="dloading">Loading…</p>';
+    dContent.scrollTop=0;
+    detail.classList.add('open'); detail.setAttribute('aria-hidden','false');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ detail.classList.add('show'); }); });
+    if(p.u && p.u.charAt(0)!=='#'){
+      fetch(p.u).then(function(r){ return r.ok?r.text():Promise.reject(); }).then(function(html){
+        var doc=new DOMParser().parseFromString(html,'text/html');
+        var entry=doc.querySelector('.entry')||doc.querySelector('article');
+        if(entry){ var sc=entry.querySelectorAll('script'); for(var i=0;i<sc.length;i++) sc[i].remove();
+          dContent.innerHTML=entry.innerHTML; dContent.scrollTop=0; }
+        else { var l0=dContent.querySelector('.dloading'); if(l0) l0.remove(); }
+      }).catch(function(){ var l=dContent.querySelector('.dloading'); if(l) l.remove(); });
+    } else { var l=dContent.querySelector('.dloading'); if(l) l.remove(); }
+  }
+  function closeDetail(){ detail.classList.remove('show');
+    closeTimer=setTimeout(function(){ detail.classList.remove('open'); detail.setAttribute('aria-hidden','true'); dContent.innerHTML=''; }, 480); }
+  document.getElementById('d-close').onclick=closeDetail;
+  detail.querySelector('.backdrop').onclick=closeDetail;
+  addEventListener('keydown', function(e){ if(e.key==='Escape' && detail.classList.contains('open')) closeDetail(); });
 
   setTimeout(function(){ var h=document.getElementById('hint'); if(h) h.style.opacity='0'; }, 7000);
   var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ build(); apply(); },200); });
