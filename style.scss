@@ -18,46 +18,45 @@ html {
 }
 
 body {
-	background: $white;
-  font: 18px/1.4 $helvetica;
-  color: $darkGray;
+  background: $bg;
+  // subtle neobrutalist dot grid on the background
+  background-image: radial-gradient(rgba(0,0,0,.10) 1.4px, transparent 1.4px);
+  background-size: 22px 22px;
+  font: 18px/1.55 $helvetica;
+  color: $ink;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
-  padding: 0 10px;
+  max-width: 760px;
+  padding: 0 16px;
   width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
+  font-family: $display;
   color: $darkerGray;
-  font-weight: bold;
-
-  line-height: 1.7;
-  margin: 1em 0 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 1.2em 0 15px;
   padding: 0;
 
   @include mobile {
-    line-height: 1.4;
+    line-height: 1.25;
   }
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 34px;
+  font-weight: 700;
   a {
     color: inherit;
   }
 }
 
-h2 {
-  font-size: 24px;
-}
-
-h3 {
-  font-size: 20px;
-}
+h2 { font-size: 26px; }
+h3 { font-size: 21px; }
 
 h4 {
   font-size: 18px;
@@ -69,11 +68,15 @@ p {
 }
 
 a {
-  color: $blue;
+  color: $accent;
   text-decoration: none;
-	cursor: pointer;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .12s ease, border-color .12s ease, background-color .12s ease;
   &:hover, &:active {
-    color: $blue;
+    color: $accent2;
+    border-bottom-color: $accent2;
   }
 }
 
@@ -82,29 +85,14 @@ ul, ol {
   padding-left: 30px;
 }
 
-ul {
-  list-style-type: disc;
-}
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
 
-ol {
-  list-style-type: decimal;
-}
+ol ul, ul ol, ul ul, ol ol { margin: 0; }
+ul ul, ol ul { list-style-type: circle; }
 
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
-}
-
-ul ul, ol ul {
-  list-style-type: circle;
-}
-
-em, i {
-  font-style: italic;
-}
-
-strong, b {
-  font-weight: bold;
-}
+em, i { font-style: italic; }
+strong, b { font-weight: 700; }
 
 img {
   max-width: 100%;
@@ -116,30 +104,49 @@ img {
 }
 
 .date {
-  font-style: italic;
-  color: $gray;
+  display: inline-block;
+  font-family: $mono;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $ink;
+  background: $accent3;
+  border: 2px solid $black;
+  border-radius: 8px;
+  padding: 5px 11px;
+  transform: rotate(-2deg);
+  transition: transform .15s ease;
+  @include brutal-shadow(3px, 3px);
+
+  &:hover { transform: rotate(2deg) scale(1.05); }
 }
 
-// Specify the color of the selection
-::-moz-selection {
-  color: $black;
-  background: $lightGray;
-}
-::selection {
-  color: $black;
-  background: $lightGray;
-}
+// Selection color
+::-moz-selection { color: $black; background: $accent2; }
+::selection { color: $black; background: $accent2; }
 
 // Nicolas Gallagher's micro clearfix hack
-// http://nicolasgallagher.com/micro-clearfix-hack/
 .clearfix:before,
 .clearfix:after {
-    content: " ";
-    display: table;
+  content: " ";
+  display: table;
+}
+.clearfix:after { clear: both; }
+
+/*********************/
+/* PLAYFUL ANIMATIONS */
+/*********************/
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
 }
 
-.clearfix:after {
-    clear: both;
+@keyframes pop-in {
+  0%   { transform: scale(.96) rotate(-1deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
 }
 
 /*********************/
@@ -151,32 +158,60 @@ img {
 //
 
 .wrapper-masthead {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .masthead {
-  padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
+  position: relative;
+  padding: 22px;
+  margin-top: 34px;
+  background: $card;
+  border: 3px solid $black;
+  border-radius: 14px;
+  @include brutal-shadow(7px, 7px);
+  transform: rotate(-1deg);
+  transition: transform .18s ease, box-shadow .18s ease;
+
+  &:hover {
+    transform: rotate(0deg);
+    @include brutal-shadow(9px, 9px);
+  }
 
   @include mobile {
     text-align: center;
+    padding: 18px;
   }
 }
 
 .site-avatar {
   float: left;
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
+  width: 78px;
+  height: 78px;
+  margin-right: 18px;
+  border: 3px solid $black;
+  border-radius: 12px;
+  @include brutal-shadow(4px, 4px, $accent2);
+  overflow: hidden;
+  background: $accent;
+  transform: rotate(-4deg);
+  transition: transform .2s ease;
+
+  &:hover {
+    animation: wobble .5s ease-in-out;
+  }
 
   @include mobile {
     float: none;
-    display: block;
-    margin: 0 auto;
+    display: inline-block;
+    margin: 0 auto 8px;
   }
 
   img {
-    border-radius: 5px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
   }
 }
 
@@ -192,18 +227,23 @@ img {
 
 .site-name {
   margin: 0;
-  color: $darkGray;
+  color: $darkerGray;
   cursor: pointer;
-  font-family: $helveticaNeue;
-  font-weight: 300;
-  font-size: 28px;
-  letter-spacing: 1px;
+  font-family: $display;
+  font-weight: 700;
+  font-size: 27px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+
+  a { color: inherit; border-bottom: none; }
+  a:hover { color: $accent; }
 }
 
 .site-description {
-  margin: -5px 0 0 0;
+  margin: 4px 0 0 0;
   color: $gray;
-  font-size: 16px;
+  font-family: $mono;
+  font-size: 14px;
 
   @include mobile {
     margin: 3px 0;
@@ -212,27 +252,47 @@ img {
 
 nav {
   float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
-  font-size: 18px;
+  margin-top: 14px;
+  font-family: $display;
+  font-size: 16px;
 
   @include mobile {
     float: none;
-    margin-top: 9px;
+    margin-top: 14px;
     display: block;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   a {
-    margin-left: 20px;
-    color: $darkGray;
-    text-align: right;
-    font-weight: 300;
-    letter-spacing: 1px;
+    display: inline-block;
+    margin-left: 12px;
+    padding: 8px 15px;
+    background: $accent;
+    color: $white;
+    font-weight: 700;
+    letter-spacing: 0;
+    border: 2px solid $black;
+    border-radius: 9px;
+    @include brutal-shadow(3px, 3px);
+    transition: transform .12s cubic-bezier(.34,1.56,.64,1), box-shadow .12s ease, background-color .12s ease;
+
+    &:nth-of-type(1) { transform: rotate(-2deg); }
+    &:nth-of-type(2) { background: $accent2; transform: rotate(1.5deg); }
+    &:nth-of-type(3) { background: $accent3; color: $black; transform: rotate(-1deg); }
+
+    &:hover {
+      color: $white;
+      transform: rotate(0deg) translate(-2px, -3px) scale(1.04);
+      @include brutal-shadow(5px, 6px);
+    }
+    &:nth-of-type(3):hover { color: $black; }
+    &:active {
+      transform: translate(3px, 3px) rotate(0deg);
+      @include brutal-shadow(0, 0);
+    }
 
     @include mobile {
-      margin: 0 10px;
-      color: $blue;
+      margin: 4px 5px;
     }
   }
 }
@@ -242,20 +302,91 @@ nav {
 //
 
 .posts > .post {
-  padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+  position: relative;
+  background: $card;
+  border: 3px solid $black;
+  border-radius: 16px;
+  @include brutal-shadow(7px, 7px);
+  padding: 24px 26px;
+  margin-bottom: 40px;
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
+
+  // playful alternating tilt — cards look pinned to a board
+  &:nth-child(odd)  { transform: rotate(-1.2deg); }
+  &:nth-child(even) { transform: rotate(1.2deg); }
+
+  &:hover {
+    transform: rotate(0deg) translateY(-4px);
+    @include brutal-shadow(10px, 11px);
+    z-index: 2;
+  }
+
+  // colored "tape" strip pinning each card, rotating hues
+  &:before {
+    content: "";
+    position: absolute;
+    top: -13px;
+    left: 26px;
+    width: 66px;
+    height: 24px;
+    background: $accent;
+    border: 2px solid $black;
+    border-radius: 4px;
+    transform: rotate(-6deg);
+    @include brutal-shadow(2px, 2px);
+  }
+  &:nth-child(3n+1):before { background: $accent2; transform: rotate(5deg); }
+  &:nth-child(3n+2):before { background: $accent3; }
+  &:nth-child(3n+3):before { background: $accent4; transform: rotate(-4deg); }
+
+  @include mobile {
+    padding: 20px 16px;
+  }
 }
 
 .posts > .post:last-child {
-  padding-bottom: 1em;
-  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.posts > .post > h1:first-child,
+.post > h1:first-child,
+.page > h1:first-child {
+  margin-top: 0;
+}
+
+// index-page post titles get a permanent highlighter swipe (grows on hover)
+.posts > .post h1 {
+  a {
+    color: $darkerGray;
+    border-bottom: none;
+    background-image: linear-gradient(120deg, $accent3 0%, $accent3 100%);
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    background-size: 100% 42%;
+    transition: background-size .25s ease, background-image .2s ease;
+    padding: 0 2px;
+
+    &:hover {
+      color: $darkerGray;
+      background-image: linear-gradient(120deg, $accent2 0%, $accent2 100%);
+      background-size: 100% 100%;
+    }
+  }
 }
 
 .post {
   blockquote {
-    color: $gray;
-    font-size: 22px;
+    margin: 1.5em 0;
+    color: $ink;
+    font-size: 20px;
     font-style: italic;
+    background: lighten($accent, 34%);
+    border: 2px solid $black;
+    border-left: 8px solid $accent;
+    border-radius: 12px;
+    padding: 14px 20px;
+    transform: rotate(-0.6deg);
+    @include brutal-shadow(4px, 4px);
   }
 
   .comments {
@@ -263,24 +394,99 @@ nav {
   }
 
   .read-more {
+    display: inline-block;
     text-transform: uppercase;
-    font-size: 15px;
+    font-family: $display;
+    font-size: 13px;
+    font-weight: 700;
+    color: $white;
+    background: $accent;
+    border: 2px solid $black;
+    border-radius: 9px;
+    padding: 7px 14px;
+    @include brutal-shadow(3px, 3px);
+    transition: transform .12s cubic-bezier(.34,1.56,.64,1), box-shadow .12s ease, background-color .12s ease;
+    &:after { content: " \2192"; }
+    &:hover {
+      background: $accent2;
+      color: $white;
+      transform: translate(-2px, -2px) rotate(-1deg);
+      @include brutal-shadow(5px, 6px);
+    }
+    &:active { transform: translate(2px, 2px); @include brutal-shadow(0, 0); }
   }
+}
+
+// Standalone article/page cards (about, post views)
+.page, .post {
+  background: $card;
+}
+#main > .page,
+#main > .post {
+  background: $card;
+  border: 3px solid $black;
+  border-radius: 16px;
+  @include brutal-shadow(7px, 7px);
+  padding: 28px 30px;
+  margin-bottom: 30px;
+
+  @include mobile {
+    padding: 20px 16px;
+  }
+}
+
+// Inline code + code blocks
+code, pre {
+  font-family: $mono;
+}
+p code, li code {
+  background: $lightGray;
+  border: 2px solid $black;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 15px;
+}
+pre {
+  background: $card;
+  border: 3px solid $black;
+  border-radius: 12px;
+  @include brutal-shadow(5px, 5px);
+  padding: 16px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+pre code {
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 .wrapper-footer {
   margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  border-top: 3px solid $black;
+  background-color: $card;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($accent, .08),
+    rgba($accent, .08) 12px,
+    transparent 12px,
+    transparent 24px
+  );
 }
 
 footer {
-  padding: 20px 0;
+  padding: 26px 0;
   text-align: center;
+
+  a {
+    display: inline-block;
+    margin: 0 6px;
+    border-bottom: none;
+    transition: transform .1s ease;
+    &:hover { transform: translateY(-3px); }
+  }
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";

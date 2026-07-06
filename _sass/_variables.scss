@@ -1,23 +1,40 @@
 
 //
-// VARIABLES
+// VARIABLES — neobrutalism palette (electric violet + hot pink, no yellow)
 //
 
-// Colors
-$blue: #4183C4;
+// Brand colors
+$accent:      #6C3FF5; // electric violet — primary
+$accentDark:  #4B22C9; // pressed / active violet
+$accent2:     #FF4D8D; // hot pink — secondary / hover
+$accent3:     #17D4C2; // teal — occasional pops
+$accent4:     #FF7A3D; // tangerine — extra playful pop
 
-// Grays
+// Surfaces
+$bg:          #F0ECFF; // light lilac page background
+$card:        #FFFFFF; // card surface
+
+// Neutrals
 $black: #000;
-$darkerGray: #222;
-$darkGray: #333;
-$gray: #666;
-$lightGray: #eee;
+$ink:   #141414; // near-black body text
+$darkerGray: #141414;
+$darkGray: #222;
+$gray: #555;
+$lightGray: #E9E4FF; // tinted light gray (selection etc.)
 $white: #fff;
+$blue: $accent; // keep legacy name pointing at the new accent
 
 // Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$display: "Space Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$helvetica: "Space Grotesk", Helvetica, Arial, sans-serif;
+$helveticaNeue: "Space Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $georgia: Georgia, serif;
+$mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+// Hard offset shadow — the signature neobrutalist "sticker" look
+@mixin brutal-shadow($x: 5px, $y: 5px, $color: $black) {
+  box-shadow: #{$x} #{$y} 0 0 #{$color};
+}
 
 // Mobile breakpoints
 @mixin mobile {

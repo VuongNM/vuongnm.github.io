@@ -1,22 +1,141 @@
 ---
-layout: default
+layout: canvas
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+<div id="stage"><div id="cam"><div id="plane"></div></div></div>
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
-      {% if page.related_image %}
-      <img src="{{ page.related_image }}" alt="">
-      {% endif %}
-
-      <!-- <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a> -->
-    </article>
-    <br>
-  {% endfor %}
+<div class="topbar">
+  <a class="brand" href="{{ site.baseurl }}/" id="recenter">
+    <img src="{{ site.avatar }}" alt="">
+    <div>
+      <div class="n">{{ site.name | split: " - " | first | split: " – " | first }}</div>
+      <div class="d">{{ site.description }}</div>
+    </div>
+  </a>
+  <nav class="topnav">
+    <a href="{{ site.baseurl }}/" id="home">Home</a>
+    <a href="{{ site.baseurl }}/short" title="Half a thought">Short</a>
+    <a href="{{ site.baseurl }}/about" title="Whodis?">About</a>
+  </nav>
 </div>
+
+<div class="controls">
+  <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
+  <button id="zout" title="Zoom out" aria-label="Zoom out">&minus;</button>
+</div>
+
+<div class="hint" id="hint">drag &nbsp;·&nbsp; scroll any direction &nbsp;·&nbsp; pinch / +&minus; to zoom</div>
+
+<script>
+{% comment %} Public-domain fallback images (pdimagearchive.org) for posts with no picture {% endcomment %}
+{% assign pd = "https://images.pdimagearchive.org/collections/basohli-beetle-paintings/basohli-beetles-6.jpg?width=520|https://images.pdimagearchive.org/collections/the-woman-and-the-car/120928_0036.jpg?width=520|https://images.pdimagearchive.org/collections/colorised-stereographs-of-the-russo-japanese-war-1905/11237549534_e5eda78e01_b.jpg?width=520|https://images.pdimagearchive.org/collections/the-civil-war-sketches-of-adolph-metzner-1861-64/21-1.jpg?width=520|https://images.pdimagearchive.org/collections/adriaen-coenen-s-fish-book-1580/14788728663_c656f8c613_o.jpg?width=520|https://images.pdimagearchive.org/collections/documerica/documerica-39.jpg?width=520|https://images.pdimagearchive.org/collections/antiquities-of-mexico/antiquities-of-mexico-00076.jpg?width=520|https://images.pdimagearchive.org/collections/the-art-of-dreams/lesrvesetlesmoye00herv_0013.jpeg?width=520|https://images.pdimagearchive.org/collections/hainhofer-stammbuch/hainhofer-stammbuch-079.jpeg?width=520|https://images.pdimagearchive.org/collections/baraduc-soul/bara_0233.jpg?width=520|https://images.pdimagearchive.org/collections/arbeid-van-mars/arbeid-van-mars-00011.jpg?width=520" | split: "|" %}
+var POSTS = [
+{% assign pdi = 0 %}
+{% for post in site.posts %}{% if post.title and post.title != "" and post.title != "Drafts" %}
+  {%- assign img = "" -%}
+  {%- assign parts = post.content | split: 'src="' -%}
+  {%- if parts.size > 1 -%}{%- assign img = parts[1] | split: '"' | first -%}{%- endif -%}
+  {%- if img == "" or img contains "wikimedia" or img contains ".svg" -%}{%- assign img = pd[pdi] -%}{%- assign pdi = pdi | plus: 1 -%}{%- if pdi >= pd.size -%}{%- assign pdi = 0 -%}{%- endif -%}{%- endif -%}
+  {"t":{{ post.title | jsonify }},"u":{{ post.url | prepend: site.baseurl | jsonify }},"i":{{ img | jsonify }}},
+{% endif %}{% endfor %}
+];
+
+(function(){
+  var stage=document.getElementById('stage'), cam=document.getElementById('cam'), plane=document.getElementById('plane');
+  if(!POSTS.length){ POSTS=[{t:"Hello",u:"#",i:"{{ site.avatar }}"}]; }
+  var CARD_W=220, CARD_H=214, GAP_X=40, GAP_Y=44;
+  var CELL_W=CARD_W+GAP_X, CELL_H=CARD_H+GAP_Y;
+  var COLS=6, ROWS=Math.max(3, Math.ceil(POSTS.length/COLS));
+  var TW=COLS*CELL_W, TH=ROWS*CELL_H;
+  var accents=['var(--accent)','var(--accent2)','var(--accent3)','var(--accent4)'];
+
+  function hash(n){ var x=Math.sin(n*127.1+311.7)*43758.5453; return x-Math.floor(x); }
+
+  // fill the tile's cells, cycling posts, shuffled deterministically so repeats are spread out
+  var CELLS=COLS*ROWS, order=[];
+  for(var k=0;k<CELLS;k++) order.push(POSTS[k % POSTS.length]);
+  for(var k=order.length-1;k>0;k--){ var j=Math.floor(hash(k*7.3)*(k+1)); var t=order[k]; order[k]=order[j]; order[j]=t; }
+
+  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, vX=0, vY=0;
+  function wrap(v,T){ var m=v%T; if(m>0) m-=T; return m; }
+
+  function buildTile(ox, oy){
+    for(var r=0;r<ROWS;r++) for(var c=0;c<COLS;c++){
+      var idx=r*COLS+c, p=order[idx];
+      var a=document.createElement('a');
+      a.className='card'; a.href=p.u;
+      var tilt=(hash(idx*3.1)*8-4).toFixed(2);
+      var x=ox+c*CELL_W, y=oy+r*CELL_H;
+      a.style.width=CARD_W+'px'; a.style.height=CARD_H+'px';
+      a.dataset.x=x; a.dataset.y=y; a.dataset.tilt=tilt;
+      var capBg=accents[idx%accents.length], capStyle='background:'+capBg+';'+(capBg.indexOf('accent3')>-1?'color:#000':'');
+      a.innerHTML='<span class="thumb"><img decoding="async" referrerpolicy="no-referrer" src="'+p.i+'" alt=""'+
+                  ' onerror="this.style.display=\'none\'"></span>'+
+                  '<span class="cap" style="'+capStyle+'">'+p.t+'</span>';
+      a.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+tilt+'deg)';
+      plane.appendChild(a);
+    }
+  }
+  function build(){
+    plane.innerHTML='';
+    var tilesX=Math.ceil(innerWidth/(MINZ*TW))+2, tilesY=Math.ceil(innerHeight/(MINZ*TH))+2;
+    for(var j=0;j<tilesY;j++) for(var i=0;i<tilesX;i++) buildTile(i*TW, j*TH);
+  }
+  function apply(){
+    cam.style.transform='scale('+zoom+')';
+    plane.style.transform='translate3d('+wrap(panX,TW)+'px,'+wrap(panY,TH)+'px,0)';
+  }
+
+  // hover: straighten + lift while keeping the card's own translate
+  plane.addEventListener('mouseover', function(e){ var el=e.target.closest('.card'); if(!el) return;
+    el.style.transform='translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate(0deg) scale(1.06)'; });
+  plane.addEventListener('mouseout', function(e){ var el=e.target.closest('.card'); if(!el) return;
+    el.style.transform='translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate('+el.dataset.tilt+'deg)'; });
+
+  // ---- pointer drag + pinch ----
+  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1;
+  function pinchDist(){ var a=[...pointers.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); }
+  stage.addEventListener('pointerdown', function(e){
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); stage.setPointerCapture(e.pointerId);
+    if(pointers.size===1){ dragging=true; moved=0; last={x:e.clientX,y:e.clientY}; vX=vY=0; stage.classList.add('grabbing'); }
+    if(pointers.size===2){ pinchStart=pinchDist(); pinchZ0=zoom; }
+  });
+  stage.addEventListener('pointermove', function(e){
+    if(!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size>=2 && pinchStart){ setZoom(pinchZ0*pinchDist()/pinchStart); return; }
+    if(dragging && last){ var dx=e.clientX-last.x, dy=e.clientY-last.y;
+      panX+=dx/zoom; panY+=dy/zoom; vX=dx/zoom; vY=dy/zoom;
+      moved+=Math.abs(dx)+Math.abs(dy); last={x:e.clientX,y:e.clientY}; apply(); }
+  });
+  function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinchStart=null;
+    if(pointers.size===0){ dragging=false; last=null; stage.classList.remove('grabbing'); inertia(); } }
+  stage.addEventListener('pointerup', endPtr);
+  stage.addEventListener('pointercancel', endPtr);
+  plane.addEventListener('click', function(e){ if(moved>6){ e.preventDefault(); e.stopPropagation(); } }, true);
+
+  // ---- wheel: pan any direction; ctrl/cmd = zoom ----
+  stage.addEventListener('wheel', function(e){ e.preventDefault();
+    if(e.ctrlKey||e.metaKey){ setZoom(zoom*(1-e.deltaY*0.01)); }
+    else { panX-=e.deltaX/zoom; panY-=e.deltaY/zoom; apply(); }
+  }, {passive:false});
+
+  function setZoom(z){ zoom=Math.max(MINZ,Math.min(MAXZ,z)); apply(); }
+  document.getElementById('zin').onclick=function(){ setZoom(zoom*1.2); };
+  document.getElementById('zout').onclick=function(){ setZoom(zoom/1.2); };
+  function recenter(e){ if(e) e.preventDefault(); panX=-CELL_W*0.6; panY=-CELL_H*0.4; setZoom(1); }
+  document.getElementById('recenter').addEventListener('click', recenter);
+  document.getElementById('home').addEventListener('click', recenter);
+
+  var raf=null;
+  function inertia(){ if(raf) cancelAnimationFrame(raf);
+    (function step(){ vX*=0.94; vY*=0.94;
+      if(Math.abs(vX)<0.1 && Math.abs(vY)<0.1){ raf=null; return; }
+      panX+=vX; panY+=vY; apply(); raf=requestAnimationFrame(step); })(); }
+
+  setTimeout(function(){ var h=document.getElementById('hint'); if(h) h.style.opacity='0'; }, 7000);
+  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ build(); apply(); },200); });
+
+  build(); recenter();
+})();
+</script>
