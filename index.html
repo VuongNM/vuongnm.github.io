@@ -43,29 +43,27 @@ var POSTS = [
 (function(){
   var stage=document.getElementById('stage'), cam=document.getElementById('cam'), plane=document.getElementById('plane');
   if(!POSTS.length){ POSTS=[{t:"Hello",u:"#",i:"{{ site.avatar }}"}]; }
-  var CARD_W=220, CARD_H=214, GAP_X=40, GAP_Y=44;
+  var CARD_W=220, CARD_H=220, GAP_X=40, GAP_Y=40;  // square base cell
   var CELL_W=CARD_W+GAP_X, CELL_H=CARD_H+GAP_Y;
   var COLS=6, ROWS=Math.max(4, Math.ceil(POSTS.length/COLS));
   var accents=['var(--accent)','var(--accent2)','var(--accent3)','var(--accent4)'];
 
   function hash(n){ var x=Math.sin(n*127.1+311.7)*43758.5453; return x-Math.floor(x); }
 
-  // ---- masonry: each card spans 1..2 cells per axis (up to a 2x2 = 4-card block) ----
-  // Greedy seeded packer; every card stays fully inside the tile so the infinite wrap
-  // remains seamless. Sizes: 2x2 (~13%), 2x1 & 1x2 (~19% each), else 1x1.
+  // ---- square cards of varying size: 1x1 or a 2x2 (= 4-card, 4x area) block ----
+  // Greedy seeded packer; every card stays fully inside the tile so the infinite
+  // wrap remains seamless. Sizes: 2x2 (~22%), else 1x1.
   function computeLayout(cols, rows){
     var occ=[], r, c; for(r=0;r<rows;r++){ occ.push([]); for(c=0;c<cols;c++) occ[r].push(false); }
-    function fits(r,c,w,h){ if(c+w>cols||r+h>rows) return false;
-      for(var y=r;y<r+h;y++) for(var x=c;x<c+w;x++) if(occ[y][x]) return false; return true; }
-    function mark(r,c,w,h){ for(var y=r;y<r+h;y++) for(var x=c;x<c+w;x++) occ[y][x]=true; }
+    function fits(r,c,n){ if(c+n>cols||r+n>rows) return false;
+      for(var y=r;y<r+n;y++) for(var x=c;x<c+n;x++) if(occ[y][x]) return false; return true; }
+    function mark(r,c,n){ for(var y=r;y<r+n;y++) for(var x=c;x<c+n;x++) occ[y][x]=true; }
     var cards=[];
     for(r=0;r<rows;r++) for(c=0;c<cols;c++){
       if(occ[r][c]) continue;
-      var roll=hash((r*cols+c)*5.13+2.7), w=1, h=1;
-      if(roll<0.13 && fits(r,c,2,2)){ w=2; h=2; }
-      else if(roll<0.32 && fits(r,c,2,1)){ w=2; h=1; }
-      else if(roll<0.51 && fits(r,c,1,2)){ w=1; h=2; }
-      mark(r,c,w,h); cards.push({c:c,r:r,w:w,h:h});
+      var roll=hash((r*cols+c)*5.13+2.7), n=1;
+      if(roll<0.22 && fits(r,c,2)) n=2;   // keep it square
+      mark(r,c,n); cards.push({c:c,r:r,w:n,h:n});
     }
     return cards;
   }
