@@ -56,7 +56,7 @@ var POSTS = [
   for(var k=0;k<CELLS;k++) order.push(POSTS[k % POSTS.length]);
   for(var k=order.length-1;k>0;k--){ var j=Math.floor(hash(k*7.3)*(k+1)); var t=order[k]; order[k]=order[j]; order[j]=t; }
 
-  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, vX=0, vY=0;
+  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, INITIAL_ZOOM=1.25, vX=0, vY=0;
   function wrap(v,T){ var m=v%T; if(m>0) m-=T; return m; }
 
   function buildTile(ox, oy){
@@ -69,7 +69,7 @@ var POSTS = [
       a.style.width=CARD_W+'px'; a.style.height=CARD_H+'px';
       a.dataset.x=x; a.dataset.y=y; a.dataset.tilt=tilt;
       var capBg=accents[idx%accents.length], capStyle='background:'+capBg+';'+(capBg.indexOf('accent3')>-1?'color:#000':'');
-      a.innerHTML='<span class="thumb"><img decoding="async" referrerpolicy="no-referrer" src="'+p.i+'" alt=""'+
+      a.innerHTML='<span class="thumb"><img decoding="async" referrerpolicy="no-referrer" draggable="false" src="'+p.i+'" alt=""'+
                   ' onerror="this.style.display=\'none\'"></span>'+
                   '<span class="cap" style="'+capStyle+'">'+p.t+'</span>';
       a.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+tilt+'deg)';
@@ -86,19 +86,30 @@ var POSTS = [
     plane.style.transform='translate3d('+wrap(panX,TW)+'px,'+wrap(panY,TH)+'px,0)';
   }
 
+  function baseT(el){ return 'translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate('+el.dataset.tilt+'deg)'; }
   // hover: straighten + lift while keeping the card's own translate
-  plane.addEventListener('mouseover', function(e){ var el=e.target.closest('.card'); if(!el) return;
+  plane.addEventListener('mouseover', function(e){ var el=e.target.closest('.card'); if(!el || el===downCard) return;
     el.style.transform='translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate(0deg) scale(1.06)'; });
-  plane.addEventListener('mouseout', function(e){ var el=e.target.closest('.card'); if(!el) return;
-    el.style.transform='translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate('+el.dataset.tilt+'deg)'; });
+  plane.addEventListener('mouseout', function(e){ var el=e.target.closest('.card'); if(!el || el===downCard) return;
+    el.style.transform=baseT(el); });
+
+  // button-press feedback: shove the card down-right and collapse its shadow
+  function setPressed(el, on){ if(!el) return;
+    if(on){ el.style.transition='transform .05s ease, box-shadow .05s ease';
+      el.style.transform='translate3d('+(+el.dataset.x+3)+'px,'+(+el.dataset.y+4)+'px,0) rotate('+el.dataset.tilt+'deg) scale(.98)';
+      el.style.boxShadow='1px 1px 0 0 #000'; el.style.zIndex='6'; }
+    else { el.style.transition=''; el.style.transform=baseT(el); el.style.boxShadow=''; el.style.zIndex=''; }
+  }
 
   // ---- pointer drag + pinch ----
-  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1;
+  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1, downCard=null;
   function pinchDist(){ var a=[...pointers.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); }
+  function releasePress(){ if(downCard){ setPressed(downCard,false); downCard=null; } }
   stage.addEventListener('pointerdown', function(e){
-    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); stage.setPointerCapture(e.pointerId);
-    if(pointers.size===1){ dragging=true; moved=0; last={x:e.clientX,y:e.clientY}; vX=vY=0; stage.classList.add('grabbing'); }
-    if(pointers.size===2){ pinchStart=pinchDist(); pinchZ0=zoom; }
+    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pointers.size===1){ dragging=true; moved=0; last={x:e.clientX,y:e.clientY}; vX=vY=0; stage.classList.add('grabbing');
+      downCard=e.target.closest('.card'); if(downCard) setPressed(downCard,true); }
+    if(pointers.size===2){ pinchStart=pinchDist(); pinchZ0=zoom; releasePress(); }
   });
   stage.addEventListener('pointermove', function(e){
     if(!pointers.has(e.pointerId)) return;
@@ -106,13 +117,24 @@ var POSTS = [
     if(pointers.size>=2 && pinchStart){ setZoom(pinchZ0*pinchDist()/pinchStart); return; }
     if(dragging && last){ var dx=e.clientX-last.x, dy=e.clientY-last.y;
       panX+=dx/zoom; panY+=dy/zoom; vX=dx/zoom; vY=dy/zoom;
-      moved+=Math.abs(dx)+Math.abs(dy); last={x:e.clientX,y:e.clientY}; apply(); }
+      moved+=Math.abs(dx)+Math.abs(dy); last={x:e.clientX,y:e.clientY};
+      if(downCard && moved>6) releasePress();   // it's a drag, not a tap
+      apply(); }
   });
-  function endPtr(e){ pointers.delete(e.pointerId); if(pointers.size<2) pinchStart=null;
-    if(pointers.size===0){ dragging=false; last=null; stage.classList.remove('grabbing'); inertia(); } }
+  function endPtr(e){
+    var tap = e.type==='pointerup' && pointers.size===1 && moved<=6 && downCard;
+    var href = tap ? downCard.getAttribute('href') : null;
+    pointers.delete(e.pointerId); if(pointers.size<2) pinchStart=null;
+    if(pointers.size===0){
+      dragging=false; last=null; stage.classList.remove('grabbing');
+      if(tap && href && href!=='#'){ location.href=href; return; }  // navigate on a real click
+      releasePress(); inertia();
+    }
+  }
   stage.addEventListener('pointerup', endPtr);
   stage.addEventListener('pointercancel', endPtr);
-  plane.addEventListener('click', function(e){ if(moved>6){ e.preventDefault(); e.stopPropagation(); } }, true);
+  // links are navigated manually above; block the native anchor click so nothing double-fires
+  plane.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); }, true);
 
   // ---- wheel: pan any direction; ctrl/cmd = zoom ----
   stage.addEventListener('wheel', function(e){ e.preventDefault();
@@ -123,7 +145,7 @@ var POSTS = [
   function setZoom(z){ zoom=Math.max(MINZ,Math.min(MAXZ,z)); apply(); }
   document.getElementById('zin').onclick=function(){ setZoom(zoom*1.2); };
   document.getElementById('zout').onclick=function(){ setZoom(zoom/1.2); };
-  function recenter(e){ if(e) e.preventDefault(); panX=-CELL_W*0.6; panY=-CELL_H*0.4; setZoom(1); }
+  function recenter(e){ if(e) e.preventDefault(); panX=-CELL_W*0.6; panY=-CELL_H*0.4; setZoom(INITIAL_ZOOM); }
   document.getElementById('recenter').addEventListener('click', recenter);
   document.getElementById('home').addEventListener('click', recenter);
 
