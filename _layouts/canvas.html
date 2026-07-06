@@ -42,14 +42,14 @@
   }
   .card:hover{ z-index:5; box-shadow:9px 10px 0 0 #000; }
   .card .thumb{
-    width:100%; height:140px; background:var(--accent3); overflow:hidden;
-    border-bottom:3px solid #000; display:block; flex:0 0 auto;
+    width:100%; background:var(--accent3); overflow:hidden;
+    border-bottom:3px solid #000; display:block; flex:1 1 auto; min-height:70px;
   }
   .card .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
   .card .cap{
     font-family:var(--display); font-weight:700; font-size:14px; line-height:1.2;
     padding:10px 12px; color:#fff; background:var(--accent);
-    flex:1 1 auto; display:flex; align-items:center;
+    flex:0 0 auto; display:flex; align-items:center; max-height:45%; overflow:hidden;
   }
 
   .topbar{ position:fixed; top:16px; left:16px; right:16px; z-index:50; display:flex; align-items:center; gap:14px; pointer-events:none; }
