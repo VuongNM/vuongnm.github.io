@@ -17,6 +17,13 @@ layout: canvas
 </header>
 
 <div class="controls">
+  <button id="breeze" title="Breeze" aria-label="Send a breeze">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 8h9.5a2.5 2.5 0 1 0-2.4-3.2"/>
+      <path d="M3 12h14.5a2.5 2.5 0 1 1-2.4 3.2"/>
+      <path d="M3 16h7.5a2 2 0 1 1-1.9 2.6"/>
+    </svg>
+  </button>
   <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
   <button id="zout" title="Zoom out" aria-label="Zoom out">&minus;</button>
 </div>
@@ -140,10 +147,11 @@ var POSTS = [
   }
 
   // ---- pointer drag + pinch ----
-  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1, downCard=null;
+  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1, downCard=null, breezeRaf=null;
   function pinchDist(){ var a=[...pointers.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); }
   function releasePress(){ if(downCard){ setPressed(downCard,false); downCard=null; } }
   stage.addEventListener('pointerdown', function(e){
+    if(breezeRaf){ cancelAnimationFrame(breezeRaf); breezeRaf=null; }   // a touch stops the breeze
     pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(pointers.size===1){ dragging=true; moved=0; last={x:e.clientX,y:e.clientY}; vX=vY=0; stage.classList.add('grabbing');
       downCard=e.target.closest('.card'); if(downCard) setPressed(downCard,true); }
@@ -193,6 +201,39 @@ var POSTS = [
     (function step(){ vX*=0.94; vY*=0.94;
       if(Math.abs(vX)<0.1 && Math.abs(vY)<0.1){ raf=null; return; }
       panX+=vX; panY+=vY; apply(); raf=requestAnimationFrame(step); })(); }
+
+  // ---- breeze: a swift ~1s wind gust that blows the canvas in a random direction ----
+  function breeze(){
+    if(breezeRaf) cancelAnimationFrame(breezeRaf);
+    if(raf){ cancelAnimationFrame(raf); raf=null; }        // stop any inertia
+    vX=vY=0;
+    var dur   = 950 + Math.random()*450;                   // ~1s gust
+    var ang   = Math.random()*Math.PI*2;                   // random heading
+    var wander= (Math.random()-0.5)*0.7;                   // slow curve of the gust
+    var peak  = (2000 + Math.random()*700)/Math.max(zoom,0.25); // world px/s at the crest
+    var turb  = peak*0.15, tf = 5 + Math.random()*5;       // perpendicular flutter
+    var t0=null, prev=null;
+    // gust envelope: quick ease-out attack, long tapering release — feels like real wind
+    function env(t){ var a=0.16; if(t<a){ var x=t/a; return 1-(1-x)*(1-x); } var u=(t-a)/(1-a); return Math.pow(1-u,1.7); }
+    var ico=document.getElementById('breeze');
+    if(ico){ ico.classList.remove('gust'); void ico.offsetWidth; ico.classList.add('gust'); }
+    function frame(ts){
+      if(t0===null){ t0=prev=ts; breezeRaf=requestAnimationFrame(frame); return; }
+      var dt=(ts-prev)/1000; prev=ts;
+      var el=ts-t0, t=el/dur;
+      if(t>=1){ breezeRaf=null; vX=vY=0; return; }
+      var e  = env(t)*(0.9+0.1*Math.sin(el*0.03));         // magnitude + subtle ripple
+      var an = ang + wander*t;                             // heading wanders through the gust
+      var sp = peak*e;
+      var perp = turb*e*Math.sin(el/1000*tf*Math.PI*2);    // sideways turbulence
+      var vx = sp*Math.cos(an) - perp*Math.sin(an);
+      var vy = sp*Math.sin(an) + perp*Math.cos(an);
+      panX += vx*dt; panY += vy*dt; apply();
+      breezeRaf=requestAnimationFrame(frame);
+    }
+    breezeRaf=requestAnimationFrame(frame);
+  }
+  document.getElementById('breeze').onclick=breeze;
 
   // ---- detail overlay: tap a card to flip + enlarge it and show the post details ----
   var detail=document.getElementById('detail');

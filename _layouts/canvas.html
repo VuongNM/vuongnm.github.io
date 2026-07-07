@@ -88,6 +88,9 @@
   }
   .controls button:hover{ background:var(--accent4) }
   .controls button:active{ transform:translate(3px,3px); box-shadow:0 0 0 0 #000 }
+  .controls button svg{ display:block; width:26px; height:26px; margin:auto; color:#000; }
+  @keyframes windSway{ 0%{transform:translateX(0)} 20%{transform:translateX(4px)} 50%{transform:translateX(-2px)} 75%{transform:translateX(2px)} 100%{transform:translateX(0)} }
+  #breeze.gust svg{ animation:windSway .65s ease-out; }
 
   .hint{
     position:fixed; left:50%; bottom:18px; transform:translateX(-50%) rotate(-1deg); z-index:50;
