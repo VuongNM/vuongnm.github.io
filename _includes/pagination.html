@@ -1,0 +1,38 @@
+{%- comment -%}
+  Newer / numbered pages / older. Each page link names the dates it covers.
+  Relies on jekyll-paginate's `paginator` (home page only).
+{%- endcomment -%}
+{%- if paginator.total_pages > 1 -%}
+{%- assign per = paginator.per_page -%}
+<nav class="pagination" aria-label="More posts">
+  {%- if paginator.previous_page %}
+  <a class="pagination__step" href="{{ paginator.previous_page_path | relative_url }}" rel="prev"><svg class="icon" aria-hidden="true"><use href="#i-left"/></svg>Newer</a>
+  {%- else %}
+  <span class="pagination__step is-off" aria-hidden="true"><svg class="icon"><use href="#i-left"/></svg>Newer</span>
+  {%- endif %}
+
+  <ol class="pagination__pages">
+    {%- for i in (1..paginator.total_pages) %}
+    {%- assign offset = i | minus: 1 | times: per -%}
+    {%- assign chunk = site.posts | slice: offset, per -%}
+    {%- capture range -%}{{ chunk.last.date | date: "%b %-d, %Y" }} to {{ chunk.first.date | date: "%b %-d, %Y" }}{%- endcapture -%}
+    {%- if i == 1 -%}{%- assign href = "/" | relative_url -%}{%- else -%}{%- assign href = site.paginate_path | replace: ":num", i | relative_url -%}{%- endif %}
+    <li>
+      {%- if i == paginator.page -%}
+      <span aria-current="page" title="{{ range }}">{{ i }}</span>
+      {%- else -%}
+      <a href="{{ href }}" title="{{ range }}" aria-label="Page {{ i }}, {{ range }}">{{ i }}</a>
+      {%- endif -%}
+    </li>
+    {%- endfor %}
+  </ol>
+
+  {%- if paginator.next_page %}
+  <a class="pagination__step" href="{{ paginator.next_page_path | relative_url }}" rel="next">Older<svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></a>
+  {%- else %}
+  <span class="pagination__step is-off" aria-hidden="true">Older<svg class="icon"><use href="#i-right"/></svg></span>
+  {%- endif %}
+
+  <p class="pagination__count">Page {{ paginator.page }} of {{ paginator.total_pages }}</p>
+</nav>
+{%- endif -%}

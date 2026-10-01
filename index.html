@@ -1,271 +1,51 @@
 ---
-layout: canvas
+layout: default
 ---
+{%- comment -%}
+  The home page is the post feed, newest first, six posts a page (jekyll-paginate).
+  Nothing but posts: page 1 leads with the latest post as the headline over its photo,
+  later pages open with the dates they cover.
+{%- endcomment -%}
+{%- assign first_page = true -%}
+{%- if paginator.page > 1 -%}{%- assign first_page = false -%}{%- endif -%}
 
-<div id="stage"><div id="cam"><div id="plane"></div></div></div>
-
-<header class="topbar">
-  <a class="brand" href="{{ site.baseurl }}/" id="recenter">
-    <img src="{{ site.avatar }}" alt="">
-    <span class="n">{{ site.name | split: " - " | first | split: " – " | first }}</span>
-  </a>
-  <nav>
-    <a href="{{ site.baseurl }}/" id="home">Home</a>
-    <a href="{{ site.baseurl }}/short" title="Half a thought">Short</a>
-    <a href="{{ site.baseurl }}/about" title="Whodis?">About</a>
-  </nav>
-</header>
-
-<div class="controls">
-  <button id="breeze" title="Breeze" aria-label="Send a breeze">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3 8h9.5a2.5 2.5 0 1 0-2.4-3.2"/>
-      <path d="M3 12h14.5a2.5 2.5 0 1 1-2.4 3.2"/>
-      <path d="M3 16h7.5a2 2 0 1 1-1.9 2.6"/>
-    </svg>
-  </button>
-  <button id="zin" title="Zoom in" aria-label="Zoom in">+</button>
-  <button id="zout" title="Zoom out" aria-label="Zoom out">&minus;</button>
-</div>
-
-<div class="hint" id="hint">drag &nbsp;·&nbsp; scroll any direction &nbsp;·&nbsp; pinch / +&minus; to zoom</div>
-
-<div id="detail" aria-hidden="true">
-  <div class="backdrop"></div>
-  <div class="detailcard">
-    <div class="flip">
-      <div class="face front">
-        <span class="thumb"><img id="d-img" alt="" referrerpolicy="no-referrer"></span>
-        <span class="cap" id="d-cap"></span>
-      </div>
-      <div class="face back">
-        <div class="bar"><span id="d-title"></span></div>
-        <div class="content" id="d-content"></div>
-      </div>
-    </div>
-    <button class="close" id="d-close" aria-label="Close">&times;</button>
+{%- if first_page %}
+{%- assign lead = paginator.posts.first -%}
+{%- assign lead_words = lead.content | number_of_words -%}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <p class="hero__eyebrow">Latest · <time datetime="{{ lead.date | date_to_xmlschema }}">{{ lead.date | date: "%B %-d, %Y" }}</time></p>
+    <h1 class="hero__title" id="hero-title"><a href="{{ lead.url | relative_url }}">{{ lead.title }}</a></h1>
+    <a class="textlink hero__link" href="{{ lead.url | relative_url }}">{% if lead_words < 150 %}Read the note{% else %}Read the essay{% endif %}<span class="sr-only">: {{ lead.title }}</span> <svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></a>
+    <figure class="stage">
+      {% include post-image.html post=lead lead=true sizes="(min-width: 1240px) 1144px, calc(100vw - 32px)" %}
+    </figure>
   </div>
-</div>
+</section>
+{%- else %}
+{%- assign newest = paginator.posts.first.date -%}
+{%- assign oldest = paginator.posts.last.date -%}
+{%- assign newest_day = newest | date: "%B %-d, %Y" -%}
+{%- assign oldest_day = oldest | date: "%B %-d, %Y" -%}
+{%- assign newest_year = newest | date: "%Y" -%}
+{%- assign oldest_year = oldest | date: "%Y" -%}
+<header class="feed__head wrap">
+  <p class="feed__eyebrow">Page {{ paginator.page }} of {{ paginator.total_pages }}</p>
+  <h1 class="feed__title">
+    {%- if newest_day == oldest_day -%}{{ newest_day }}
+    {%- elsif newest_year == oldest_year -%}{{ oldest | date: "%B %-d" }} to {{ newest_day }}
+    {%- else -%}{{ oldest | date: "%B %Y" }} to {{ newest | date: "%B %Y" }}{%- endif -%}
+  </h1>
+</header>
+{%- endif %}
 
-<script>
-{% comment %} Public-domain fallback images (pdimagearchive.org) for posts with no picture {% endcomment %}
-{% assign pd = "https://images.pdimagearchive.org/collections/hainhofer-stammbuch/hainhofer-stammbuch-079.jpeg?width=520|https://images.pdimagearchive.org/collections/the-woman-and-the-car/120928_0036.jpg?width=520|https://images.pdimagearchive.org/collections/colorised-stereographs-of-the-russo-japanese-war-1905/11237549534_e5eda78e01_b.jpg?width=520|https://images.pdimagearchive.org/collections/the-civil-war-sketches-of-adolph-metzner-1861-64/21-1.jpg?width=520|https://images.pdimagearchive.org/collections/adriaen-coenen-s-fish-book-1580/14788728663_c656f8c613_o.jpg?width=520|https://images.pdimagearchive.org/collections/documerica/documerica-39.jpg?width=520|https://images.pdimagearchive.org/collections/antiquities-of-mexico/antiquities-of-mexico-00076.jpg?width=520|https://images.pdimagearchive.org/collections/the-art-of-dreams/lesrvesetlesmoye00herv_0013.jpeg?width=520|https://images.pdimagearchive.org/collections/baraduc-soul/bara_0233.jpg?width=520|https://images.pdimagearchive.org/collections/arbeid-van-mars/arbeid-van-mars-00011.jpg?width=520|https://images.pdimagearchive.org/collections/basohli-beetle-paintings/basohli-beetles-6.jpg?width=520|https://images.pdimagearchive.org/collections/the-american-woods/20661261779_130a7bc618_o.jpg?width=520|https://images.pdimagearchive.org/collections/rogues-a-study-of-characters-samuel-g-szabo/rogues-samuel-g-szabo-00048.jpeg?width=520|https://images.pdimagearchive.org/collections/sowerby-mineralogy/sowerby-mineral-15.jpeg?width=520|https://images.pdimagearchive.org/collections/mayer-medusae/medusae03-0305.jpg?width=520|https://images.pdimagearchive.org/collections/images-from-german-caterpillar-calendar-1837/25855317678_1fa4fd5a50_o.jpg?width=520|https://images.pdimagearchive.org/collections/marcus-selmer-s-photographs-of-19th-century-norwegians/33062670481_17de926d80_b.jpg?width=520|https://images.pdimagearchive.org/collections/celestial-phenomena-16th-century-germany/celestial-phenomena-00001.jpeg?width=520|https://images.pdimagearchive.org/collections/watercolours-from-a-16th-century-de-materia-medica/20879595101_be37994770_o.jpg?width=520|https://images.pdimagearchive.org/collections/nature-through-microscope-and-camera-1909/14990011182_c845fc495b_o.jpg?width=520|https://images.pdimagearchive.org/collections/fungi-of-shropshire/lewis-fungi-13a2.jpg?width=520|https://images.pdimagearchive.org/collections/the-cubies-abc-1913/cubiesabcnewyork00lyal_0065.jpg?width=520|https://images.pdimagearchive.org/collections/campi-phlegraei/campi-phlegraei-10.jpg?width=520|https://images.pdimagearchive.org/collections/chinese-fishes/histoirenaturell00bill_0089.jpg?width=520|https://images.pdimagearchive.org/collections/album-of-seaweed-pictures-1848/QK567_Se1_Sea_Weeds_p022_PS4.jpg?width=520|https://images.pdimagearchive.org/collections/woodcuts-from-18th-century-chapbooks/8067336638_68204f8484_o.jpg?width=520|https://images.pdimagearchive.org/collections/through-the-first-antarctic-night-1900/48103576191_523876959d_c.jpg?width=520|https://images.pdimagearchive.org/collections/smillie-smithsonian/smillie-smithsonian-15.jpg?width=520|https://images.pdimagearchive.org/collections/hippolyte-hodeau-trench-art/Leaves-5.jpg?width=520|https://images.pdimagearchive.org/collections/aratea-making-pictures-with-words-in-the-9th-century/32597289794_fcea84ba30_c.jpg?width=520|https://images.pdimagearchive.org/collections/babb-photographs/Babb-11.jpg?width=520|https://images.pdimagearchive.org/collections/uranias-mirror-or-a-view-of-the-heavens/dec2019-21.jpg?width=520|https://images.pdimagearchive.org/collections/visualizing-migraines/diseasesofnervo00jell_0119.jpg?width=520|https://images.pdimagearchive.org/collections/images-from-william-saville-kent-s-the-great-barrier-reef-of-australia-1893/image-from-rawpixel-id-414412-jpeg.jpg?width=520" | split: "|" %}
-var POSTS = [
-{% assign pdi = 0 %}
-{% for post in site.posts %}{% if post.title and post.title != "" and post.title != "Drafts" %}
-  {%- assign img = "" -%}
-  {%- assign parts = post.content | split: 'src="' -%}
-  {%- if parts.size > 1 -%}{%- assign img = parts[1] | split: '"' | first -%}{%- endif -%}
-  {%- if img == "" or img contains "wikimedia" or img contains ".svg" -%}{%- assign img = pd[pdi] -%}{%- assign pdi = pdi | plus: 1 -%}{%- if pdi >= pd.size -%}{%- assign pdi = 0 -%}{%- endif -%}{%- endif -%}
-  {"t":{{ post.title | jsonify }},"u":{{ post.url | prepend: site.baseurl | jsonify }},"i":{{ img | jsonify }},"e":{{ post.excerpt | strip_html | normalize_whitespace | truncate: 180 | jsonify }}},
-{% endif %}{% endfor %}
-];
-
-(function(){
-  var stage=document.getElementById('stage'), cam=document.getElementById('cam'), plane=document.getElementById('plane');
-  if(!POSTS.length){ POSTS=[{t:"Hello",u:"#",i:"{{ site.avatar }}"}]; }
-  var CARD_W=220, CARD_H=220, GAP_X=60, GAP_Y=60;  // square base cell, roomier gutter
-  var CELL_W=CARD_W+GAP_X, CELL_H=CARD_H+GAP_Y;
-  var COLS=6, ROWS=Math.max(4, Math.ceil(POSTS.length/COLS));
-  var accents=['var(--accent)','var(--accent2)','var(--accent3)','var(--accent4)'];
-
-  function hash(n){ var x=Math.sin(n*127.1+311.7)*43758.5453; return x-Math.floor(x); }
-  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-  // ---- square cards of varying size: 1x1 or a 2x2 (= 4-card, 4x area) block ----
-  // Greedy seeded packer; every card stays fully inside the tile so the infinite
-  // wrap remains seamless. Sizes: 2x2 (~22%), else 1x1.
-  function computeLayout(cols, rows){
-    var occ=[], r, c; for(r=0;r<rows;r++){ occ.push([]); for(c=0;c<cols;c++) occ[r].push(false); }
-    function fits(r,c,n){ if(c+n>cols||r+n>rows) return false;
-      for(var y=r;y<r+n;y++) for(var x=c;x<c+n;x++) if(occ[y][x]) return false; return true; }
-    function mark(r,c,n){ for(var y=r;y<r+n;y++) for(var x=c;x<c+n;x++) occ[y][x]=true; }
-    var cards=[];
-    for(r=0;r<rows;r++) for(c=0;c<cols;c++){
-      if(occ[r][c]) continue;
-      var roll=hash((r*cols+c)*5.13+2.7), n=1;
-      if(roll<0.22 && fits(r,c,2)) n=2;   // keep it square
-      mark(r,c,n); cards.push({c:c,r:r,w:n,h:n});
-    }
-    return cards;
-  }
-  // grow the tile until there are at least as many cards as posts (so every post shows)
-  var layout=computeLayout(COLS,ROWS);
-  while(layout.length<POSTS.length && ROWS<POSTS.length+8){ ROWS++; layout=computeLayout(COLS,ROWS); }
-  var TW=COLS*CELL_W, TH=ROWS*CELL_H;
-
-  // assign posts to the placed cards, shuffled deterministically so repeats spread out
-  var order=[]; for(var k=0;k<layout.length;k++) order.push(POSTS[k % POSTS.length]);
-  for(var k=order.length-1;k>0;k--){ var j=Math.floor(hash(k*7.3)*(k+1)); var t=order[k]; order[k]=order[j]; order[j]=t; }
-
-  var panX=0, panY=0, zoom=1, MINZ=0.55, MAXZ=2.4, INITIAL_ZOOM=0.87, vX=0, vY=0;
-  function wrap(v,T){ var m=v%T; if(m>0) m-=T; return m; }
-
-  function buildTile(ox, oy){
-    for(var idx=0; idx<layout.length; idx++){
-      var L=layout[idx], p=order[idx], w=L.w, h=L.h;
-      var x=ox+L.c*CELL_W, y=oy+L.r*CELL_H;
-      var cw=w*CELL_W-GAP_X, ch=h*CELL_H-GAP_Y;
-      var a=document.createElement('a');
-      a.className='card'; a.href=p.u; a._post=p;
-      var tilt=((hash(idx*3.1)*8-4)/Math.max(w,h)).toFixed(2);  // gentler tilt on big cards
-      a.style.width=cw+'px'; a.style.height=ch+'px';
-      a.dataset.x=x; a.dataset.y=y; a.dataset.tilt=tilt;
-      var capBg=accents[idx%accents.length], capFont=14+(Math.max(w,h)-1)*4;
-      var capStyle='background:'+capBg+';font-size:'+capFont+'px;'+(capBg.indexOf('accent3')>-1?'color:#000':'');
-      a.innerHTML='<span class="thumb"><img decoding="async" referrerpolicy="no-referrer" draggable="false" src="'+p.i+'" alt=""'+
-                  ' onerror="this.style.display=\'none\'"></span>'+
-                  '<span class="cap" style="'+capStyle+'">'+esc(p.t)+'</span>'+
-                  (p.e?'<span class="excerpt">'+esc(p.e)+'</span>':'');
-      a.style.transform='translate3d('+x+'px,'+y+'px,0) rotate('+tilt+'deg)';
-      plane.appendChild(a);
-    }
-  }
-  function build(){
-    plane.innerHTML='';
-    var tilesX=Math.ceil(innerWidth/(MINZ*TW))+2, tilesY=Math.ceil(innerHeight/(MINZ*TH))+2;
-    for(var j=0;j<tilesY;j++) for(var i=0;i<tilesX;i++) buildTile(i*TW, j*TH);
-  }
-  function apply(){
-    cam.style.transform='scale('+zoom+')';
-    plane.style.transform='translate3d('+wrap(panX,TW)+'px,'+wrap(panY,TH)+'px,0)';
-  }
-
-  function baseT(el){ return 'translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate('+el.dataset.tilt+'deg)'; }
-  // hover: straighten + lift while keeping the card's own translate
-  plane.addEventListener('mouseover', function(e){ var el=e.target.closest('.card'); if(!el || el===downCard) return;
-    el.style.transform='translate3d('+el.dataset.x+'px,'+el.dataset.y+'px,0) rotate(0deg) scale(1.06)'; });
-  plane.addEventListener('mouseout', function(e){ var el=e.target.closest('.card'); if(!el || el===downCard) return;
-    el.style.transform=baseT(el); });
-
-  // button-press feedback: shove the card down-right and collapse its shadow
-  function setPressed(el, on){ if(!el) return;
-    if(on){ el.style.transition='transform .05s ease, box-shadow .05s ease';
-      el.style.transform='translate3d('+(+el.dataset.x+3)+'px,'+(+el.dataset.y+4)+'px,0) rotate('+el.dataset.tilt+'deg) scale(.98)';
-      el.style.boxShadow='1px 1px 0 0 #000'; el.style.zIndex='6'; }
-    else { el.style.transition=''; el.style.transform=baseT(el); el.style.boxShadow=''; el.style.zIndex=''; }
-  }
-
-  // ---- pointer drag + pinch ----
-  var pointers=new Map(), dragging=false, moved=0, last=null, pinchStart=null, pinchZ0=1, downCard=null, breezeRaf=null;
-  function pinchDist(){ var a=[...pointers.values()]; return Math.hypot(a[0].x-a[1].x, a[0].y-a[1].y); }
-  function releasePress(){ if(downCard){ setPressed(downCard,false); downCard=null; } }
-  stage.addEventListener('pointerdown', function(e){
-    if(breezeRaf){ cancelAnimationFrame(breezeRaf); breezeRaf=null; }   // a touch stops the breeze
-    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(pointers.size===1){ dragging=true; moved=0; last={x:e.clientX,y:e.clientY}; vX=vY=0; stage.classList.add('grabbing');
-      downCard=e.target.closest('.card'); if(downCard) setPressed(downCard,true); }
-    if(pointers.size===2){ pinchStart=pinchDist(); pinchZ0=zoom; releasePress(); }
-  });
-  stage.addEventListener('pointermove', function(e){
-    if(!pointers.has(e.pointerId)) return;
-    pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(pointers.size>=2 && pinchStart){ setZoom(pinchZ0*pinchDist()/pinchStart); return; }
-    if(dragging && last){ var dx=e.clientX-last.x, dy=e.clientY-last.y;
-      panX+=dx/zoom; panY+=dy/zoom; vX=dx/zoom; vY=dy/zoom;
-      moved+=Math.abs(dx)+Math.abs(dy); last={x:e.clientX,y:e.clientY};
-      if(downCard && moved>6) releasePress();   // it's a drag, not a tap
-      apply(); }
-  });
-  function endPtr(e){
-    var tap = e.type==='pointerup' && pointers.size===1 && moved<=6 && downCard;
-    var tapped = tap ? downCard : null;
-    pointers.delete(e.pointerId); if(pointers.size<2) pinchStart=null;
-    if(pointers.size===0){
-      dragging=false; last=null; stage.classList.remove('grabbing');
-      releasePress();
-      if(tapped && tapped._post){ openDetail(tapped._post); return; }  // flip open instead of navigating
-      inertia();
-    }
-  }
-  stage.addEventListener('pointerup', endPtr);
-  stage.addEventListener('pointercancel', endPtr);
-  // links are navigated manually above; block the native anchor click so nothing double-fires
-  plane.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); }, true);
-
-  // ---- wheel: pan any direction; ctrl/cmd = zoom ----
-  stage.addEventListener('wheel', function(e){ e.preventDefault();
-    if(e.ctrlKey||e.metaKey){ setZoom(zoom*(1-e.deltaY*0.01)); }
-    else { panX-=e.deltaX/zoom; panY-=e.deltaY/zoom; apply(); }
-  }, {passive:false});
-
-  function setZoom(z){ zoom=Math.max(MINZ,Math.min(MAXZ,z)); apply(); }
-  document.getElementById('zin').onclick=function(){ setZoom(zoom*1.2); };
-  document.getElementById('zout').onclick=function(){ setZoom(zoom/1.2); };
-  function recenter(e){ if(e) e.preventDefault(); panX=-CELL_W*0.6; panY=-CELL_H*0.4; setZoom(INITIAL_ZOOM); }
-  document.getElementById('recenter').addEventListener('click', recenter);
-  document.getElementById('home').addEventListener('click', recenter);
-
-  var raf=null;
-  function inertia(){ if(raf) cancelAnimationFrame(raf);
-    (function step(){ vX*=0.94; vY*=0.94;
-      if(Math.abs(vX)<0.1 && Math.abs(vY)<0.1){ raf=null; return; }
-      panX+=vX; panY+=vY; apply(); raf=requestAnimationFrame(step); })(); }
-
-  // ---- breeze: a swift ~1s wind gust that blows the canvas in a random direction ----
-  function breeze(){
-    if(breezeRaf) cancelAnimationFrame(breezeRaf);
-    if(raf){ cancelAnimationFrame(raf); raf=null; }        // stop any inertia
-    vX=vY=0;
-    var dur   = 950 + Math.random()*450;                   // ~1s gust
-    var ang   = Math.random()*Math.PI*2;                   // random heading
-    var wander= (Math.random()-0.5)*0.7;                   // slow curve of the gust
-    var peak  = (2000 + Math.random()*700)/Math.max(zoom,0.25); // world px/s at the crest
-    var turb  = peak*0.15, tf = 5 + Math.random()*5;       // perpendicular flutter
-    var t0=null, prev=null;
-    // gust envelope: quick ease-out attack, long tapering release — feels like real wind
-    function env(t){ var a=0.16; if(t<a){ var x=t/a; return 1-(1-x)*(1-x); } var u=(t-a)/(1-a); return Math.pow(1-u,1.7); }
-    var ico=document.getElementById('breeze');
-    if(ico){ ico.classList.remove('gust'); void ico.offsetWidth; ico.classList.add('gust'); }
-    function frame(ts){
-      if(t0===null){ t0=prev=ts; breezeRaf=requestAnimationFrame(frame); return; }
-      var dt=(ts-prev)/1000; prev=ts;
-      var el=ts-t0, t=el/dur;
-      if(t>=1){ breezeRaf=null; vX=vY=0; return; }
-      var e  = env(t)*(0.9+0.1*Math.sin(el*0.03));         // magnitude + subtle ripple
-      var an = ang + wander*t;                             // heading wanders through the gust
-      var sp = peak*e;
-      var perp = turb*e*Math.sin(el/1000*tf*Math.PI*2);    // sideways turbulence
-      var vx = sp*Math.cos(an) - perp*Math.sin(an);
-      var vy = sp*Math.sin(an) + perp*Math.cos(an);
-      panX += vx*dt; panY += vy*dt; apply();
-      breezeRaf=requestAnimationFrame(frame);
-    }
-    breezeRaf=requestAnimationFrame(frame);
-  }
-  document.getElementById('breeze').onclick=breeze;
-
-  // ---- detail overlay: tap a card to flip + enlarge it and show the post details ----
-  var detail=document.getElementById('detail');
-  var dImg=document.getElementById('d-img'), dCap=document.getElementById('d-cap'),
-      dTitle=document.getElementById('d-title'), dContent=document.getElementById('d-content'), closeTimer=null;
-  function openDetail(p){
-    if(closeTimer){ clearTimeout(closeTimer); closeTimer=null; }
-    dImg.style.visibility='visible'; dImg.onerror=function(){ this.style.visibility='hidden'; }; dImg.src=p.i||'';
-    dCap.textContent=p.t; dTitle.textContent=p.t;
-    dContent.innerHTML='<p class="lead">'+esc(p.e||'')+'</p><p class="dloading">Loading…</p>';
-    dContent.scrollTop=0;
-    detail.classList.add('open'); detail.setAttribute('aria-hidden','false');
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ detail.classList.add('show'); }); });
-    if(p.u && p.u.charAt(0)!=='#'){
-      fetch(p.u).then(function(r){ return r.ok?r.text():Promise.reject(); }).then(function(html){
-        var doc=new DOMParser().parseFromString(html,'text/html');
-        var entry=doc.querySelector('.entry')||doc.querySelector('article');
-        if(entry){ var sc=entry.querySelectorAll('script'); for(var i=0;i<sc.length;i++) sc[i].remove();
-          dContent.innerHTML=entry.innerHTML; dContent.scrollTop=0; }
-        else { var l0=dContent.querySelector('.dloading'); if(l0) l0.remove(); }
-      }).catch(function(){ var l=dContent.querySelector('.dloading'); if(l) l.remove(); });
-    } else { var l=dContent.querySelector('.dloading'); if(l) l.remove(); }
-  }
-  function closeDetail(){ detail.classList.remove('show');
-    closeTimer=setTimeout(function(){ detail.classList.remove('open'); detail.setAttribute('aria-hidden','true'); dContent.innerHTML=''; }, 480); }
-  document.getElementById('d-close').onclick=closeDetail;
-  detail.querySelector('.backdrop').onclick=closeDetail;
-  addEventListener('keydown', function(e){ if(e.key==='Escape' && detail.classList.contains('open')) closeDetail(); });
-
-  setTimeout(function(){ var h=document.getElementById('hint'); if(h) h.style.opacity='0'; }, 7000);
-  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(function(){ build(); apply(); },200); });
-
-  build(); recenter();
-})();
-</script>
+<section class="feed" aria-labelledby="feed-title">
+  <div class="wrap">
+    <h2 class="sr-only" id="feed-title">{% if first_page %}More posts{% else %}Posts{% endif %}</h2>
+    {%- assign skip = 0 -%}{%- if first_page -%}{%- assign skip = 1 -%}{%- endif -%}
+    {%- for post in paginator.posts offset: skip %}
+    {% include post-feature.html post=post %}
+    {%- endfor %}
+    {% include pagination.html %}
+  </div>
+</section>

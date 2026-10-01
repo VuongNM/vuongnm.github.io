@@ -1,17 +1,38 @@
 ---
 layout: default
 ---
+{%- assign words = content | number_of_words -%}
+{%- assign minutes = words | divided_by: 220 | plus: 1 -%}
+{%- comment -%} Show the excerpt as a dek only when it isn't just the opening of the post. {%- endcomment -%}
+{%- assign dek = page.excerpt | strip_html | normalize_whitespace | strip -%}
+{%- assign dek_len = dek | size -%}
+{%- assign opening = content | strip_html | normalize_whitespace | strip | truncate: dek_len, "" -%}
+<article class="article">
+  <header class="article__head">
+    <a class="backlink" href="{{ '/archive/' | relative_url }}"><svg class="icon" aria-hidden="true"><use href="#i-left"/></svg>All writing</a>
+    {%- if page.date %}
+    <p class="article__meta"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time> · {{ minutes }} min read</p>
+    {%- endif %}
+    <h1 class="article__title">{{ page.title }}</h1>
+    {%- if dek != "" and dek != opening %}
+    <p class="article__dek">{{ dek }}</p>
+    {%- endif %}
+  </header>
 
-<article class="post">
-  <h1>{{ page.title }}</h1>
-
-  <div class="entry">
+  <div class="prose">
     {{ content }}
   </div>
 
-  <div class="date">
-    Written on {{ page.date | date: "%B %e, %Y" }}
-  </div>
+  {%- if page.previous or page.next %}
+  <nav class="pager" aria-label="More writing">
+    {%- if page.previous %}
+    <a class="pager__card" href="{{ page.previous.url | relative_url }}"><span class="pager__label">Older</span><span class="pager__title">{{ page.previous.title }}</span></a>
+    {%- endif %}
+    {%- if page.next %}
+    <a class="pager__card pager__card--next" href="{{ page.next.url | relative_url }}"><span class="pager__label">Newer</span><span class="pager__title">{{ page.next.title }}</span></a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
 
   {% include disqus.html %}
 </article>

@@ -1,60 +1,79 @@
+{%- assign author = site.name | split: " - " | first | strip -%}
+{%- if page.title -%}{%- assign doc_title = page.title | append: " — " | append: author -%}
+{%- elsif paginator.page > 1 -%}{%- capture doc_title -%}Page {{ paginator.page }} of {{ paginator.total_pages }} — {{ author }}{%- endcapture -%}
+{%- else -%}{%- assign doc_title = author | append: " — " | append: site.description -%}{%- endif -%}
+{%- assign description = page.excerpt | default: page.description | default: site.description | strip_html | normalize_whitespace | strip | truncate: 180 -%}
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
+<html lang="en" data-baseurl="{{ site.baseurl }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ doc_title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta name="author" content="{{ author }}">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+  <meta property="og:title" content="{{ page.title | default: author }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{ '/images/vuongnm-colorful.jpg' | absolute_url }}">
+  <link rel="icon" type="image/jpeg" href="{{ '/images/vuongnm-colorful.jpg' | relative_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ author }}" href="{{ '/feed.xml' | relative_url }}">
 
-    {% include meta.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <link rel="stylesheet" href="{{ '/assets/civic.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  {% include icons.html %}
+  <a class="skip" href="#main">Skip to content</a>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#6C3FF5">
-    <meta name="color-scheme" content="light">
-    <meta property="og:image" content="{{ site.baseurl }}/images/vuongnm-colorful.jpg" />
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="{{ '/' | relative_url }}">
+        <img class="nav__avatar" src="{{ '/images/vuongnm-colorful.jpg' | relative_url }}" alt="" aria-hidden="true" width="28" height="28">
+        <span class="nav__name">{{ author }}</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="{{ '/archive/' | relative_url }}"{% if page.url == '/archive/' %} aria-current="page"{% endif %}>Essays</a>
+        <a href="{{ '/short' | relative_url }}"{% if page.url == '/short.html' %} aria-current="page"{% endif %}>Short</a>
+        <a href="{{ '/about/' | relative_url }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+      </nav>
+    </div>
+  </header>
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+  <main id="main" tabindex="-1">
+    {{ content }}
+  </main>
 
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css?v={{ site.time | date: '%s' }}" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-  <link rel="shortcut icon" type="image/jpg" href="{{ site.baseurl }}/images/vuongnm-colorful.jpg" >
-
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-  </head>
-
-  <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
-
-          <nav>
-            <a href="{{ site.baseurl }}/" title="A thought">Blog</a>
-            <a href="{{ site.baseurl }}/short" title="Half a thought">Short</a>
-            <a href="{{ site.baseurl }}/about" title="Whodis?">About</a>
-          </nav>
-        </header>
+  <footer class="foot">
+    <div class="foot__inner">
+      <div class="foot__brand">
+        <p class="foot__name">{{ author }}</p>
+        <p class="foot__tag">{{ site.description }}.</p>
       </div>
+      <nav class="foot__col" aria-label="Writing">
+        <h2 class="foot__h">Writing</h2>
+        <a href="{{ '/archive/' | relative_url }}">All essays</a>
+        <a href="{{ '/short' | relative_url }}">Short notes</a>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS feed</a>
+      </nav>
+      <nav class="foot__col" aria-label="Elsewhere">
+        <h2 class="foot__h">Elsewhere</h2>
+        <a href="https://github.com/{{ site.footer-links.github }}">GitHub</a>
+        <a href="https://www.kaggle.com/{{ site.footer-links.kaggle }}">Kaggle</a>
+        <a href="https://www.linkedin.com/in/{{ site.footer-links.linkedin }}">LinkedIn</a>
+      </nav>
     </div>
-
-    <div id="main" role="main" class="container">
-      {{ content }}
+    <div class="foot__base">
+      <p>© 2018–{{ site.time | date: '%Y' }} {{ author }}. Set in Newsreader and Inter.</p>
+      <p>Photographs via <a href="https://unsplash.com/license">Unsplash</a>.</p>
     </div>
+  </footer>
 
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-        </footer>
-      </div>
-    </div>
-
-    {% include analytics.html %}
-  </body>
+  <script src="{{ '/assets/js/civic.js' | relative_url }}" defer></script>
+  {% include analytics.html %}
+</body>
 </html>

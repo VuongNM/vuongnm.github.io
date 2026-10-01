@@ -63,10 +63,15 @@ kramdown:
 sass:
   style: :expanded # You might prefer to minify using :compressed
 
-# Use the following plug-ins
-gems:
+# Use the following plug-ins (`plugins:` works on GitHub Pages and on Jekyll 4; the old `gems:` key does not load on Jekyll 4)
+plugins:
   - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
   - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
+  - jekyll-paginate # Home page feed, newest first (supported on GitHub Pages)
+
+# Posts per page on the home page; page 2 onwards lives at /page2/, /page3/, ...
+paginate: 6
+paginate_path: "/page:num/"
 
 # Exclude these files from your production _site
 exclude:
@@ -75,6 +80,8 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+  - docs
+  - tests
 
 # theme: jekyll-theme-cayman
 

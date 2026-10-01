@@ -1,0 +1,177 @@
+# The picture on each post's card, keyed by the post's URL.
+#
+# A post that has pictures of its own uses its first one (charts, screenshots, your photos);
+# its entry here only describes it (`alt`) and says how to frame it (`fit`).
+# A post with no picture of its own uses the Unsplash photo given here (`photo`, free under the
+# Unsplash License); `by` and `credit` record where it came from and aren't shown on the page.
+#
+# Optional per post:
+#   fit:   cover to fill the card (photos); otherwise the picture shows whole on white
+#   focus: CSS object-position for the crop
+#   lines: a hand-set two-line headline (otherwise the title wraps on its own)
+#   blurb: the one-sentence summary (otherwise the post's excerpt)
+# A post with neither gets a quiet typographic card.
+
+"/readmypdf/":
+  alt: "Read My PDF's catalogue page: a grid of book covers on a cream background"
+"/aging/":
+  photo: photo-1607969892192-8aa9fe65ee26
+  alt: An older man in glasses and a plaid shirt works at a bench under a lamp
+  by: Carter Yocham
+  credit: https://unsplash.com/photos/man-in-black-and-white-plaid-dress-shirt-wearing-black-framed-eyeglasses-tnYWFvk-frU
+"/making-money/":
+  photo: photo-1485846299386-f367c81034d8
+  alt: A shopkeeper sits among shelves of goods in a small, warmly lit store
+  by: Jose Murillo
+  credit: https://unsplash.com/photos/person-sitting-inside-store-svzLN-hSvBQ
+"/failed-ml-project/":
+  photo: photo-1573998648748-fa6ef521cdf9
+  alt: A man works at a cluttered workbench surrounded by tools
+  by: Michel Stockman
+  credit: https://unsplash.com/photos/man-working-on-a-workbench-j69zgeO8IlI
+"/drift-detection-silly/":
+  photo: photo-1761741252541-a26996c9f5a1
+  alt: Sailors silhouetted against a pink sunset as they work the rigging of a sailboat
+  by: Lexi M
+  credit: https://unsplash.com/photos/sailors-working-on-a-sailboat-at-sunset-N-eA31KRY4I
+"/breakable-code/":
+  photo: photo-1581092160607-ee22621dd758
+  alt: An engineering student in safety glasses operates a machine in a workshop
+  by: ThisisEngineering
+  credit: https://unsplash.com/photos/student-operating-machinery-in-engineering-workshop-omrpeqLz6Po
+"/cause-and-effect/":
+  photo: photo-1513159446162-54eb8bdaa79b
+  alt: Two older men play chess at an outdoor table while others look on
+  by: Vlad Sargu
+  credit: https://unsplash.com/photos/two-men-playing-chess-ItphH2lGzuI
+"/god-emotion/":
+  photo: photo-1438032005730-c779502df39b
+  alt: An empty church with wooden pews and tall stained-glass windows
+  by: Karl Fredrickson
+  credit: https://unsplash.com/photos/church-interior-JRsZWmRd_Ws
+"/metrics-note/":
+  photo: photo-1628155453612-27686cb94a25
+  alt: A surveyor holds a measuring pole among pine trees
+  by: Valerie V
+  credit: https://unsplash.com/photos/man-in-black-jacket-holding-black-and-gray-stick-Qcfjjxio9r0
+"/tech-debt/":
+  photo: photo-1619642751034-765dfdf7c58e
+  alt: Grease-stained hands work on a car engine with a wrench
+  by: Christian Buehner
+  credit: https://unsplash.com/photos/hands-working-on-car-engine-Fd6osyVbtG4
+"/study/":
+  photo: photo-1544456203-0af5a69f5789
+  alt: A woman reads at a long table in a quiet library
+  by: Praveen Gupta
+  credit: https://unsplash.com/photos/woman-reading-book-inside-the-library-YhfxJpa_Ch0
+"/logging/":
+  photo: photo-1727012031496-543d2e4c8e9a
+  alt: An archival photo of lumberjacks posing beside a giant felled tree
+  by: Oregon State University Collections and Archives
+  credit: https://unsplash.com/photos/lumberjacks-posing-with-a-felled-giant-tree-AIQvyeLFcBY
+"/true-randomness/":
+  photo: photo-1647082916421-2f8a59f949a9
+  alt: A man tosses dice into the air against a dark background
+  by: Robert Stump
+  credit: https://unsplash.com/photos/a-man-is-throwing-dices-into-the-air-yBhs_DEQedA
+"/grandma/":
+  photo: photo-1575467678930-c7acd65d6470
+  alt: An older woman in a floral dress washes carrots at the kitchen sink
+  by: CDC
+  credit: https://unsplash.com/photos/woman-wearing-yellow-and-pink-floral-dress-wahing-carrots-F98Mv9O6LfI
+"/thinking-and-calculating/":
+  photo: photo-1758685733685-7e0f30c35a17
+  alt: A boy writes formulas on a chalkboard already full of equations
+  by: Vitaly Gariev
+  credit: https://unsplash.com/photos/young-boy-writing-complex-formulas-on-a-chalkboard-BpCrX9nwyC0
+"/best-technologies/":
+  photo: photo-1581387490232-2181c3736353
+  alt: Hands on a laptop beside a latte on a round wooden cafe table
+  by: Blake Wisz
+  credit: https://unsplash.com/photos/person-using-macbook-pro-on-brown-wooden-table-7weXfu_XTSw
+"/test-set-value/":
+  photo: photo-1630983358494-96012d838b84
+  alt: A woman in glasses marks a sheet of paper with a pen
+  by: Greg Rosenke
+  credit: https://unsplash.com/photos/woman-in-black-framed-eyeglasses-holding-pen-DJWvzY4pkGU
+"/trees/":
+  alt: A black-and-white photo of a motorbike parked on a sandy road
+  fit: cover
+  lines: ["What I talk about", "when I talk about trees."]
+  blurb: Pruning, forests and boosting, and why the best tuning advice is to really learn the trees.
+"/readmypdf-2024/":
+  photo: photo-1728931710024-c015ea8f4414
+  alt: A woman in a white sweater reads a book by a bright window
+  by: Kelly Sikkema
+  credit: https://unsplash.com/photos/woman-reading-book-in-cozy-nook-FzvVv0G3hgQ
+"/pairwise/":
+  alt: Histograms of pairwise distances, shifting right as the number of dimensions grows
+"/mltests/":
+  photo: photo-1607556671970-488bec51557a
+  alt: Clay-covered hands shaping a bowl on a spinning potter's wheel
+  by: Earl Wilcox
+  credit: https://unsplash.com/photos/person-making-clay-pot-during-daytime-B-95cEO-hEc
+  lines: ["Street fighting", "machine learning, part 2."]
+"/fasttext2/":
+  photo: photo-1753354868590-81ed82047c4f
+  alt: A grocery worker in an apron holds up a crate of tomatoes
+  by: Vitaly Gariev
+  credit: https://unsplash.com/photos/a-grocery-store-worker-holds-a-box-of-tomatoes-xSdL0ze7Qqc
+"/real/":
+  alt: Mike Tyson in the ring before a fight, wearing a black shirt that reads BE REAL
+  fit: cover
+  focus: 50% 18%
+"/fight1/":
+  alt: "The Chad meme: a black-and-white portrait of a grinning man with a sculpted jaw and beard"
+  fit: cover
+  lines: ["Street fighting", "machine learning, part 1."]
+  blurb: Model selection with grandma wisdom, learned from a merchandiser who could smell a bad forecast.
+"/churn/":
+  photo: photo-1586011066531-f3a64f20d51d
+  alt: A barista in an apron pours latte art for a customer
+  by: Ben Garratt
+  credit: https://unsplash.com/photos/man-in-white-dress-shirt-holding-silver-spoon-uhMi-ym4-to
+"/typical-sets/":
+  alt: Chi distributions for 1, 10, 100 and 500 dimensions, each peak further from zero
+"/noodle/":
+  alt: A time series that stays flat for months, then surges
+"/reconcilation/":
+  alt: A red heartbeat trace going flat on a black screen
+  fit: cover
+"/productembedding/":
+  alt: Three 3D scatter plots of product embeddings
+"/quantized-entropy-sampling-svm/":
+  alt: Scatter plots of the two-moons dataset before and after entropy-based sampling
+"/absort/":
+  alt: A chart of overlapping bell curves, one for each A/B test variant
+"/kmeans/":
+  alt: "The two-buttons meme: a sweating man can't decide which red button to press"
+"/quantized-space-svm/":
+  alt: Two scatter plots of the two-moons dataset, the second shaded by an SVM's decision regions
+"/predict/":
+  photo: photo-1506808940319-a472563bebee
+  alt: Hands cup a glowing blue plasma ball in the dark
+  by: Melanie Magdalena
+  credit: https://unsplash.com/photos/low-light-photo-of-person-holding-blue-lighted-ball-wJ0tVIs09N8
+"/bayesian/":
+  alt: "The distracted-boyfriend meme: he turns from the t-test, chi-square and F-test toward Bayes' theorem"
+"/kagglelb/":
+  photo: photo-1502904550040-7534597429ae
+  alt: Runners on a red track seen from above, strung out along the lanes
+  by: Steven Lelham
+  credit: https://unsplash.com/photos/group-of-people-running-on-stadium-atSaEOeE8Nk
+"/dumbblonde-dashboard/":
+  photo: photo-1564830768155-09b9c0e759d0
+  alt: A pilot sits at an airliner's instrument panel, seen through the open cockpit door
+  by: Nicholas Jeffries
+  credit: https://unsplash.com/photos/woman-sitting-on-pilot-deck-atOv0c6HwjQ
+"/metrics/":
+  photo: photo-1595844730289-b248c919d6f9
+  alt: A hand holds a yellow tape measure against a pale wooden board
+  by: Callum Hill
+  credit: https://unsplash.com/photos/person-holding-black-and-green-power-tool-NGGkGzslIaM
+  lines: ["All metrics are wrong,", "but some are useful."]
+  blurb: A metric squeezes a whole system into one number. Useful, as long as you remember what it leaves out.
+"/lindy/":
+  alt: The Lindy's restaurant front, with a giant cheesecake on its sign
+  fit: cover

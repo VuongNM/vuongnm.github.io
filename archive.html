@@ -1,0 +1,24 @@
+---
+layout: default
+title: Essays
+permalink: /archive/
+---
+{%- assign posts = site.posts | where_exp: "p", "p.title" -%}
+{%- assign years = posts | group_by_exp: "p", "p.date | date: '%Y'" -%}
+<section class="index" aria-labelledby="index-title">
+  <header class="index__head">
+    <h1 class="index__title" id="index-title">Everything I’ve written.</h1>
+    <p class="index__sub">{{ posts.size }} posts since {{ posts.last.date | date: "%Y" }}, newest first.</p>
+  </header>
+
+  {%- for year in years %}
+  <section class="year" aria-labelledby="y-{{ year.name }}">
+    <h2 class="year__label" id="y-{{ year.name }}">{{ year.name }}</h2>
+    <ol class="rows">
+      {%- for post in year.items %}
+      <li><a class="row" href="{{ post.url | relative_url }}"><span class="row__title">{{ post.title }}</span><time class="row__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d" }}</time></a></li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+</section>

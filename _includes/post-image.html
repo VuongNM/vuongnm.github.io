@@ -1,0 +1,30 @@
+{%- comment -%}
+  The picture for a post's card. The post's own first picture wins; failing that, the Unsplash
+  photo from _data/post_images.yml; failing that, a typographic card with the year.
+  Include with post=..., sizes="..." for the Unsplash srcset, and lead=true for the top of page 1.
+{%- endcomment -%}
+{%- assign ip = include.post -%}
+{%- assign meta = site.data.post_images[ip.url] -%}
+{%- assign own = "" -%}
+{%- assign own_alt = "" -%}
+{%- assign parts = ip.content | split: "<img" -%}
+{%- if parts.size > 1 -%}
+  {%- assign tag = parts[1] | split: ">" | first -%}
+  {%- if tag contains 'src="' -%}{%- assign own = tag | split: 'src="' | last | split: '"' | first -%}{%- endif -%}
+  {%- if tag contains 'alt="' -%}{%- assign own_alt = tag | split: 'alt="' | last | split: '"' | first -%}{%- endif -%}
+  {%- comment -%} formulas rendered as SVG are not pictures {%- endcomment -%}
+  {%- if own contains ".svg" or own contains "wikimedia" -%}{%- assign own = "" -%}{%- endif -%}
+{%- endif -%}
+{%- if include.lead -%}{%- assign loading = 'fetchpriority="high"' -%}{%- else -%}{%- assign loading = 'loading="lazy"' -%}{%- endif -%}
+
+{%- if own != "" -%}
+  {%- unless own contains "://" -%}{%- assign own = own | relative_url -%}{%- endunless -%}
+  {%- assign alt = meta.alt | default: own_alt -%}
+  {%- if alt == "" or alt == "image" -%}{%- capture alt -%}A picture from “{{ ip.title }}”{%- endcapture -%}{%- endif -%}
+  <img class="{% if meta.fit == 'cover' %}is-cover{% else %}is-whole{% endif %}" src="{{ own }}" alt="{{ alt | escape }}" {{ loading }} decoding="async"{% if meta.focus %} style="object-position: {{ meta.focus }}"{% endif %}>
+{%- elsif meta.photo -%}
+  {%- capture src -%}https://images.unsplash.com/{{ meta.photo }}?auto=format&fit=crop&q=80{%- endcapture -%}
+  <img class="is-cover" src="{{ src }}&w=1200" srcset="{{ src }}&w=700 700w, {{ src }}&w=1000 1000w, {{ src }}&w=1400 1400w, {{ src }}&w=2000 2000w" sizes="{{ include.sizes }}" alt="{{ meta.alt | escape }}" {{ loading }} decoding="async"{% if meta.focus %} style="object-position: {{ meta.focus }}"{% endif %}>
+{%- else -%}
+  <span class="feature__placeholder" aria-hidden="true">{{ ip.date | date: "%Y" }}</span>
+{%- endif -%}

@@ -1,0 +1,30 @@
+{%- comment -%}
+  One post in the feature format: a picture card on the left; date, headline, one sentence
+  and a link on the right. Include with post=... The picture comes from post-image.html.
+{%- endcomment -%}
+{%- assign p = include.post -%}
+{%- assign pic = site.data.post_images[p.url] -%}
+{%- assign words = p.content | number_of_words -%}
+{%- if pic.blurb -%}
+  {%- assign blurb = pic.blurb -%}
+{%- else -%}
+  {%- assign blurb = p.excerpt | strip_html | normalize_whitespace | strip -%}
+  {%- if blurb == "" -%}{%- assign blurb = p.content | strip_html | normalize_whitespace | strip -%}{%- endif -%}
+  {%- assign blurb = blurb | truncatewords: 30, "…" -%}
+{%- endif -%}
+{%- assign long_title = false -%}
+{%- if p.title.size > 44 -%}{%- assign long_title = true -%}{%- endif -%}
+{%- if pic.lines -%}{%- assign long_title = false -%}{%- endif -%}
+<article class="feature" data-reveal>
+  <figure class="feature__media">
+    {% include post-image.html post=p sizes="(min-width: 861px) 590px, calc(100vw - 32px)" %}
+  </figure>
+  <div class="feature__copy">
+    <p class="feature__date"><time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%B %-d, %Y" }}</time></p>
+    <h3 class="feature__title{% if long_title %} feature__title--long{% endif %}"><a href="{{ p.url | relative_url }}">
+      {%- if pic.lines -%}<span class="line">{{ pic.lines[0] }}</span> <span class="line">{{ pic.lines[1] }}</span>{%- else -%}{{ p.title }}{%- endif -%}
+    </a></h3>
+    <p class="feature__text">{{ blurb }}</p>
+    <a class="textlink feature__link" href="{{ p.url | relative_url }}">{% if words < 150 %}Read the note{% else %}Read the essay{% endif %}<span class="sr-only">: {{ p.title }}</span> <svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></a>
+  </div>
+</article>
