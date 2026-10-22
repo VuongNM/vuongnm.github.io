@@ -5,23 +5,23 @@ excerpt: Because, first, I can, and second, it would be lovely for something lik
 
 ---
 
-After a long while of working with dirt, I have this hankering for some techinical voyage. Coincidentally, I like reading books and some of them are not just available in sound format. Also, as a lazy bastard, I'd prefer to have someone do it for me, but seems the times is not great for cool people doing cool projects [ughhhg](https://discourse.mozilla.org/t/future-of-deepspeech-stt-after-recent-changes-at-mozilla/66191)
+After a long while of working with dirt, I have this hankering for some technical voyage. Coincidentally, I like reading books and some of them are just not available in sound format. Also, as a lazy bastard, I'd prefer to have someone do it for me, but it seems the times are not great for cool people doing cool projects [ughhhg](https://discourse.mozilla.org/t/future-of-deepspeech-stt-after-recent-changes-at-mozilla/66191)
 
 So, I've decided to write one for my own use, and here it is [Read-my-pdf](https://github.com/VuongNM/readmybook).
 
 ![Catalog page](https://github.com/VuongNM/readmypdf/assets/5158823/6b5a7dae-b63d-42c4-a91b-2a73f83b7a1c)
 
 
-I built this thing with Flask, something I've always love and my go-to choice for developing web apps and APIs. 
+I built this thing with Flask, something I've always loved and my go-to choice for developing web apps and APIs. 
 
 
-For front end, I choose to do it with Tailwind CSS this time. It's been quite dreadful for me working with CSS, but this Tailwind thing is a fresh breeze. Freaking love this! 
+For the front end, I chose to do it with Tailwind CSS this time. It's been quite dreadful for me working with CSS, but this Tailwind thing is a fresh breeze. Freaking love this! 
 
 
-The most important part is the PDF reading engine. This is from [StyleTTS2](https://github.com/yl4579/StyleTTS2). This Speech to Text engine is very impressive, creating natural, nuanced speech. Those guys are doing an incredible job. It's awsome engineering.
+The most important part is the PDF reading engine. This is from [StyleTTS2](https://github.com/yl4579/StyleTTS2). This Text to Speech engine is very impressive, creating natural, nuanced speech. Those guys are doing an incredible job. It's awesome engineering.
 
 
-For features, I've always wanted to rewind the sentences, instead of rewinding the last whatever 10 seconds. This kind of features can only be avaiable now with the new advent of great TTS technology.
+For features, I've always wanted to rewind the sentences, instead of rewinding the last whatever 10 seconds. This kind of feature is only possible now, with the advent of great TTS technology.
 
 ![Reading page](https://github.com/VuongNM/readmypdf/assets/5158823/d9e0181d-61af-4273-a532-1f5348395f88)
 

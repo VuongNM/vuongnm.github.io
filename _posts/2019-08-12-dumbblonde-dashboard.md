@@ -7,10 +7,10 @@ title: The dumb blonde dashboard
 
 
 
-Have you ever been tasked with building a live dashboard that looks like a slick sale pitch slide? You spend a whole lot of time hue-ing the bar chart, and you got asked to change the bars into curvy line because it will make it look more like GA... 
+Have you ever been tasked with building a live dashboard that looks like a slick sales pitch slide? You spend a whole lot of time hue-ing the bar chart, then you get asked to change the bars into curvy lines because it would look more like GA... 
 
 
-And it collects, like, 2 views in 3 weeks after release day, 0 follow-up question, 0 export.
+And it collects, like, 2 views in 3 weeks after release day, 0 follow-up questions, 0 exports.
 
 
 
@@ -26,8 +26,8 @@ Gruesome, right ?!
 
 Dashboards are useless if they are not actionable. 
 
-A dashboard is useful when it bias the reader toward action. Any action. It could lead to changing a marketing practice or start selling a different product, etc...
-However, one should never mistake the of the well-built positively informed dashboard with a useless one (For example, a health check report will all negatives in diseases checkbox). Here, the action is to keep the wheels rolling.
+A dashboard is useful when it biases the reader toward action. Any action. It could lead to changing a marketing practice or starting to sell a different product, etc...
+However, one should never mistake a well-built dashboard that only brings good news for a useless one (for example, a health check report with all negatives in the disease checkboxes). Here, the action is to keep the wheels rolling.
 
 
 
@@ -41,9 +41,9 @@ Things on the dashboard are answers to the questions asked in the process of bui
 So by ensuring 1/ the right questions are asked and 2/ right answers are provided timely, one can build a good dashboard.
 
 
-Most of the questions asked in the interview for the Analyst position is about the 2/. That's only 50%.
+Most of the questions asked in interviews for the Analyst position are about 2/. That's only 50%.
 
-[Asking the right questions](https://twitter.com/fchollet/status/837188765500071937) is the first and foremost important thing. 
+[Asking the right questions](https://twitter.com/fchollet/status/837188765500071937) is the first and most important thing. 
 
 
 
