@@ -1,0 +1,423 @@
+---
+layout: default
+title: Spark
+description: Gõ bằng giọng nói cho dân code. Giữ fn, nói tiếng Việt lẫn tiếng Anh, thả ra là chữ được dán vào Cursor, VS Code hay Terminal. Nhận giọng chạy ngay trên Mac.
+lang: vi
+permalink: /spark/
+---
+<style>
+  .sp { --sp-dot: 15, 42, 107; padding-bottom: clamp(64px, 9vw, 120px); }
+  .sp h2 { font: 400 clamp(30px, 3.6vw, 42px)/1.08 var(--serif); letter-spacing: -.025em; }
+  .sp h3 { font: 600 17px/1.3 var(--sans); }
+  .sp p { color: var(--ink-2); }
+  .sp a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
+  .sp code, .sp kbd { font: .9em/1 var(--mono); }
+  .sp kbd {
+    display: inline-block; min-width: 1.9em; padding: .28em .5em; border-radius: 7px;
+    background: #fff; border: 1px solid var(--line-strong); box-shadow: 0 1px 0 var(--line-strong);
+    text-align: center; color: var(--ink);
+  }
+
+  /* hero: the same slow dot field as the app, behind the words */
+  .sp-hero { position: relative; overflow: hidden; padding: clamp(56px, 9vw, 120px) 0 clamp(36px, 5vw, 56px); text-align: center; }
+  .sp-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .sp-hero__inner { position: relative; }
+  .sp-eyebrow { font-size: 14px; font-weight: 600; color: var(--muted) !important; }
+  .sp-title { max-width: 12em; margin: 14px auto 0; font: 400 clamp(44px, 7vw, 88px)/1 var(--serif); letter-spacing: -.035em; text-wrap: balance; }
+  .sp-dek { max-width: 34em; margin: 22px auto 0; font-size: clamp(17px, 1.6vw, 19px); line-height: 1.55; text-wrap: pretty; }
+
+  .sp-cmd {
+    display: flex; align-items: center; max-width: 640px; margin: 32px auto 0;
+    border-radius: 999px; background: var(--ink); color: #fff; box-shadow: var(--shadow-float); text-align: left;
+  }
+  .sp-cmd pre { flex: 1; min-width: 0; margin: 0; padding: 16px 0 16px 24px; overflow-x: auto; scrollbar-width: none; font: 14.5px/1.3 var(--mono); }
+  .sp-cmd pre::-webkit-scrollbar { display: none; }
+  .sp-cmd .sp-prompt { color: rgba(255, 255, 255, .45); user-select: none; }
+  .sp-copy {
+    flex: none; margin: 6px; padding: 10px 18px; border: 0; border-radius: 999px;
+    background: #fff; color: var(--ink); font: 600 14px/1 var(--sans); transition: background .2s;
+  }
+  .sp-copy:hover { background: #e9ecf4; }
+  .sp-meta { margin-top: 14px; font-size: 14px; color: var(--muted) !important; }
+  .sp-alt { margin-top: 6px; font-size: 15px; }
+  .sp-alt a { font-weight: 600; color: var(--ink); }
+  .sp-alt span { margin: 0 .5em; color: var(--line-strong); }
+
+  /* demo: a terminal, the recording bubble, then the pasted sentence */
+  .sp-screen {
+    position: relative; max-width: 880px; margin: 0 auto; padding: clamp(18px, 3vw, 28px);
+    border-radius: var(--r-lg); background: var(--bg-alt); box-shadow: var(--shadow-card);
+  }
+  .sp-term {
+    min-height: 240px; padding: 22px 24px 96px; border-radius: 18px; background: #fff;
+    border: 1px solid var(--line); font: 15px/1.7 var(--mono); color: var(--ink); text-align: left;
+  }
+  .sp-term .dim { color: var(--muted); }
+  .sp-term .ok { color: #1f7a4d; }
+  .sp-line { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .sp-caret { display: inline-block; width: .55em; height: 1.15em; margin-left: 1px; vertical-align: -.2em; background: var(--navy); animation: sp-blink 1.1s steps(1) infinite; }
+  @keyframes sp-blink { 50% { opacity: 0; } }
+  .sp-bubble {
+    position: absolute; left: 50%; bottom: calc(clamp(18px, 3vw, 28px) + 22px);
+    display: flex; align-items: center; justify-content: flex-end; overflow: hidden;
+    width: 172px; height: 30px; padding: 0 14px; border-radius: 999px;
+    background: rgba(13, 13, 15, .92); color: #fff; font: 13px/1 var(--serif);
+    transform: translateX(-50%) scale(.6); opacity: 0;
+    transition: transform .28s var(--ease), opacity .2s, box-shadow .3s;
+  }
+  .sp-bubble.is-on { transform: translateX(-50%) scale(1); opacity: 1; }
+  .sp-bubble.is-done { box-shadow: 0 0 0 2px rgba(80, 200, 140, .55), 0 0 18px rgba(80, 200, 140, .35); }
+  .sp-bubble canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sp-bubble span {
+    position: relative; z-index: 1; white-space: nowrap; text-shadow: 0 0 6px rgba(0, 0, 0, .9);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px); mask-image: linear-gradient(90deg, transparent, #000 20px);
+  }
+
+  .sp-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 880px; margin: 22px auto 0; }
+  .sp-steps div { padding: 18px 20px; border-radius: var(--r-sm); border: 1px solid var(--line); }
+  .sp-steps dt { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .sp-steps dd { margin: 6px 0 0; font-size: 16px; line-height: 1.5; }
+  .sp-steps .raw { font: 13px/1.55 var(--mono); color: var(--ink-2); }
+  .sp-steps .out { font: 400 19px/1.4 var(--serif); }
+  .sp-caption { max-width: 880px; margin: 14px auto 0; font-size: 14px; color: var(--muted) !important; }
+
+  .sp-section { max-width: 880px; margin: clamp(72px, 10vw, 128px) auto 0; }
+  .sp-section > p { max-width: 38em; margin-top: 14px; font-size: 18px; }
+
+  .sp-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; counter-reset: how; }
+  .sp-how li { padding: 22px; border-radius: var(--r-sm); background: var(--bg-alt); counter-increment: how; }
+  .sp-how li::before { content: counter(how); display: block; font: 400 34px/1 var(--serif); color: var(--navy); }
+  .sp-how h3 { margin-top: 14px; }
+  .sp-how p { margin-top: 6px; font-size: 15.5px; }
+
+  .sp-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 48px; margin-top: 32px; }
+  .sp-facts p { margin-top: 8px; font-size: 16px; }
+
+  .sp-install { margin-top: 28px; border-top: 1px solid var(--line); }
+  .sp-install > div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .sp-install h3 { font: 400 24px/1.2 var(--serif); letter-spacing: -.01em; }
+  .sp-install .tag { display: block; margin-top: 4px; font: 600 13px/1.4 var(--sans); color: var(--muted); }
+  .sp-install p + p, .sp-install p + pre, .sp-install pre + p, .sp-install ul + p { margin-top: 12px; }
+  .sp-install p, .sp-install li { font-size: 16px; }
+  .sp-install ul { margin-top: 10px; padding-left: 1.2em; color: var(--ink-2); }
+  .sp-install li + li { margin-top: 6px; }
+  .sp pre.sp-code {
+    margin-top: 12px; padding: 14px 18px; border-radius: 14px; background: var(--bg-alt);
+    font: 14px/1.6 var(--mono); color: var(--ink); overflow-x: auto; white-space: pre;
+  }
+  .sp pre.sp-code .c { color: var(--muted); }
+
+  .sp-faq { margin-top: 24px; border-top: 1px solid var(--line); }
+  .sp-faq details { border-bottom: 1px solid var(--line); }
+  .sp-faq summary {
+    display: flex; justify-content: space-between; gap: 16px; padding: 20px 0;
+    font: 400 21px/1.3 var(--serif); letter-spacing: -.01em; cursor: pointer; list-style: none;
+  }
+  .sp-faq summary::-webkit-details-marker { display: none; }
+  .sp-faq summary::after { content: "+"; flex: none; font: 300 26px/1 var(--sans); color: var(--muted); transition: transform .25s var(--ease); }
+  .sp-faq details[open] summary::after { transform: rotate(45deg); }
+  .sp-faq details p { max-width: 40em; padding: 0 0 22px; font-size: 16px; }
+
+  .sp-end { margin-top: clamp(72px, 10vw, 128px); text-align: center; }
+  .sp-end .sp-cmd { margin-top: 24px; }
+
+  @media (max-width: 760px) {
+    .sp-steps, .sp-how, .sp-facts { grid-template-columns: 1fr; }
+    .sp-install > div { grid-template-columns: 1fr; gap: 10px; }
+    .sp-term { min-height: 210px; padding: 18px 18px 90px; font-size: 14px; }
+    .sp-cmd pre { padding-left: 20px; font-size: 13.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sp-caret { animation: none; }
+    .sp-bubble, .sp-faq summary::after { transition: none; }
+  }
+</style>
+
+<article class="sp">
+  <header class="sp-hero">
+    <canvas class="sp-field" aria-hidden="true"></canvas>
+    <div class="wrap sp-hero__inner">
+      <p class="sp-eyebrow">Spark · gõ bằng giọng nói cho dân code</p>
+      <h1 class="sp-title">Giữ fn, nói, thả ra là có chữ.</h1>
+      <p class="sp-dek">Bạn nói tiếng Việt lẫn tiếng Anh như lúc làm việc. Spark viết lại thành câu gọn và dán vào chỗ con trỏ: Cursor, VS Code, Terminal, Slack hay ô chat của Claude.</p>
+      <div class="sp-cmd">
+        <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
+        <button class="sp-copy" type="button">Copy</button>
+      </div>
+      <p class="sp-meta">Dán vào Terminal. Mac chip Apple · 133 MB · miễn phí, mã nguồn mở.</p>
+      <p class="sp-alt">
+        <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">Tải file .dmg</a><span>·</span><a href="#windows">Windows (thử nghiệm)</a><span>·</span><a href="https://github.com/VuongNM/spark">Mã nguồn</a>
+      </p>
+    </div>
+  </header>
+
+  <section class="wrap" aria-label="Ví dụ">
+    <figure class="sp-screen">
+      <div class="sp-term" aria-hidden="true">
+        <div class="sp-line"><span class="dim">~/code/api</span> <span class="ok">main</span></div>
+        <div class="sp-line"><span class="dim">❯ </span><span class="sp-typed"></span><span class="sp-caret"></span></div>
+      </div>
+      <div class="sp-bubble" aria-hidden="true"><canvas></canvas><span></span></div>
+    </figure>
+    <dl class="sp-steps">
+      <div><dt>Bạn nói</dt><dd>fix cái bug ở file index chấm ts rồi commit và push lên branch main nhé</dd></div>
+      <div><dt>Bộ nhận giọng nghe được</dt><dd class="raw">PHÍCH CÁI BẮP Ở FILE INDEX CHẤM TS RỒI COMMIT VÀ TÚT LÊN BỜ RAN MAY NHÉ</dd></div>
+      <div><dt>Spark dán vào</dt><dd class="out">Fix cái bug ở file index.ts rồi commit và push lên branch main nhé.</dd></div>
+    </dl>
+    <p class="sp-caption">Chạy thật trên MacBook M1, không cần mạng: giọng đọc tiếng Việt của macOS, dọn chữ bằng Gemma 4 ngay trên máy. Nghe mất 0,12 giây, viết lại mất 1 giây.</p>
+  </section>
+
+  <section class="wrap sp-section">
+    <h2>Cách dùng</h2>
+    <ol class="sp-how">
+      <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Một bong bóng nhỏ hiện ở đáy màn hình, chạy chữ theo lời bạn.</p></li>
+      <li><h3>Thả phím</h3><p>Khoảng một giây sau, câu đã sửa nằm ngay chỗ con trỏ, ở app nào cũng được.</p></li>
+      <li><h3>Nói dài thì nhấn đúp</h3><p>Nhấn <kbd>fn</kbd> hai lần để nói rảnh tay. Nhấn thêm lần nữa để dừng và dán.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap sp-section">
+    <h2>Viết cho dân code</h2>
+    <div class="sp-facts">
+      <div>
+        <h3>Hiểu tiếng Anh trong câu tiếng Việt</h3>
+        <p>Deploy, commit, merge, pull request, endpoint, staging… Bộ nhận tiếng Việt nghe "com mít" thì Spark viết lại thành commit. Một mô hình tiếng Anh nhỏ nghe song song để bắt những từ bạn phát âm chuẩn.</p>
+      </div>
+      <div>
+        <h3>Giữ đúng tên file và lệnh</h3>
+        <p>Trong Cursor, VS Code, Terminal, iTerm, Ghostty, Zed hay JetBrains, Spark giữ nguyên tên file, tên hàm và lệnh. Nói "index chấm ts" là ra <code>index.ts</code>.</p>
+      </div>
+      <div>
+        <h3>Nhận giọng chạy trên máy</h3>
+        <p>Zipformer tiếng Việt (30 triệu tham số, qua sherpa-onnx) đọc 5 giây âm thanh trong khoảng 0,1 giây trên CPU. Âm thanh không rời máy bạn.</p>
+      </div>
+      <div>
+        <h3>Chọn cách viết lại</h3>
+        <p>Gemma 4 chạy ngay trên Mac: miễn phí, không cần mạng, tải thêm 3,1 GB. Hoặc Claude Haiku bằng khoá API của bạn: chính xác hơn, khoảng 1 giây. Chưa chọn thì Spark chỉ thêm dấu câu.</p>
+      </div>
+      <div>
+        <h3>Không bịa thêm</h3>
+        <p>Spark so câu viết lại với lời bạn nói. Mô hình thêm ý hay đổi con số thì Spark bỏ kết quả đó, nhờ Claude làm lại hoặc chỉ dọn cơ bản.</p>
+      </div>
+      <div>
+        <h3>Từ điển của riêng bạn</h3>
+        <p>Thêm tên dự án, tên đồng nghiệp, thuật ngữ nội bộ và cách máy hay nghe nhầm chúng. Spark viết đúng từ lần sau.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sp-section" id="cai-dat">
+    <h2>Cài đặt</h2>
+    <div class="sp-install">
+      <div>
+        <h3>macOS<span class="tag">Mac chip Apple (M1 trở lên)</span></h3>
+        <div>
+          <p>Dán vào Terminal:</p>
+          <pre class="sp-code">curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</pre>
+          <p>Script tải bản mới nhất từ <a href="https://github.com/VuongNM/spark/releases">GitHub Releases</a>, chép Spark vào /Applications rồi mở app. Chạy lại để cập nhật. <a href="/spark/install.sh">Đọc script</a> trước khi chạy.</p>
+          <p>Thích tải bằng trình duyệt thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa ký bằng tài khoản Apple Developer nên lần đầu mở, macOS sẽ chặn. Vào Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật, bấm “Vẫn mở”. Hoặc chạy:</p>
+          <pre class="sp-code">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
+        </div>
+      </div>
+      <div>
+        <h3>Lần đầu mở</h3>
+        <div>
+          <p>Spark tải bộ nhận giọng (khoảng 80 MB) rồi xin quyền:</p>
+          <ul>
+            <li><strong>Micro</strong>: để nghe, chỉ trong lúc bạn giữ phím.</li>
+            <li><strong>Trợ năng</strong> (Accessibility): để đọc phím fn và dán chữ vào app đang mở.</li>
+            <li><strong>Input Monitoring</strong>, nếu macOS hỏi: Spark chỉ nghe phím fn, không ghi lại phím nào khác.</li>
+          </ul>
+          <p>Nhấn fn mà macOS mở bảng emoji? Vào Cài đặt hệ thống → Bàn phím, chọn “Nhấn phím 🌐 để” là Không làm gì.</p>
+          <p>Muốn câu viết gọn hơn, vào Cài đặt trong Spark: tải Gemma 4 hoặc dán khoá API của Claude.</p>
+        </div>
+      </div>
+      <div id="windows">
+        <h3>Windows<span class="tag">Thử nghiệm · Windows 10, 11</span></h3>
+        <div>
+          <p>Dán vào PowerShell:</p>
+          <pre class="sp-code">irm https://vuongnm.github.io/spark/install.ps1 | iex</pre>
+          <p>Giữ <kbd>Ctrl</kbd> bên phải để nói. Bản Windows được build tự động nhưng chưa thử kỹ trên máy thật. Gặp lỗi thì <a href="https://github.com/VuongNM/spark/issues">báo trên GitHub</a> giúp mình.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Tự build</h3>
+        <div>
+          <pre class="sp-code">git clone https://github.com/VuongNM/spark.git
+cd spark
+npm ci
+npm run build:native   <span class="c"># phím fn trên macOS, cần Xcode Command Line Tools</span>
+npm run dev</pre>
+          <p>Electron, React và TypeScript. Giấy phép MIT.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Gỡ cài đặt</h3>
+        <div>
+          <pre class="sp-code">rm -rf /Applications/Spark.app ~/Library/Application\ Support/Spark</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sp-section">
+    <h2>Hỏi đáp</h2>
+    <div class="sp-faq">
+      <details>
+        <summary>Spark có gửi giọng nói của tôi đi đâu không?</summary>
+        <p>Không. Nhận giọng chạy trên máy. Khi bạn chọn Claude để viết lại, Spark gửi phần chữ đã nghe được (không gửi âm thanh) tới Anthropic bằng khoá của bạn. Lịch sử chỉ lưu trên máy, xoá được trong app.</p>
+      </details>
+      <details>
+        <summary>Sao macOS cảnh báo khi mở file .dmg?</summary>
+        <p>Muốn macOS mở thẳng, app phải được ký và gửi Apple kiểm tra qua tài khoản Apple Developer (99 USD một năm). Spark chưa làm bước đó. Mã nguồn để công khai, bạn đọc hoặc tự build được.</p>
+      </details>
+      <details>
+        <summary>Sao cài bằng lệnh curl thì không bị chặn?</summary>
+        <p>Trình duyệt gắn cờ “tải từ Internet” vào file, và macOS kiểm tra những file có cờ đó. curl không gắn cờ này. Script chỉ khoảng 40 dòng, bạn nên đọc trước khi chạy.</p>
+      </details>
+      <details>
+        <summary>Có cần mạng không?</summary>
+        <p>Chỉ để tải mô hình lần đầu và khi dùng Claude. Với Gemma, Spark chạy hoàn toàn offline.</p>
+      </details>
+      <details>
+        <summary>Có mất tiền không?</summary>
+        <p>Spark miễn phí. Nếu dùng Claude, Anthropic tính phí vào khoá API của bạn.</p>
+      </details>
+      <details>
+        <summary>Máy cần mạnh cỡ nào?</summary>
+        <p>Mac chip Apple nào cũng chạy được. Gemma dùng thêm khoảng 2 GB RAM trong lúc Spark mở, nên máy 8 GB nên dùng Claude.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="wrap sp-end">
+    <h2>Thử ngay</h2>
+    <div class="sp-cmd">
+      <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
+      <button class="sp-copy" type="button">Copy</button>
+    </div>
+  </section>
+</article>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Copy buttons
+  document.querySelectorAll('.sp-cmd').forEach(function (box) {
+    var btn = box.querySelector('.sp-copy');
+    btn.addEventListener('click', function () {
+      var text = box.querySelector('code').textContent;
+      var done = function () { btn.textContent = 'Đã copy'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+      else { var r = document.createRange(); r.selectNodeContents(box.querySelector('code')); getSelection().removeAllRanges(); getSelection().addRange(r); }
+    });
+  });
+
+  // Value noise, the same idea as the app's bit field: soft patches of dots drifting slowly.
+  function hash(x, y, z) { var h = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453; return h - Math.floor(h); }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function noise(x, y, z) {
+    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+    var xf = smooth(x - xi), yf = smooth(y - yi), zf = smooth(z - zi);
+    function l(a, b, t) { return a + (b - a) * t; }
+    var v = [];
+    for (var k = 0; k < 2; k++) for (var j = 0; j < 2; j++) for (var i = 0; i < 2; i++) v.push(hash(xi + i, yi + j, zi + k));
+    return l(l(l(v[0], v[1], xf), l(v[2], v[3], xf), yf), l(l(v[4], v[5], xf), l(v[6], v[7], xf), yf), zf);
+  }
+
+  // A dot field on a canvas. energy (0–1) lights more dots and speeds the drift.
+  function field(canvas, opts) {
+    var ctx = canvas.getContext('2d'), w = 0, h = 0, dpr = 1;
+    function fit() {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    }
+    fit();
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(canvas);
+    var flow = 0, t = 0, f = { energy: 0, want: 0 };
+    f.draw = function (dt) {
+      t += dt;
+      f.energy += (f.want - f.energy) * Math.min(1, dt * (f.want > f.energy ? 10 : 3));
+      flow += dt * (0.04 + f.energy * 0.6);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      var p = opts.pitch, cols = Math.ceil(w / p), rows = Math.ceil(h / p);
+      var cut = 0.56 - 0.2 * f.energy;
+      for (var r = 0; r <= rows; r++) {
+        var fade = opts.fade ? opts.fade(r * p / h) : 1;
+        if (fade <= 0) continue;
+        for (var c = 0; c <= cols; c++) {
+          var n = noise(c * opts.scale, r * opts.scale - flow, t * 0.08);
+          var g = (n - cut) / (1 - cut);
+          if (g <= 0) continue;
+          var a = Math.min(1, g * 1.6) * fade * opts.alpha;
+          ctx.fillStyle = 'rgba(' + opts.rgb + ',' + a.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(c * p + p / 2, r * p + p / 2, opts.radius * (0.6 + g * (0.8 + f.energy * 0.6)), 0, 6.283);
+          ctx.fill();
+        }
+      }
+    };
+    return f;
+  }
+
+  var heroCanvas = document.querySelector('.sp-field');
+  var hero = field(heroCanvas, { pitch: 14, scale: 0.075, rgb: '15,42,107', alpha: 0.32, radius: 1.5,
+    fade: function (y) { return Math.max(0, 1 - y * 1.15); } });
+  var bubbleEl = document.querySelector('.sp-bubble');
+  var bubble = field(bubbleEl.querySelector('canvas'), { pitch: 5, scale: 0.12, rgb: '255,140,128', alpha: 0.75, radius: 0.9 });
+  var bubbleText = bubbleEl.querySelector('span');
+  var typed = document.querySelector('.sp-typed');
+
+  var heard = 'phích cái bắp ở file index chấm ts rồi commit và tút lên bờ ran may nhé'.split(' ');
+  var final = 'Fix cái bug ở file index.ts rồi commit và push lên branch main nhé.';
+
+  if (reduce) {
+    typed.textContent = final;
+    hero.draw(0.016);
+    return;
+  }
+
+  // The demo loop: wait, talk (words stream into the bubble), write, paste, rest.
+  var phase = 'wait', at = 0, shown = 0;
+  function set(p) { phase = p; at = 0; }
+  function step(dt) {
+    at += dt;
+    if (phase === 'wait' && at > 1.4) { set('talk'); shown = 0; bubbleText.textContent = ''; bubbleEl.className = 'sp-bubble is-on'; typed.textContent = ''; }
+    else if (phase === 'talk') {
+      var want = Math.min(heard.length, Math.floor(at / 0.26));
+      if (want > shown) { shown = want; bubbleText.textContent = heard.slice(0, shown).join(' '); }
+      // a little swell on each word, like a voice
+      var syll = (at / 0.26) % 1;
+      bubble.want = hero.want = 0.35 + 0.55 * Math.max(0, 1 - syll * 2.2);
+      if (at > heard.length * 0.26 + 0.4) { set('write'); }
+    }
+    else if (phase === 'write') {
+      bubble.want = 0.4; hero.want = 0.25;
+      if (at > 0.9) { set('paste'); typed.textContent = final; bubbleEl.className = 'sp-bubble is-on is-done'; bubble.want = 0.6; }
+    }
+    else if (phase === 'paste') {
+      bubble.want = hero.want = 0;
+      if (at > 0.5) bubbleEl.className = 'sp-bubble';
+      if (at > 4.2) set('wait');
+    }
+  }
+
+  var visible = true, last = 0, acc = 0;
+  if (window.IntersectionObserver) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(document.querySelector('.sp'));
+  function frame(now) {
+    var dt = Math.min(0.1, (now - (last || now)) / 1000); last = now;
+    acc += dt;
+    if (visible && !document.hidden && acc >= 1 / 30) {
+      step(acc);
+      hero.draw(acc);
+      if (bubbleEl.classList.contains('is-on')) bubble.draw(acc);
+      acc = 0;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
