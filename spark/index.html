@@ -49,7 +49,7 @@ permalink: /spark/
     border-radius: var(--r-lg); background: var(--bg-alt); box-shadow: var(--shadow-card);
   }
   .sp-term {
-    min-height: 240px; padding: 22px 24px 96px; border-radius: 18px; background: #fff;
+    min-height: 190px; padding: 22px 24px 84px; border-radius: 18px; background: #fff;
     border: 1px solid var(--line); font: 15px/1.7 var(--mono); color: var(--ink); text-align: left;
   }
   .sp-term .dim { color: var(--muted); }
@@ -81,7 +81,7 @@ permalink: /spark/
   .sp-steps .out { font: 400 19px/1.4 var(--serif); }
   .sp-caption { max-width: 880px; margin: 14px auto 0; font-size: 14px; color: var(--muted) !important; }
 
-  .sp-section { max-width: 880px; margin: clamp(72px, 10vw, 128px) auto 0; }
+  .sp-section { max-width: calc(880px + 2 * var(--gutter)); margin: clamp(72px, 10vw, 128px) auto 0; }
   .sp-section > p { max-width: 38em; margin-top: 14px; font-size: 18px; }
 
   .sp-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; counter-reset: how; }
@@ -95,6 +95,7 @@ permalink: /spark/
 
   .sp-install { margin-top: 28px; border-top: 1px solid var(--line); }
   .sp-install > div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .sp-install > div > div { min-width: 0; }
   .sp-install h3 { font: 400 24px/1.2 var(--serif); letter-spacing: -.01em; }
   .sp-install .tag { display: block; margin-top: 4px; font: 600 13px/1.4 var(--sans); color: var(--muted); }
   .sp-install p + p, .sp-install p + pre, .sp-install pre + p, .sp-install ul + p { margin-top: 12px; }
@@ -124,7 +125,7 @@ permalink: /spark/
   @media (max-width: 760px) {
     .sp-steps, .sp-how, .sp-facts { grid-template-columns: 1fr; }
     .sp-install > div { grid-template-columns: 1fr; gap: 10px; }
-    .sp-term { min-height: 210px; padding: 18px 18px 90px; font-size: 14px; }
+    .sp-term { min-height: 170px; padding: 18px 18px 80px; font-size: 14px; }
     .sp-cmd pre { padding-left: 20px; font-size: 13.5px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -301,7 +302,8 @@ npm run dev</pre>
 
 <script>
 (function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ?motion plays the demo even with Reduce Motion on (for checking the animation).
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion\b/.test(location.search);
 
   // Copy buttons
   document.querySelectorAll('.sp-cmd').forEach(function (box) {
@@ -329,14 +331,16 @@ npm run dev</pre>
   // A dot field on a canvas. energy (0–1) lights more dots and speeds the drift.
   function field(canvas, opts) {
     var ctx = canvas.getContext('2d'), w = 0, h = 0, dpr = 1;
+    var flow = 0, t = 0, f = { energy: 0, want: 0 };
+    // Resizing a canvas clears it, so draw the current frame again right away.
     function fit() {
       dpr = Math.min(2, window.devicePixelRatio || 1);
       w = canvas.clientWidth; h = canvas.clientHeight;
       canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      if (f.draw) f.draw(0);
     }
     fit();
     if (window.ResizeObserver) new ResizeObserver(fit).observe(canvas);
-    var flow = 0, t = 0, f = { energy: 0, want: 0 };
     f.draw = function (dt) {
       t += dt;
       f.energy += (f.want - f.energy) * Math.min(1, dt * (f.want > f.energy ? 10 : 3));
