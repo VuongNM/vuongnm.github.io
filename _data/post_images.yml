@@ -60,7 +60,7 @@
 "/absort/":
   alt: A chart of overlapping bell curves, one for each A/B test variant
 "/kmeans/":
-  alt: "The two-buttons meme: a sweating man can't decide which red button to press"
+  alt: "The two-buttons meme: a sweating man can't decide between the buttons labeled to scale and not to scale"
 "/quantized-space-svm/":
   alt: Two scatter plots of the two-moons dataset, the second shaded by an SVM's decision regions
 "/predict/":

@@ -4,117 +4,75 @@ title: Match your forecast with your plan, bayesian style
 excerpt: Manage your inventory with science, find out now!
 ---
 
+Your forecast says one thing, and finance's plan says a smaller number. How do you shrink a forecast for hundreds of products so it adds up to exactly the plan, without wrecking it? Here's a simple Bayesian way, told as a story first and then with the details.
 
+## The story
 
-The COVID pandemic is inching to an end, but its effects on the global economy are still a painful ache. Retailers across the globe (checkmate flat earther!) are having a seizure looking at their drop-dead sales timeseries. Something like this:
-
+The COVID pandemic is inching to an end, but its effects on the global economy are still a painful ache. Retailers across the globe (checkmate, flat earthers!) are having a seizure looking at their drop-dead sales timeseries. Something like this:
 
 ![image](/images/dead.png ){: width="200" }
-
-
-
-
-
-
 
 Okay, maybe not like that, but more like this:
 
 ![image](/images/pandemic_sale.png )
 <center><em>Merchandise spending declines in the US during Covid, credit to World Economic Center.</em></center>
 
+At a retailer called Everything On Sale, the conversation goes like this:
 
+Alice: Here's our problem. How do we adjust our financial outlook to this new reality, and how do we cut our inventory to match the money we actually have?
 
+Bob: Cut every product down to, say, 60% of its units?
 
+Alice: Good point, but what about products with only 1 unit in the forecast? Or anything that doesn't come out as a whole number, for that matter?
 
+Bob: Okay, we have plenty of SKUs. Let's drop some and keep some.
 
-At one retailer named Everything On Sale, here's how the conversation goes:
+Alice: Clever. We can choose which ones to keep by their sales. Let's keep the ones that sell more!
 
+Bob: Perfect! But it still has to add up to the plan: 234 units, from Chad in finance.
 
+Alice: How about giving every product an equal share of the total?
 
-Alice: Now the problem for us retailers is: how do we adjust the financial outlook to this new timeline, and how do we adjust our inventory outlook to match the amount of money we have ?
+Bob: Doesn't work, our sales don't look like that. Diapers sell way more units than the Mama Recreational Massage Device! We'd run out of diapers and sit on a pile of unsold MRMDs...
 
-Bob: Cut every product down, say, 60% of units ?
+And then gospel music plays, and down comes Deacon, a fanatic from the church of Bayesian across the street. Deacon says:
 
-Alice: Good point, but how do we handle the products with only 1 unit in the forecast (or anything that's not an integer, for that matter) ?
+Hear me, children! Randomly sample your units, based on each product's share of sales.
 
+The prophecy strikes their ears. Bob and Alice are in awe, and ask Deacon for the sauce.
 
-Bob: Okay we have plenty of skus, let's drop some and keep some.
+Deacon covers the board in mathematical squiggles that look like worms on sand (integrals and such), symbols that don't spell any word Bob and Alice know. They believe anyway.
 
-Alice: Clever, we can choose which one to keep based on their sale number. Let's keep the ones with higher sales!
-
-Bob: Perfect! But the question still remains: how do we make it match the plan of selling 234 units, coming from Chad at finance ?
-
-Alice: How about giving each product an equal fraction of the total sale ?
-
-Bob: Does not work, our sales don't look like that. See, diapers sell a lot more units than Mama Recreational Massage Device! We will end up with an empty stock of diapers and a lot of unsold MRMD...
-
-
-
-
-
-And then gospel music plays, and down comes Deacon, a fanatic from the church of Bayesian across the street. Deacon said:
-
-Hear me children! You can randomly sample units, based on the sale ratio of each product. 
-
-The prophecy struck their ears. Bob and Alice exploded. They are in awe, asking Deacon for the sauce. 
-
-
-
-Deacon draws mathematical squiggles on the board, dazzling Alice and Bob. The board is full of drawings like worms on sand (integrals and such), characters that do not constitute any word, very strange to Bob and Alice. However, they still believe.
-
-
-The church of Bayesian, unlike other churches, has their beliefs in working order with their theories. That's why it's spreading faster than Toronto sewage steam on a cold day. 
-
-
-
+Unlike other churches, the church of Bayesian has beliefs that actually work in practice. That's why it's spreading faster than Toronto sewage steam on a cold day.
 
 ![image](/images/toronto_wake_up.jpg )
 <center><em>Toronto this morning, nicer when you don't see the sewage system.</em></center>
 
-
-
-
-
-Vincent, as a practical Bayesian bible reader, [translates](mailto:vuongnguyen710@gmail.com) the squiggles into Bob and Alice's language of the big squiggling animal (Python). And then he took Bob and Alice out to lunch and told them more about his prior beliefs.
-
-
+Vincent, a practical reader of the Bayesian bible, [translates](mailto:vuongnguyen710@gmail.com) the squiggles into the language of the big squiggly animal (Python) for Bob and Alice. Then he takes them out to lunch and tells them more about his prior beliefs.
 
 End of story!
 
+## The method
 
+Say you have N products, each with a sales forecast for next month, and you need the forecasts to add up to an exact total. How do you split that total between the products?
 
+1. Turn each product's forecast into a share: its forecast divided by the sum of all forecasts.
+2. Treat those shares as the probabilities of a Categorical distribution.
+3. Draw units from that distribution, one at a time, until you reach the total.
+4. Count how many units each product got. That's the new forecast.
 
+Products that sell a lot get most of the units, products that sell a little get a few, and the result always adds up to the plan, in whole units. The shape of your sales doesn't matter. Often a few products take most of the sales and the rest get crumbs, but your shape may differ, and the algorithm works the same.
 
+## Why it works
 
-Okay, here are more technical details of the method. Let's say that we have an assortment of N products. Each with a certain forecast of sales next month. The problem is how do we take those forecasts and adjust them to match an exact grand total number. 
+Behind the method is this model of how the data is generated:
 
-The question now is: How do we allocate this amount of sales to each of our product ? 
+- __Each product's share of sales follows a Dirichlet distribution D(V)__, where V is a vector of size N holding the sales of each product. The usual weak prior is a vector of ones. You can go weaker with a vector of 1/2 (the Jeffreys prior) or zeros (the Haldane prior).
+- __The likelihood is Categorical__: each unit sold goes to one product.
+- __The posterior is again a Dirichlet, D(V')__, because the Dirichlet is conjugate to the Categorical. The elements of V' are the sales of each product after scaling.
 
-We can do this by resampling the sales, taking normalized sales as sampling probabilities. This can be modeled as a Categorical distribution. We will draw random samples from this distribution until we reach our total goal.  
+The choice of prior matters more than you'd think. In practice, many products have a forecast of zero, so they never get sampled. Adding 1 to every forecast (to every element of V) gives them a small chance to show up. That's the same as using a uniform prior, Dirichlet(__1__).
 
-Anecdote: The distribution could have any shape. Many times we see sales concentrated in a small number of products, with little going to the others. But your shape of distribution may vary. The algorithm works the same. 
+## How well it works
 
-
-
-The theoretical data generating process as background for this method is as follows:
-- __We assume sales across the assortment is a Dirichlet distribution D(V)__, where V is a vector of size N, each element of V is the number of sales for each product. Generally, a Dirichlet prior uses a vector of ones as a weak prior. We can choose an even weaker prior like a vector of 1/2 (Jeffrey) or zeros (Haldane prior). 
-
-- __The likelihood is a Categorical distribution__ 
-
-- __The posterior is a Dirichlet D(V')__ , as a consequence of conjugation with the Categorical likelihood. The elements in vector V' are now the sale of each product after scaling.
-
-
-I've tested this method against others like in the goofy conversation above. Evidence so far shows that it produces a new distribution closest to the original, based on Kullback-Leibler divergence. However, I don't have any formal proof for it yet. The theoretical question is still: How do we find a distribution of sale that is the most similar to another, subject to a constraint. In this case, the constraint is that the total sale has to match a certain number.
-
-
-
-The choice of priors for the Dirichlet is quite interesting. In practice, many products have zero in their original distribution (the forecast). And by that, it will not be resampled by the method. Adding 1 to each number (of the forecast, or the vector V) gives it a little chance to show up in the sampling process. This is equal to the Uniform prior, or Dirichlet (__1__).
-
-
-
-
-
-
-
-
-
+I tested this against the other ideas from the goofy conversation above. So far, it produces the new distribution closest to the original, measured by Kullback-Leibler divergence. I don't have a formal proof yet. The open theoretical question is: how do you find the distribution of sales closest to another one, when the total has to match a fixed number?

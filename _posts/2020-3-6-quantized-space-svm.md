@@ -1,52 +1,35 @@
 ---
 layout: post
 title: Quantized space SVM
+excerpt: Bin your data before training a kernel SVM. You keep the decision boundary and drop most of the points.
 ---
 
+Kernel SVMs are lovely until your dataset gets big. Training one compares every pair of points, so the work and the memory both grow as O(n^2). With 100,000 points, that gives you a headache.
 
+In this post (and its [notebook](https://github.com/VuongNM/featurebinning/blob/master/featbin.ipynb)), I shrink the dataset with feature binning before training, and the SVM barely notices.
 
 ![image](/images/output_6_2.png )
-<center> SVM (right) on a synthetic dataset consisting of 100000 samples, moderate noise and 2 classes. </center>
+<center><em>Left: a synthetic two-class dataset with 100,000 points and moderate noise. Right: the kernel SVM trained on all of them.</em></center>
 
+## The idea
 
+Cut the feature space into buckets (bins). Every sample that lands in the same bucket gets replaced by one representative point: the bucket itself, or the average of the samples in it. If your SVM implementation supports sample weights, use the number of samples in each bucket as the weight.
 
-The original SVM calculates n^2 pairwise distances between datapoints, and in the case of Kernel SVM, it's n^2 pairwise kernel distances. Memory consumption is also O(n^2). 
+Instead of n points, you now train on at most one point per occupied bucket and class. That's a drastic reduction.
 
-It would give you a headache.
+You do pay for it: the density of the binned samples is no longer the density of the original data. But an SVM cares about the decision boundary, not the density, so for this job the trade is worth it.
 
-This notebook demonstrates the use of Feature Binning as a way to uniformly subsample the dataset, applied to kernel SVM. 
+## Doing it with KBinsDiscretizer
 
+Sklearn's `KBinsDiscretizer` does the binning. With 100 bins per feature, the 100,000 samples shrink to roughly 5,000.
 
-
-The general idea is to put samples into buckets (bins), and use the bucket or the bucket average as the representative value for all of the samples in that bucket. The number of points that fall into each bin can be used as sample weights, if the ML implementation supports it.
-
-
-The number of samples will be reduced drastically, from O(n^2) to worst case O(b\*k\*t) where b is the number of bins, k is the number of features, and t is the number of classes ( if it's classification problem).
-
-
-
-However, the binned samples' density will be altered for sure. But if you care about the decision boundary more than the actual density, then this is surely helpful.
-    
-
-
-
-
-**Now here comes the fancy thing: FeatureDiscretizer.**
-
-With 100 bins, the sample size reduced from 100k to roughly 5000, using ```KBinsDiscretizer``` from Sklearn. 
-
-
-There are several ways to obtain the bins; here I choose uniform (all buckets are the same size; you can also choose quantile, where all buckets have the same number of points). Notice how spread out the samples are. 
-
-
-
-
+There are a few ways to place the bins. I use uniform bins, where every bucket is the same size. (With quantile bins, every bucket holds the same number of points instead.) Uniform bins spread the remaining samples out evenly.
 
 ![image](/images/output_10_2.png )
-<center>See how evenly distributed the inner part of the point cloud is.</center>
+<center><em>The same data after binning: about 5,000 points on an even grid, and the SVM finds the same boundary.</em></center>
 
+Look at the inner part of the point cloud: the points now sit on an even grid, and the decision boundary on the right looks just like the one trained on all 100,000 points.
 
-Note that this method doesn't work well out of the box with density-based methods like GaussianProcess etc. Density estimates from this method aren't guaranteed to be correct. I bet there are weighting tricks to make it match :)
+## When not to use it
 
-
-Check out the notebook [here](https://github.com/VuongNM/featurebinning/blob/master/featbin.ipynb).
+This doesn't work out of the box with methods that rely on density, like Gaussian Processes. Binning changes the density, so density estimates from the binned data can be wrong. I bet there are weighting tricks to fix that :)
