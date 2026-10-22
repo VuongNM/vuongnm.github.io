@@ -4,7 +4,7 @@
 {%- else -%}{%- assign doc_title = author | append: " — " | append: site.description -%}{%- endif -%}
 {%- assign description = page.excerpt | default: page.description | default: site.description | strip_html | normalize_whitespace | strip | truncate: 180 -%}
 <!DOCTYPE html>
-<html lang="en" data-baseurl="{{ site.baseurl }}">
+<html lang="{{ page.lang | default: "en" }}" data-baseurl="{{ site.baseurl }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
