@@ -2,7 +2,7 @@
 layout: post
 title: Vì sao mình làm Spark
 lang: vi
-date: 2026-10-22 13:00:00 +0700
+date: 2026-10-22 12:45:00 +0700
 excerpt: Nói "cơ mít", ra chữ commit. Mít để dành ăn.
 ---
 
