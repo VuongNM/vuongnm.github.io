@@ -19,11 +19,6 @@
   fit: cover
   lines: ["What I talk about", "when I talk about trees."]
   blurb: Pruning, forests and boosting, and why the best tuning advice is to really learn the trees.
-"/readmypdf-2024/":
-  photo: photo-1728931710024-c015ea8f4414
-  alt: A woman in a white sweater reads a book by a bright window
-  by: Kelly Sikkema
-  credit: https://unsplash.com/photos/woman-reading-book-in-cozy-nook-FzvVv0G3hgQ
 "/pairwise/":
   alt: Histograms of pairwise distances, shifting right as the number of dimensions grows
 "/mltests/":
