@@ -1,40 +1,55 @@
 ---
 layout: post
 title: On kaggle public - private leaderboard
-excerpt: Kaggle's public leaderboard is either redundant or a leak. Here's why, and what I'd do instead.
 ---
 
-On Kaggle, you see your score on a public leaderboard during the competition, and the final ranking comes from a private one at the end. I think the public leaderboard does more harm than good. To see why, start with what a test set is for.
+One of the goals of building a machine learning model is to accurately predict the future. 
 
-## What train and test sets are for
+Since the future is unknown, we machine learning practitioners try to simulate the task in an environment, collecting data that is as informative as possible, building the model that we think is best.
 
-The point of a machine learning model is to predict the future. The future is unknown, so we simulate it: we collect data that is as informative as possible and build the model we think is best.
 
-The **trainset** should hold everything the model (and you) should know about the data: the feature types and the distribution you can observe. How big and how complete it needs to be depends on the task and on how much the model has to generalize.
 
-The **testset**, as the name says, tests the model. What it tests depends on the setting:
+**The purpose of train and test set**
 
-- Can the model extrapolate from a partial trainset into the unknown? On Kaggle, almost always yes.
-- How fast does it run, and how easy is it to deploy? On Kaggle, usually no. In the real world, yes.
+The trainset should represent everything that the model and the practitioner should know about the data, the features types, its observable distribution. Depending on the task and how much generalization is needed, the size and wholeness of the data distribution should be considered. 
 
-Because the testset stands in for the unknown, every time you evaluate against it, it gets a little less useful as a test.
 
-The same goes for your validation set. If you deliberately make it look like the testset, you undermine the testset and the whole exercise. How do you make something look like a thing you don't know? You're not supposed to know the test set.
+The testset, as in the name, is a test of the model's abilities. 
 
-## Why the public leaderboard isn't that useful
+Do we need to test the ability to extrapolate from the partial trainset into the unknown? In Kaggle context, most probably yes. 
 
-The train and test sets are usually split at random, or by some index like time or location. The public leaderboard sits somewhere in between, and that's the problem:
 
-- If the public test data looks like the trainset, it's redundant.
-- If it reveals something about the private test data, it's a leak. It undermines the whole point of having unseen data. (Whether that leak is acceptable is the organizer's call.)
-- If it looks like neither, you get big shakeups at the end and a lot of disappointed people.
+Do we need to test the performance of the model, how fast it should run, how easy it is to deploy? For Kaggle, usually no. In real world, yes.
 
-On top of that, a leaderboard you can probe for free rewards trial and error. I agree it works. But it discourages rigorous, well thought out approaches.
 
-## What I'd do instead
+Since the testset represents the unknown, evaluating the model multiple times against it reduces its usefulness as a test set.
 
-Get rid of the public leaderboard altogether. All you get, folks, is the trainset. That puts the responsibility on the organizer to build a train and test set that make sense.
 
-It would also take away some of the thrill: the feeling of competing, and the self-gratification of beating other teams.
+The construction of the model validation set should be considered thoroughly. Purposefully making the validation set look like the testset undermines the testset itself, and undermines the task of building the model (how do you make something look like something you don't know? In this case, you're not supposed to know the test set).
 
-A middle ground is round-based evaluation, say, once a week. That cuts down the probing and pushes competitors toward more scientific solutions. When evaluations are expensive, people spend them more wisely.
+
+
+**Kaggle Public leaderboard is not that useful**
+
+
+In the general sense, trainset and testset are randomly split, or is sampled based on some index (time, or space or whatever).
+
+
+If the public testset is akin to the trainset, then it's redundant. And if the public testset reveals something about the private one, then it's leakage, in the sense that it undermines the true purpose of the (unseen data) testset. 
+
+It's up to the organizer to decide whether the leakage is desirable or not. 
+
+Also, when the public leaderboard testset does not look like the train or test set, the discrepancy creates shakeups and huge disappointment at the end of the day.
+
+This free-to-probe leaderboard data also encourages a trial-and-error kind of approach. I agree that it works. But it also discourages the development of rigorous and well thought out approaches. 
+
+
+
+**Solutions**
+
+Get rid of the public leaderboard altogether. All you got there folks is the trainset. That places a big responsibility on the organizer's shoulders to construct a train and test set that makes sense. 
+
+Also, doing so reduces the thrill, the feel of competing and the self-gratification of beating other teams. 
+
+A suggestion would be doing round-based evaluation, say, each week of the competition. That would reduce the probing effect and force competitors to be more scientifically constructive in their solution. When evaluation is expensive, the competitor will spend them more wisely.
+

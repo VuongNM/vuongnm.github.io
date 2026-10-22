@@ -1,46 +1,71 @@
 ---
 layout: post
 title: Quantized space SVM with entropy based sampling
-excerpt: Pick the points to train an SVM on by the entropy of the space around them. 500 points do the job of 100,000.
+<!-- excer  pt: Choosing points to train SVM by using entropy of space around it. -->
 ---
 
 ![image](/images/quantized-kernel-svm.png )
-<center><em>Training an SVM on a much smaller dataset, sampled from the original using entropy.</em></center>
+<center> <em>Training SVM on a much smaller dataset sampled from the original, using entropy</em> </center>
 
-This is part 2 of my series on representing points with a quantized space. In [part 1](/quantized-space-svm/), I trained an SVM on binned samples and cut the training time by orders of magnitude. Here I push it to the extreme: how few points can the SVM get away with?
+This is part 2 of the series on using quantized space as representation of points. In the first post, we trained an SVM on quantized samples and successfully reduced the training time by orders of magnitude. In this post, we take further steps and reduce the quantized sample points to an extreme. 
 
-## Why an SVM can afford to drop points
 
-An SVM's decision boundary is shaped mostly by the points close to it. The further a point is from the boundary, the less it matters. That's what makes SVMs robust.
+The idea behind training SVM on quantized sample space is that most of the influence to the decision boundary comes from points close to the decision boundary (DB) itself. The further a point is from the DB, the less likely it is to be important. This is the robustness of SVM. 
 
-Not every model works like this. Logistic regression, and other models trained with gradient descent, listen to every point, so outliers can push them around easily.
 
-So if I can find the points near the boundary and keep mostly those, I can throw the rest away. The question is how to find them without training the SVM first. That's one of the most fundamental questions for SVMs: which datapoints to train on.
+This property is special to SVM. Other methods such as Logistic Regression (or other Gradient Descent methods ) don't have this. They're easily influenced by outliers.
 
-## Entropy finds the boundary
 
-Entropy measures how mixed a distribution is. It's lowest when everything is the same, and highest when everything has an equal share. From an information theory point of view, it's the amount of information you need to encode that distribution.
 
-Now cut the space into cells and look at the labels inside each one. A cell deep inside one class holds a single label, so its entropy is close to zero. A cell on the decision boundary holds both labels, so its entropy is high. That makes the entropy of the space around a point a good proxy for how much that point matters to the decision function.
 
-Another way to see it: imagine throwing away everything you know about the points in a cell and labeling all of them with the cell's most common label. The information you lose is the entropy. Near the boundary you lose a lot, so you should keep those points.
+# Using Entropy
 
-## The experiment
+Given a distribution, entropy measures how uniform it is. It has the least entropy when everything is the same, and has the most entropy when everything has an equal share. 
 
-I use sklearn's `KBinsDiscretizer` to cut the space into a grid of cells, then resample the points based on the entropy of their cell: the higher the entropy, the more likely a point gets picked. Cells with only one label get a small sampling probability, so a few points from the middle of each cloud still make it in.
+
+From an Information Theory perspective, entropy measures the amount of information I need to encode that distribution. 
+
+
+
+
+
+The important observation I have is that the space close to Decision Boundary has higher entropy. Thus, I can use entropy of the space around a point as a proxy to the importance of the point to the decision function. This is one of the most fundamental questions in SVM: choosing the datapoints.
+
+
+
+
+Another way to look at this is how much information I lose if I throw away all the information I have about points in this cell, and encoding everything with the most popular label. The lost information amounts to the entropy.
+
+
+
+
+# Experiments 
+
+Here, we use sklearn.FeatureDiscretizer to quantize the space into a grid of cells, then resample the points based on the entropy of the cell. The higher the entropy, the more likely it is to be chosen. The cells with total homogeneity are assigned a small sampling probability to make sure some of the points in the middle of the points cloud are included. 
+
+
+
 
 {:refdef: style="text-align: center;"}
 ![image](/images/svm-moon.png )
 {: refdef}
-<center><em>A kernel SVM on all 100,000 points. It takes a long time to train.</em></center>
+<center> <em>SVM on 100000 points Gaussian cloud, takes a long time to train</em> </center>
 
-Now the same kernel SVM on only 500 of those 100,000 points. The orange and teal dots are the sampled points.
+
+
+Results from the Kernel SVM with much fewer points. Here we sample 500 points out of 100000 points. The orange and teal points are the sampled data points. 
+
 
 ![image](/images/svm-moon-sampled.png )
-<center><em>The SVM on just 500 points. Most of the sampled points sit near the decision boundary.</em></center>
+<center> <em>SVM on only 500 points, near the decision boundary, we can see more points are sampled. </em> </center>
 
-## Notes
 
-You could compute the same entropy with a nearest neighbor method, but that's far more expensive, and the whole point here is to make SVMs faster.
 
-The method has two knobs: the width of the cells and the base sampling probability. You can tune both with cross validation. More on that later.
+
+
+We can use NearestNeighbor method to calculate the same entropy, but it's much more computationally expensive, given the objective is to speed up SVM.
+
+
+The parameters for this method are the width of the cells and the base sampling probability, and they can be tuned by CV. More on that later.
+
+
