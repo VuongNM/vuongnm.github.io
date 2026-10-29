@@ -409,9 +409,10 @@ npm run dev</pre>
   }
   examples.forEach(function (e) { e.rawParts = parts(e.raw); e.outParts = parts(e.out); });
 
+  // The first example is on screen from the start, so the card is never empty.
+  render(rawEl, examples[0].rawParts);
+  render(outEl, examples[0].outParts);
   if (reduce) {
-    render(rawEl, examples[0].rawParts);
-    render(outEl, examples[0].outParts);
     bubbleEl.className = 'sp-bubble is-on is-done';
     bubble.draw(0.016);
     hero.draw(0.016);
@@ -419,7 +420,7 @@ npm run dev</pre>
   }
 
   // The loop: listen (words stream in), write, show the result, then the next example.
-  var phase = 'start', at = 0, shown = 0, n = 0, ex = examples[0];
+  var phase = 'show', at = 0.7, shown = 0, n = 1, ex = examples[0];
   var WORD = 0.22;
   function set(p) { phase = p; at = 0; }
   function step(dt) {
