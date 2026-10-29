@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Spark
-description: Gõ bằng giọng nói cho dân code. Giữ fn, nói tiếng Việt lẫn tiếng Anh, thả ra là chữ được dán vào Cursor, VS Code hay Terminal. Nhận giọng chạy ngay trên Mac.
+description: Nói tiếng Việt chen tiếng Anh, Spark gõ lại thành câu rồi dán vào Cursor, VS Code, Terminal. Chạy ngay trên Mac, miễn phí, mã nguồn mở.
 lang: vi
 permalink: /spark/
 ---
@@ -90,8 +90,9 @@ permalink: /spark/
   .sp-how h3 { margin-top: 14px; }
   .sp-how p { margin-top: 6px; font-size: 15.5px; }
 
-  .sp-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 48px; margin-top: 32px; }
-  .sp-facts p { margin-top: 8px; font-size: 16px; }
+  .sp-story { max-width: 38em; margin-top: 22px; }
+  .sp-story p { font-size: 18px; line-height: 1.6; }
+  .sp-story p + p { margin-top: 14px; }
 
   .sp-install { margin-top: 28px; border-top: 1px solid var(--line); }
   .sp-install > div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
@@ -123,7 +124,7 @@ permalink: /spark/
   .sp-end .sp-cmd { margin-top: 24px; }
 
   @media (max-width: 760px) {
-    .sp-steps, .sp-how, .sp-facts { grid-template-columns: 1fr; }
+    .sp-steps, .sp-how { grid-template-columns: 1fr; }
     .sp-install > div { grid-template-columns: 1fr; gap: 10px; }
     .sp-term { min-height: 170px; padding: 18px 18px 80px; font-size: 14px; }
     .sp-cmd pre { padding-left: 20px; font-size: 13.5px; }
@@ -140,12 +141,12 @@ permalink: /spark/
     <div class="wrap sp-hero__inner">
       <p class="sp-eyebrow">spark: speech to text tiếng việt cho dân Coding</p>
       <h1 class="sp-title">Giữ fn, nói, thả ra là có chữ.</h1>
-      <p class="sp-dek">Bạn nói tiếng Việt lẫn tiếng Anh như lúc làm việc. Spark viết lại thành câu gọn và dán vào chỗ con trỏ: Cursor, VS Code, Terminal, Slack hay ô chat của Claude.</p>
+      <p class="sp-dek">Nói như lúc đi làm, nửa Việt nửa Anh. Spark gõ lại thành câu đàng hoàng rồi dán vào Cursor, VS Code, Terminal, Slack. Khỏi gõ dấu.</p>
       <div class="sp-cmd">
         <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
         <button class="sp-copy" type="button">Copy</button>
       </div>
-      <p class="sp-meta">Dán vào Terminal. Mac chip Apple · 133 MB · miễn phí, mã nguồn mở.</p>
+      <p class="sp-meta">Dán vào Terminal là xong. Mac chip Apple, 133 MB, miễn phí, mã nguồn mở.</p>
       <p class="sp-alt">
         <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">Tải file .dmg</a><span>·</span><a href="#windows">Windows (thử nghiệm)</a><span>·</span><a href="https://github.com/VuongNM/spark">Mã nguồn</a>
       </p>
@@ -162,48 +163,32 @@ permalink: /spark/
     </figure>
     <dl class="sp-steps">
       <div><dt>Bạn nói</dt><dd>fix cái bug ở file index chấm ts rồi commit và push lên branch main nhé</dd></div>
-      <div><dt>Bộ nhận giọng nghe được</dt><dd class="raw">PHÍCH CÁI BẮP Ở FILE INDEX CHẤM TS RỒI COMMIT VÀ TÚT LÊN BỜ RAN MAY NHÉ</dd></div>
-      <div><dt>Spark dán vào</dt><dd class="out">Fix cái bug ở file index.ts rồi commit và push lên branch main nhé.</dd></div>
+      <div><dt>Máy nghe ra</dt><dd class="raw">PHÍCH CÁI BẮP Ở FILE INDEX CHẤM TS RỒI COMMIT VÀ TÚT LÊN BỜ RAN MAY NHÉ</dd></div>
+      <div><dt>Spark gõ lại</dt><dd class="out">Fix cái bug ở file index.ts rồi commit và push lên branch main nhé.</dd></div>
     </dl>
-    <p class="sp-caption">Chạy thật trên MacBook M1, không cần mạng: giọng đọc tiếng Việt của macOS, dọn chữ bằng Gemma 4 ngay trên máy. Nghe mất 0,12 giây, viết lại mất 1 giây.</p>
+    <p class="sp-caption">Chạy thật trên MacBook M1, rút mạng vẫn chạy. Người nói là chị Linh có sẵn trong macOS, tiếng Anh rất Việt. Nghe mất 0,12 giây, gõ lại mất 1 giây.</p>
   </section>
 
   <section class="wrap sp-section">
     <h2>Cách dùng</h2>
     <ol class="sp-how">
-      <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Một bong bóng nhỏ hiện ở đáy màn hình, chạy chữ theo lời bạn.</p></li>
-      <li><h3>Thả phím</h3><p>Khoảng một giây sau, câu đã sửa nằm ngay chỗ con trỏ, ở app nào cũng được.</p></li>
-      <li><h3>Nói dài thì nhấn đúp</h3><p>Nhấn <kbd>fn</kbd> hai lần để nói rảnh tay. Nhấn thêm lần nữa để dừng và dán.</p></li>
+      <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Bong bóng nhỏ hiện dưới đáy màn hình, chữ chạy theo lời bạn.</p></li>
+      <li><h3>Thả phím</h3><p>Một giây sau, câu đã sửa nằm ngay chỗ con trỏ. App nào cũng được.</p></li>
+      <li><h3>Nói dài thì nhấn đúp</h3><p>Nhấn <kbd>fn</kbd> hai lần là nói rảnh tay, khỏi giữ phím đến mỏi. Nhấn lần nữa để dừng.</p></li>
     </ol>
   </section>
 
   <section class="wrap sp-section">
-    <h2>Viết cho dân code</h2>
-    <div class="sp-facts">
-      <div>
-        <h3>Hiểu tiếng Anh trong câu tiếng Việt</h3>
-        <p>Deploy, commit, merge, pull request, endpoint, staging… Bộ nhận tiếng Việt nghe "com mít" thì Spark viết lại thành commit. Một mô hình tiếng Anh nhỏ nghe song song để bắt những từ bạn phát âm chuẩn.</p>
-      </div>
-      <div>
-        <h3>Giữ đúng tên file và lệnh</h3>
-        <p>Trong Cursor, VS Code, Terminal, iTerm, Ghostty, Zed hay JetBrains, Spark giữ nguyên tên file, tên hàm và lệnh. Nói "index chấm ts" là ra <code>index.ts</code>.</p>
-      </div>
-      <div>
-        <h3>Nhận giọng chạy trên máy</h3>
-        <p>Zipformer tiếng Việt (30 triệu tham số, qua sherpa-onnx) đọc 5 giây âm thanh trong khoảng 0,1 giây trên CPU. Âm thanh không rời máy bạn.</p>
-      </div>
-      <div>
-        <h3>Chọn cách viết lại</h3>
-        <p>Gemma 4 chạy ngay trên Mac: miễn phí, không cần mạng, tải thêm 3,1 GB. Hoặc Claude Haiku bằng khoá API của bạn: chính xác hơn, khoảng 1 giây. Chưa chọn thì Spark chỉ thêm dấu câu.</p>
-      </div>
-      <div>
-        <h3>Không bịa thêm</h3>
-        <p>Spark so câu viết lại với lời bạn nói. Mô hình thêm ý hay đổi con số thì Spark bỏ kết quả đó, nhờ Claude làm lại hoặc chỉ dọn cơ bản.</p>
-      </div>
-      <div>
-        <h3>Từ điển của riêng bạn</h3>
-        <p>Thêm tên dự án, tên đồng nghiệp, thuật ngữ nội bộ và cách máy hay nghe nhầm chúng. Spark viết đúng từ lần sau.</p>
-      </div>
+    <h2>Dân code nói chuyện kiểu gì?</h2>
+    <div class="sp-story">
+      <p>Kiểu này: "review giúp anh cái pull request này, deploy lên staging rồi báo nhé". Nửa Việt nửa Anh.</p>
+      <p>Bộ gõ giọng nói thường nghe câu đó thành "rivo giúp anh cái tun ri quét". Đọc to lên thì đúng. Đọc bằng mắt thì chịu.</p>
+      <p>Spark nghe bằng hai tai. Tai tiếng Việt chạy ngay trên máy, 5 giây nói đọc xong trong 0,1 giây. Tai tiếng Anh nghe song song để bắt commit, merge, endpoint. Xong thì Gemma (chạy trên máy) hoặc Claude (nếu bạn có khoá) gõ lại thành câu.</p>
+      <p>Máy nghe "cơ mít", Spark viết commit. Mít để dành ăn.</p>
+      <p>Đang gõ trong Cursor, VS Code hay Terminal thì Spark giữ nguyên tên file, tên hàm. Nói "index chấm ts" là ra <code>index.ts</code>.</p>
+      <p>Spark không bịa. Câu gõ lại mà thêm ý hay đổi con số so với lời bạn nói thì Spark vứt, làm lại cách khác.</p>
+      <p>Có Từ điển để dạy nó tên dự án, tên đồng nghiệp. Tên sếp thì nên dạy sớm.</p>
+      <p>Âm thanh không rời máy. Dùng Gemma thì rút dây mạng vẫn nói được.</p>
     </div>
   </section>
 
@@ -215,22 +200,22 @@ permalink: /spark/
         <div>
           <p>Dán vào Terminal:</p>
           <pre class="sp-code">curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</pre>
-          <p>Script tải bản mới nhất từ <a href="https://github.com/VuongNM/spark/releases">GitHub Releases</a>, chép Spark vào /Applications rồi mở app. Chạy lại để cập nhật. <a href="/spark/install.sh">Đọc script</a> trước khi chạy.</p>
-          <p>Thích tải bằng trình duyệt thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa ký bằng tài khoản Apple Developer nên lần đầu mở, macOS sẽ chặn. Vào Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật, bấm “Vẫn mở”. Hoặc chạy:</p>
+          <p>Script tải bản mới nhất trên <a href="https://github.com/VuongNM/spark/releases">GitHub</a>, chép vào /Applications rồi mở luôn. Muốn cập nhật thì chạy lại. Dân code thì <a href="/spark/install.sh">đọc script</a> trước khi chạy nhé, có 40 dòng thôi.</p>
+          <p>Thích bấm chuột thì tải <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a>, kéo Spark vào Applications. Spark chưa có chữ ký của Apple (99 USD một năm, mình chưa nỡ), nên lần đầu mở macOS sẽ chặn. Vào Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật, bấm “Vẫn mở”. Hoặc gõ:</p>
           <pre class="sp-code">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
         </div>
       </div>
       <div>
         <h3>Lần đầu mở</h3>
         <div>
-          <p>Spark tải bộ nhận giọng (khoảng 80 MB) rồi xin quyền:</p>
+          <p>Spark tải bộ nhận giọng (khoảng 80 MB) rồi xin vài quyền:</p>
           <ul>
-            <li><strong>Micro</strong>: để nghe, chỉ trong lúc bạn giữ phím.</li>
-            <li><strong>Trợ năng</strong> (Accessibility): để đọc phím fn và dán chữ vào app đang mở.</li>
-            <li><strong>Input Monitoring</strong>, nếu macOS hỏi: Spark chỉ nghe phím fn, không ghi lại phím nào khác.</li>
+            <li><strong>Micro</strong>: để nghe, chỉ lúc bạn giữ phím.</li>
+            <li><strong>Trợ năng</strong> (Accessibility): để đọc phím fn và dán chữ.</li>
+            <li><strong>Input Monitoring</strong>, nếu macOS hỏi: Spark chỉ nghe phím fn, phím khác kệ. Không tin thì đọc code.</li>
           </ul>
-          <p>Nhấn fn mà macOS mở bảng emoji? Vào Cài đặt hệ thống → Bàn phím, chọn “Nhấn phím 🌐 để” là Không làm gì.</p>
-          <p>Muốn câu viết gọn hơn, vào Cài đặt trong Spark: tải Gemma 4 hoặc dán khoá API của Claude.</p>
+          <p>Nhấn fn mà bảng emoji bật lên? Vào Cài đặt hệ thống → Bàn phím, chọn “Nhấn phím 🌐 để” là Không làm gì.</p>
+          <p>Muốn câu gọn gàng hơn thì vào Cài đặt của Spark: tải Gemma hoặc dán khoá Claude.</p>
         </div>
       </div>
       <div id="windows">
@@ -238,7 +223,7 @@ permalink: /spark/
         <div>
           <p>Dán vào PowerShell:</p>
           <pre class="sp-code">irm https://vuongnm.github.io/spark/install.ps1 | iex</pre>
-          <p>Giữ <kbd>Ctrl</kbd> bên phải để nói. Bản Windows được build tự động nhưng chưa thử kỹ trên máy thật. Gặp lỗi thì <a href="https://github.com/VuongNM/spark/issues">báo trên GitHub</a> giúp mình.</p>
+          <p>Giữ <kbd>Ctrl</kbd> bên phải để nói. Bản Windows build tự động nhưng chưa ai thử kỹ trên máy thật. Lỗi thì <a href="https://github.com/VuongNM/spark/issues">báo mình trên GitHub</a> nhé.</p>
         </div>
       </div>
       <div>
@@ -249,12 +234,13 @@ cd spark
 npm ci
 npm run build:native   <span class="c"># phím fn trên macOS, cần Xcode Command Line Tools</span>
 npm run dev</pre>
-          <p>Electron, React và TypeScript. Giấy phép MIT.</p>
+          <p>Electron, React, TypeScript. Giấy phép MIT, cứ lấy mà dùng.</p>
         </div>
       </div>
       <div>
         <h3>Gỡ cài đặt</h3>
         <div>
+          <p>Không hợp thì gỡ, mình không giận:</p>
           <pre class="sp-code">rm -rf /Applications/Spark.app ~/Library/Application\ Support/Spark</pre>
         </div>
       </div>
@@ -265,34 +251,34 @@ npm run dev</pre>
     <h2>Hỏi đáp</h2>
     <div class="sp-faq">
       <details>
-        <summary>Spark có gửi giọng nói của tôi đi đâu không?</summary>
-        <p>Không. Nhận giọng chạy trên máy. Khi bạn chọn Claude để viết lại, Spark gửi phần chữ đã nghe được (không gửi âm thanh) tới Anthropic bằng khoá của bạn. Lịch sử chỉ lưu trên máy, xoá được trong app.</p>
+        <summary>Spark có gửi giọng mình đi đâu không?</summary>
+        <p>Không. Nhận giọng chạy trên máy. Nếu bạn chọn Claude thì Spark gửi phần chữ (không phải âm thanh) cho Anthropic, bằng khoá của bạn. Lịch sử nằm trên máy, xoá lúc nào cũng được.</p>
       </details>
       <details>
-        <summary>Sao macOS cảnh báo khi mở file .dmg?</summary>
-        <p>Muốn macOS mở thẳng, app phải được ký và gửi Apple kiểm tra qua tài khoản Apple Developer (99 USD một năm). Spark chưa làm bước đó. Mã nguồn để công khai, bạn đọc hoặc tự build được.</p>
+        <summary>Sao macOS chặn file .dmg?</summary>
+        <p>Muốn macOS mở thẳng thì app phải có chữ ký Apple, 99 USD một năm. Spark chưa có. Bù lại mã nguồn mở hết, ai lo thì đọc, ai lo hơn thì tự build.</p>
       </details>
       <details>
-        <summary>Sao cài bằng lệnh curl thì không bị chặn?</summary>
-        <p>Trình duyệt gắn cờ “tải từ Internet” vào file, và macOS kiểm tra những file có cờ đó. curl không gắn cờ này. Script chỉ khoảng 40 dòng, bạn nên đọc trước khi chạy.</p>
+        <summary>Sao cài bằng curl lại không bị chặn?</summary>
+        <p>Trình duyệt đóng dấu “tải từ Internet” lên file, macOS chỉ soi những file có dấu đó. curl không đóng dấu. Nên script nào cũng vậy, đọc trước rồi hẵng chạy.</p>
       </details>
       <details>
         <summary>Có cần mạng không?</summary>
-        <p>Chỉ để tải mô hình lần đầu và khi dùng Claude. Với Gemma, Spark chạy hoàn toàn offline.</p>
+        <p>Chỉ lúc tải mô hình lần đầu, và lúc dùng Claude. Dùng Gemma thì lên máy bay vẫn nói được.</p>
       </details>
       <details>
         <summary>Có mất tiền không?</summary>
-        <p>Spark miễn phí. Nếu dùng Claude, Anthropic tính phí vào khoá API của bạn.</p>
+        <p>Spark miễn phí. Dùng Claude thì Anthropic tính tiền vào khoá của bạn.</p>
       </details>
       <details>
         <summary>Máy cần mạnh cỡ nào?</summary>
-        <p>Mac chip Apple nào cũng chạy được. Gemma dùng thêm khoảng 2 GB RAM trong lúc Spark mở, nên máy 8 GB nên dùng Claude.</p>
+        <p>Mac chip Apple nào cũng chạy. Gemma ăn thêm khoảng 2 GB RAM, máy 8 GB thì dùng Claude cho nhẹ.</p>
       </details>
     </div>
   </section>
 
   <section class="wrap sp-end">
-    <h2>Thử ngay</h2>
+    <h2>Thử đi, một dòng thôi.</h2>
     <div class="sp-cmd">
       <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
       <button class="sp-copy" type="button">Copy</button>
