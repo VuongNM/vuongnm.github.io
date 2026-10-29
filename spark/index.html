@@ -37,6 +37,7 @@ permalink: /spark/
   .hx-links a { color: rgba(255, 255, 255, .72); font-size: 14px; text-decoration: none; transition: color .2s; }
   .hx-links a:hover { color: #fff; }
 
+  .hx-grid > * { min-width: 0; }
   .hx-grid {
     position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
     gap: clamp(32px, 5vw, 72px); align-items: center; padding: clamp(40px, 6vw, 84px) var(--gutter) clamp(64px, 8vw, 112px);
@@ -140,7 +141,7 @@ permalink: /spark/
   .sx-foot a { color: var(--ink); text-underline-offset: .22em; text-decoration-thickness: 1px; }
 
   @media (max-width: 900px) {
-    .hx-grid { grid-template-columns: 1fr; }
+    .hx-grid { grid-template-columns: minmax(0, 1fr); }
     .hx-demo { max-width: 620px; }
   }
   @media (max-width: 760px) {
@@ -150,6 +151,8 @@ permalink: /spark/
   }
   @media (max-width: 560px) {
     .hx-links a:not(:last-child) { display: none; }
+    .hx-chip { align-items: flex-start; border-radius: 14px; font-size: 12px; line-height: 1.45; }
+    .hx-chip i { flex: none; margin-top: 6px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hx-chip i { animation: none; }
