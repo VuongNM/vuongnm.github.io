@@ -73,7 +73,8 @@ permalink: /spark/
   .hx-mid { display: flex; justify-content: center; padding: 22px 0; }
   .hx-out { min-height: 2.7em; margin-top: 10px; font: 400 clamp(22px, 2.2vw, 28px)/1.32 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
   .hx-out mark { padding: 0 .14em; border-radius: 6px; background: rgba(125, 160, 255, .2); color: #dbe6ff; }
-  .hx-demo.is-fading .hx-raw, .hx-demo.is-fading .hx-out { opacity: 0; transition: opacity .35s; }
+  .hx-raw { transition: opacity .35s; }
+  .hx-demo.is-listening .hx-out, .hx-demo.is-fading .hx-raw, .hx-demo.is-fading .hx-out { opacity: 0; }
   .hx-demo figcaption { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .08); font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, .5); }
 
   /* the recording bubble, as in the app */
@@ -427,8 +428,9 @@ npm run dev</pre>
     at += dt;
     if (phase === 'start') {
       ex = examples[n % examples.length]; n++;
-      shown = 0; rawEl.textContent = ''; outEl.textContent = ''; outEl.style.opacity = 0;
-      demo.classList.remove('is-fading'); bubbleText.textContent = ''; bubbleEl.className = 'sp-bubble is-on';
+      shown = 0; rawEl.textContent = ''; outEl.textContent = '';
+      demo.classList.remove('is-fading'); demo.classList.add('is-listening');
+      bubbleText.textContent = ''; bubbleEl.className = 'sp-bubble is-on';
       set('listen');
     } else if (phase === 'listen') {
       var want = Math.min(ex.rawParts.length, Math.floor(at / WORD) + 1);
@@ -443,7 +445,7 @@ npm run dev</pre>
     } else if (phase === 'write') {
       bubble.want = 0.4; hero.want = 0.2;
       if (at > 0.8) {
-        render(outEl, ex.outParts); outEl.style.opacity = 1;
+        render(outEl, ex.outParts); demo.classList.remove('is-listening');
         bubbleEl.className = 'sp-bubble is-on is-done'; bubble.want = 0.6;
         set('show');
       }
