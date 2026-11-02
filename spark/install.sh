@@ -28,12 +28,20 @@ echo "Đang tải Spark…"
 curl -fL --progress-bar "$URL" -o "$tmp/Spark.zip"
 ditto -x -k "$tmp/Spark.zip" "$tmp"
 
-if pgrep -qf "$APP/Contents/MacOS/Spark"; then
+# Spark phải thoát hẳn rồi mới thay app, nếu không macOS sẽ không mở được bản mới.
+running() { pgrep -qf "$APP/Contents/MacOS/Spark"; }
+wait_quit() { for _ in $(seq "$1"); do running || return 0; sleep 0.2; done; ! running; }
+if running; then
   osascript -e "quit app id \"$ID\"" >/dev/null 2>&1 || true
-  sleep 1
+  wait_quit 50 || { pkill -TERM -f "$APP/Contents/MacOS/Spark" || true; wait_quit 25; } || {
+    echo "Spark chưa thoát được. Bấm Thoát Spark trên menu bar rồi chạy lại lệnh này."
+    exit 1
+  }
 fi
 rm -rf "$APP"
 ditto "$tmp/Spark.app" "$APP"
 
 echo "Đã cài vào $APP. Đang mở Spark…"
-open "$APP"
+# Ngay sau khi thay app, macOS có thể cần thêm một chút mới mở được.
+for _ in 1 2 3 4 5; do open "$APP" 2>/dev/null && exit 0; sleep 1; done
+echo "Chưa mở được Spark. Mở Spark trong thư mục Applications."
