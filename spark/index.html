@@ -8,9 +8,9 @@ permalink: /spark/
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Spark: speech to text tiếng Việt cho dân code</title>
-  <meta name="description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy ngay trên Mac, miễn phí, mã nguồn mở.">
+  <meta name="description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy on-device trên Mac, miễn phí, open source.">
   <meta property="og:title" content="Spark: speech to text tiếng Việt cho dân code">
-  <meta property="og:description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy ngay trên Mac, miễn phí, mã nguồn mở.">
+  <meta property="og:description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy on-device trên Mac, miễn phí, open source.">
   <meta property="og:image" content="https://vuongnm.github.io/images/spark-cover.jpg">
   <meta property="og:url" content="https://vuongnm.github.io/spark/">
   <meta name="twitter:card" content="summary_large_image">
@@ -168,7 +168,7 @@ permalink: /spark/
       <div class="hx-links">
         <a href="#cach-dung">Cách dùng</a>
         <a href="#cai-dat">Cài đặt</a>
-        <a href="#hoi-dap">Hỏi đáp</a>
+        <a href="#hoi-dap">FAQ</a>
         <a href="https://github.com/VuongNM/spark">GitHub</a>
       </div>
     </nav>
@@ -176,21 +176,21 @@ permalink: /spark/
     <div class="hx-grid" style="max-width: var(--wide); margin: 0 auto;">
       <div>
         <h1 class="hx-title">Spark: speech to text tiếng Việt</h1>
-        <p class="hx-dek">Giữ phím fn rồi nói, thả ra là Spark gõ chữ vào chỗ con trỏ. Dùng được trong Cursor, VS Code, Terminal, Slack và các app khác.</p>
+        <p class="hx-dek">Giữ phím fn rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và mọi app khác.</p>
         <div class="sp-cmd">
           <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
           <button class="sp-copy" type="button">Copy</button>
         </div>
-        <p class="hx-meta">Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Mac chip Apple, 133 MB, miễn phí, mã nguồn mở. Có <a href="#windows">bản Windows</a> thử nghiệm.</p>
+        <p class="hx-meta">Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#windows">bản Windows</a> beta.</p>
       </div>
 
       <figure class="hx-demo">
-        <span class="hx-label">Máy nghe ra</span>
+        <span class="hx-label">Transcript (STT)</span>
         <p class="hx-raw"></p>
         <div class="hx-mid"><div class="sp-bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
-        <span class="hx-label">Spark gõ lại</span>
+        <span class="hx-label">Output sau khi Spark viết lại</span>
         <p class="hx-out"></p>
-        <figcaption>Kết quả thật trên MacBook M1, chạy bằng Gemma 4, không cần mạng. Giọng nói mẫu là giọng đọc tiếng Việt có sẵn của macOS.</figcaption>
+        <figcaption>Output thật trên MacBook M1, LLM cleanup bằng Gemma 4 chạy local, không cần mạng. Audio mẫu là giọng TTS tiếng Việt (Linh) có sẵn trong macOS.</figcaption>
       </figure>
     </div>
   </header>
@@ -199,19 +199,19 @@ permalink: /spark/
     <section class="wrap sp-section" id="cach-dung">
       <h2>Cách dùng</h2>
       <ol class="sp-how">
-        <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Một bong bóng nhỏ hiện ở dưới màn hình, chữ chạy theo lời bạn nói.</p></li>
-        <li><h3>Thả phím</h3><p>Khoảng một giây sau, câu đã sửa được dán vào chỗ con trỏ, app nào cũng được.</p></li>
-        <li><h3>Nói dài thì nhấn hai lần</h3><p>Nhấn <kbd>fn</kbd> hai lần để nói mà không cần giữ phím, nhấn thêm lần nữa để dừng.</p></li>
+        <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Một overlay nhỏ hiện ở cạnh dưới màn hình, hiển thị transcript real-time trong lúc bạn nói.</p></li>
+        <li><h3>Thả phím</h3><p>Khoảng 1 giây sau, text đã xử lý được paste vào ô đang focus, trong bất kỳ app nào.</p></li>
+        <li><h3>Hands-free</h3><p>Double-tap <kbd>fn</kbd> để nói mà không cần giữ phím, nhấn <kbd>fn</kbd> lần nữa để dừng.</p></li>
       </ol>
     </section>
 
     <section class="wrap sp-section">
       <h2>Vì sao mình làm Spark</h2>
       <div class="sp-story">
-        <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Bộ nhận giọng tiếng Việt nghe những câu như vậy thành chữ lung tung, "report" ra "lừa đảo", "deploy" ra "đi phôi", sửa lại còn mất công hơn tự gõ.</p>
-        <p>Spark dùng hai mô hình nhận giọng chạy ngay trên máy. Mô hình tiếng Việt (Zipformer) đọc 5 giây nói trong khoảng 0,1 giây, còn một mô hình tiếng Anh nhỏ (Moonshine) nghe song song để bắt các từ như commit, merge, endpoint. Sau đó Gemma 4 chạy trên máy, hoặc Claude nếu bạn có khoá, viết lại thành câu hoàn chỉnh, có dấu câu và viết đúng các từ tiếng Anh.</p>
-        <p>Nếu bạn đang gõ trong Cursor, VS Code hay Terminal, Spark giữ nguyên tên file và tên hàm, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên dự án hay tên đồng nghiệp thì bạn thêm vào Từ điển để Spark viết cho đúng.</p>
-        <p>Spark luôn so câu viết lại với lời gốc, nếu mô hình tự thêm ý hoặc đổi con số thì kết quả đó bị bỏ. Âm thanh không ra khỏi máy, và nếu dùng Gemma thì không cần mạng.</p>
+        <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Model speech-to-text tiếng Việt nghe những câu như vậy ra chữ lung tung, "report" thành "lừa đảo", "deploy" thành "đi phôi", sửa lại còn mất công hơn tự gõ.</p>
+        <p>Spark chạy hai model STT on-device qua sherpa-onnx. Zipformer tiếng Việt (30M params) xử lý 5 giây audio trong khoảng 0,1 giây trên CPU, còn Moonshine tiny (tiếng Anh) chạy song song để bắt các từ như commit, merge, endpoint. Sau đó một LLM viết lại transcript thành câu hoàn chỉnh, có dấu câu và đúng chính tả tiếng Anh: Gemma 4 E2B chạy local, hoặc Claude Haiku qua API key của bạn.</p>
+        <p>Khi app đang focus là Cursor, VS Code hay Terminal, Spark giữ nguyên tên file, tên function và command, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên project hay tên người thì thêm vào mục Từ điển (dictionary) trong app, Spark sẽ dùng chúng làm hotwords cho STT và để viết cho đúng.</p>
+        <p>Spark luôn so output của LLM với transcript gốc, nếu model tự thêm nội dung hoặc đổi số thì output đó bị loại. Audio không bao giờ rời khỏi máy, và nếu dùng Gemma thì chạy offline hoàn toàn.</p>
       </div>
     </section>
 
@@ -219,51 +219,51 @@ permalink: /spark/
       <h2>Cài đặt</h2>
       <div class="sp-install">
         <div>
-          <h3>macOS<span class="tag">Mac chip Apple (M1 trở lên)</span></h3>
+          <h3>macOS<span class="tag">Apple Silicon (M1 trở lên)</span></h3>
           <div>
             <p>Mở Terminal và chạy:</p>
             <pre class="sp-code">curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</pre>
-            <p>Lệnh này tải bản mới nhất trên <a href="https://github.com/VuongNM/spark/releases">GitHub</a>, chép Spark vào /Applications rồi mở app. Khi muốn cập nhật thì chạy lại lệnh này. Bạn có thể <a href="/spark/install.sh">xem nội dung script</a> trước khi chạy.</p>
-            <p>Nếu muốn tải bằng trình duyệt thì tải <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Vì Spark chưa có chữ ký của Apple (cần tài khoản Apple Developer, 99 USD một năm) nên lần đầu mở macOS sẽ chặn. Bạn vào Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật và bấm “Vẫn mở”, hoặc chạy lệnh:</p>
+            <p>Script tải release mới nhất từ <a href="https://github.com/VuongNM/spark/releases">GitHub Releases</a>, copy Spark.app vào /Applications rồi mở app. Muốn update thì chạy lại lệnh này. Nên <a href="/spark/install.sh">đọc script</a> trước khi chạy.</p>
+            <p>Nếu tải bằng browser thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa được sign bằng Developer ID và notarize với Apple (cần Apple Developer Program, 99 USD/năm), nên lần đầu mở Gatekeeper sẽ chặn. Vào System Settings → Privacy &amp; Security, bấm “Open Anyway”, hoặc xoá quarantine attribute:</p>
             <pre class="sp-code">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
           </div>
         </div>
         <div>
           <h3>Lần đầu mở</h3>
           <div>
-            <p>Spark tải bộ nhận giọng (khoảng 80 MB) và xin các quyền sau:</p>
+            <p>Spark tải model STT (khoảng 80 MB) rồi xin các permission sau:</p>
             <ul>
-              <li><strong>Micro</strong>, để nghe trong lúc bạn giữ phím.</li>
-              <li><strong>Trợ năng</strong> (Accessibility), để đọc phím fn và dán chữ.</li>
-              <li><strong>Input Monitoring</strong> nếu macOS hỏi. Spark chỉ đọc phím fn, không ghi lại các phím khác.</li>
+              <li><strong>Microphone</strong>, để thu âm trong lúc bạn giữ phím.</li>
+              <li><strong>Accessibility</strong>, để bắt phím fn và gửi lệnh paste (⌘V).</li>
+              <li><strong>Input Monitoring</strong>, nếu macOS hỏi. Spark chỉ đọc phím fn, không log các phím khác.</li>
             </ul>
-            <p>Nếu nhấn fn mà bảng emoji hiện lên, bạn vào Cài đặt hệ thống → Bàn phím và chọn “Nhấn phím 🌐 để” là Không làm gì.</p>
-            <p>Để câu viết ra gọn hơn, vào Cài đặt của Spark rồi tải Gemma hoặc dán khoá Claude.</p>
+            <p>Nếu nhấn fn mà emoji picker hiện lên, vào System Settings → Keyboard và đặt “Press 🌐 key to” thành “Do Nothing”.</p>
+            <p>Muốn có LLM cleanup thì vào mục Cài đặt (Settings) trong Spark, tải Gemma 4 hoặc nhập Anthropic API key.</p>
           </div>
         </div>
         <div id="windows">
-          <h3>Windows<span class="tag">Thử nghiệm · Windows 10, 11</span></h3>
+          <h3>Windows<span class="tag">Beta · Windows 10, 11</span></h3>
           <div>
             <p>Mở PowerShell và chạy:</p>
             <pre class="sp-code">irm https://vuongnm.github.io/spark/install.ps1 | iex</pre>
-            <p>Giữ <kbd>Ctrl</kbd> bên phải để nói. Bản Windows được build tự động nhưng chưa được thử kỹ trên máy thật, nếu gặp lỗi bạn báo giúp mình trên <a href="https://github.com/VuongNM/spark/issues">GitHub</a> nhé.</p>
+            <p>Giữ <kbd>Right Ctrl</kbd> để nói. Bản Windows được build bằng CI nhưng chưa test kỹ trên máy thật, gặp lỗi thì mở <a href="https://github.com/VuongNM/spark/issues">issue trên GitHub</a> giúp mình nhé.</p>
           </div>
         </div>
         <div>
-          <h3>Tự build</h3>
+          <h3>Build từ source</h3>
           <div>
             <pre class="sp-code">git clone https://github.com/VuongNM/spark.git
 cd spark
 npm ci
 npm run build:native   <span class="c"># phím fn trên macOS, cần Xcode Command Line Tools</span>
 npm run dev</pre>
-            <p>Spark viết bằng Electron, React và TypeScript, giấy phép MIT.</p>
+            <p>Stack: Electron, React, TypeScript, sherpa-onnx, node-llama-cpp. License MIT.</p>
           </div>
         </div>
         <div>
-          <h3>Gỡ cài đặt</h3>
+          <h3>Uninstall</h3>
           <div>
-            <p>Chạy lệnh sau để xoá app và dữ liệu:</p>
+            <p>Xoá app và toàn bộ data (settings, history, models):</p>
             <pre class="sp-code">rm -rf /Applications/Spark.app ~/Library/Application\ Support/Spark</pre>
           </div>
         </div>
@@ -271,31 +271,31 @@ npm run dev</pre>
     </section>
 
     <section class="wrap sp-section" id="hoi-dap">
-      <h2>Hỏi đáp</h2>
+      <h2>FAQ</h2>
       <div class="sp-faq">
         <details>
-          <summary>Spark có gửi giọng nói của mình đi đâu không?</summary>
-          <p>Không. Phần nhận giọng chạy hoàn toàn trên máy. Nếu bạn chọn Claude để viết lại thì Spark gửi phần chữ (không gửi âm thanh) tới Anthropic bằng khoá của bạn. Lịch sử chỉ lưu trên máy và xoá được trong app.</p>
+          <summary>Spark có gửi audio đi đâu không?</summary>
+          <p>Không. Speech-to-text chạy hoàn toàn on-device. Nếu bạn chọn Claude để cleanup thì Spark chỉ gửi transcript (text, không có audio) tới Anthropic API bằng key của bạn. History chỉ lưu local và xoá được trong app.</p>
         </details>
         <details>
           <summary>Sao macOS chặn file .dmg?</summary>
-          <p>Để macOS mở thẳng, app cần được ký và gửi Apple kiểm tra bằng tài khoản Apple Developer, mất 99 USD một năm. Spark chưa làm bước này. Mã nguồn để công khai nên bạn có thể đọc hoặc tự build.</p>
+          <p>Để Gatekeeper cho mở thẳng, app cần được sign bằng Developer ID và notarize qua Apple Developer Program (99 USD/năm). Spark chưa làm bước này. Source code public nên bạn có thể đọc hoặc tự build.</p>
         </details>
         <details>
           <summary>Sao cài bằng curl lại không bị chặn?</summary>
-          <p>Trình duyệt đánh dấu các file tải từ Internet và macOS chỉ kiểm tra những file có dấu này. curl không đánh dấu, nên bạn nên đọc script trước khi chạy.</p>
+          <p>Browser gắn quarantine attribute (<code>com.apple.quarantine</code>) cho file tải về, và Gatekeeper chỉ kiểm tra file có attribute này. curl không gắn attribute đó, nên đọc script trước khi chạy.</p>
         </details>
         <details>
           <summary>Có cần mạng không?</summary>
-          <p>Chỉ cần khi tải mô hình lần đầu và khi dùng Claude. Dùng Gemma thì Spark chạy offline hoàn toàn.</p>
+          <p>Chỉ cần lúc tải model lần đầu và khi dùng Claude API. Dùng Gemma thì Spark chạy offline hoàn toàn.</p>
         </details>
         <details>
           <summary>Có mất phí không?</summary>
-          <p>Spark miễn phí. Nếu dùng Claude thì Anthropic tính phí theo khoá API của bạn.</p>
+          <p>Spark miễn phí. Nếu dùng Claude thì Anthropic tính phí API theo key của bạn.</p>
         </details>
         <details>
-          <summary>Máy cần cấu hình thế nào?</summary>
-          <p>Mac chip Apple nào cũng chạy được. Gemma dùng thêm khoảng 2 GB RAM, nên nếu máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p>
+          <summary>Yêu cầu phần cứng?</summary>
+          <p>Mọi Mac Apple Silicon đều chạy được. Gemma 4 dùng thêm khoảng 2 GB RAM, nên máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p>
         </details>
       </div>
     </section>
@@ -311,7 +311,7 @@ npm run dev</pre>
 
   <footer class="sx-foot">
     <div class="wrap">
-      <p>Spark là dự án cá nhân của <a href="/">Vincent Nguyen</a>, mã nguồn mở trên <a href="https://github.com/VuongNM/spark">GitHub</a>, giấy phép MIT.</p>
+      <p>Spark là side project của <a href="/">Vincent Nguyen</a>, open source trên <a href="https://github.com/VuongNM/spark">GitHub</a> (MIT).</p>
     </div>
   </footer>
 
