@@ -363,6 +363,7 @@ export function start(opts) {
     scene.add(group)
     const k = {
       el, group, cap, topMat, stripMat, leakMat, lamp, size: o.size || 1, main: !!o.main,
+      drop: o.intro && !reduced ? 1 : 0, dropV: 0, dropAt: 0, landed: !(o.intro && !reduced),
       target: 0, p: 0, pv: 0, mode: 'idle', hot: new Color(0x4f6cff), tint: new Color(0xcfe0ff), tintI: 1.3,
       pos: new Vector3(), s: 1, visible: true, flash: 0, tilt: new Vector2(),
     }
@@ -510,6 +511,13 @@ export function start(opts) {
       k.p += k.pv * dt
       if (reduced) { k.p = k.target; k.pv = 0 }
       k.cap.position.y = 0.77 - k.p * 0.45
+      if (k.drop > 0.0005 || k.dropV) {
+        if (!k.dropAt) k.dropAt = now
+        if (now - k.dropAt > 0.25) { k.dropV += ((0 - k.drop) * 95 - k.dropV * 9.5) * dt; k.drop += k.dropV * dt }
+        if (!k.landed && k.drop < 0.04) { k.landed = true; ring(k.pos.x, k.pos.z, 0.9); g.burst = 1 }
+        if (Math.abs(k.drop) < 0.0005 && Math.abs(k.dropV) < 0.01) { k.drop = 0; k.dropV = 0 }
+        k.group.position.y += k.drop * 3.4 * k.s
+      }
       k.flash = Math.max(0, k.flash - dt * 0.9)
       const m = k.mode
       const hotT = tintHot[m], legT = tintLeg[m]

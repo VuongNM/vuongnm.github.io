@@ -19,7 +19,7 @@ permalink: /spark/
   <link rel="icon" type="image/png" href="/images/spark-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="modulepreload" href="/spark/spark3d.js?v=c14c0e78">
+  <link rel="modulepreload" href="/spark/spark3d.js?v=fd331474">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
@@ -79,6 +79,13 @@ permalink: /spark/
   .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(6, 8, 13, .86) 0%, rgba(6, 8, 13, .6) 36%, rgba(6, 8, 13, 0) 64%); }
   .hero-grid { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .hero-grid > * { min-width: 0; }
+  @keyframes up { from { opacity: 0; translate: 0 22px; } }
+  .hero-copy > *, .stage > :not(.keyspot) { animation: up 1.1s var(--ease) backwards; }
+  .hero-copy > :nth-child(1) { animation-delay: .05s; } .hero-copy > :nth-child(2) { animation-delay: .15s; }
+  .hero-copy > :nth-child(3) { animation-delay: .27s; } .hero-copy > :nth-child(4) { animation-delay: .33s; }
+  .hero-copy > :nth-child(5) { animation-delay: .4s; } .hero-copy > :nth-child(6) { animation-delay: .5s; }
+  .stage > :nth-child(2) { animation-delay: .5s; } .stage > :nth-child(3) { animation-delay: .6s; }
+  .stage > :nth-child(4) { animation-delay: .65s; } .stage > :nth-child(5) { animation-delay: .75s; }
   h1 { font: 400 clamp(46px, 6.3vw, 92px)/.98 var(--serif); letter-spacing: -.035em; text-wrap: balance; }
   .dek { max-width: 31em; margin-top: 22px; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
   .kbd, .dek kbd, .steps kbd { display: inline-block; min-width: 1.9em; padding: .2em .5em .24em; border-radius: 7px; border: 1px solid var(--line-2); background: linear-gradient(180deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .05)); box-shadow: 0 2px 0 rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .14); font: 500 .82em/1.1 var(--mono); color: #fff; text-align: center; white-space: nowrap; }
@@ -281,6 +288,19 @@ permalink: /spark/
   footer a { color: var(--ink-2); }
   footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; }
 
+  @media (min-width: 861px) and (max-height: 820px) {
+    .pipe-sticky { padding-top: 76px; }
+    .pipe-copy h2 { font-size: clamp(30px, 5.2svh, 44px); }
+    .pipe-copy .lede { display: none; }
+    .pipe-list { margin-top: 14px; }
+    .pipe-list li { padding-top: 10px; padding-bottom: 10px; }
+    .pipe-list li::before { top: 13px; }
+    .pipe-list h3 { font-size: 19px; }
+    .pipe-list li.is-on p { margin-top: 4px; }
+    .pipe-list p { font-size: 14px; line-height: 1.5; }
+    .peek { margin-top: 8px; padding: 8px 12px; font-size: 12.5px; }
+    .stack { --sc: .72; }
+  }
   @media (min-width: 1021px) and (max-height: 830px) {
     .hero { min-height: 100svh; padding: 84px 0 28px; }
     h1 { font-size: clamp(44px, min(6.3vw, 10.5svh), 92px); }
@@ -344,7 +364,7 @@ permalink: /spark/
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .rv { opacity: 1; transform: none; transition: none; }
-    .out .w, .bars i, .caret, .term-body .cur { animation: none; }
+    .out .w, .bars i, .caret, .term-body .cur, .hero-copy > *, .stage > * { animation: none; }
     .win, .term { transition: none; }
   }
 </style>
@@ -712,7 +732,14 @@ permalink: /spark/
     }
   }
   var rawEl = $('#raw'), outEl = $('#out'), hintEl = $('#keyhint');
-  function keyhint(msg) { hintEl.innerHTML = msg || (LIVE.on ? 'Giữ phím này và nói tiếng Việt' : 'Giữ phím này để nói thử'); }
+  function hintFor() {
+    var d = demo, k = '<span class="kbd">' + OS[os].key + '</span>';
+    if (d && d.st === 'listening') return d.lock ? 'Hands-free. Nhấn ' + k + ' lần nữa để dừng' : d.auto ? 'Đang nghe…' : 'Đang nghe… thả ' + k + ' ra để paste';
+    if (d && d.st === 'writing') return 'Đang viết…';
+    if (d && d.st === 'done') return 'Đã paste vào ô đang focus';
+    return LIVE.on ? 'Giữ phím này và nói tiếng Việt' : 'Giữ phím này để nói thử';
+  }
+  function keyhint(msg) { hintEl.innerHTML = msg || hintFor(); }
   // what Spark's basic cleanup does without an LLM: drop ờ/ừm, capital letter, full stop
   function basic(text) {
     var t = (text || '').toLocaleLowerCase('vi').replace(/(^|\s)(ờ|ừm|ừ|ờm|ơ)(?=\s|$)/g, ' ').replace(/\s+/g, ' ').trim();
@@ -782,7 +809,7 @@ permalink: /spark/
       var syll = (el / WORD) % 1, lvl = this.shown >= this.words.length ? 0.15 : 0.35 + 0.55 * Math.max(0, 1 - syll * 2.2);
       bubbleField.want = lvl; if (scene) scene.level(lvl); if (bgField) bgField.want = lvl;
       if (this.auto && !this.lock && this.shown >= this.words.length && el > this.words.length * WORD + 0.5) this.finish();
-      if (this.auto && !this.visible) this.cancel(true);
+      if (this.auto && !this.visible) this.cancel(false);
     } else if (this.st === 'idle') {
       bubbleField.want = 0; if (bgField) bgField.want = 0; if (scene) scene.level(0);
       // nobody touched it for a while: play one phrase by itself so the page is alive
@@ -794,6 +821,10 @@ permalink: /spark/
     this.lastUser = performance.now() / 1000;
     if (this.st === 'listening' && this.auto) { this.cancel(true); }
     if (this.st === 'listening' && this.lock) { this.finish(); return; }
+    if (this.st === 'done') { // the text has landed: a new press starts a new one, like in the app
+      clearTimeout(this.timer); winEl.classList.remove('is-fading');
+      heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; this.st = 'idle'; this.live = false;
+    }
     if (this.st !== 'idle') return;
     this.begin(false);
   };
@@ -1055,7 +1086,7 @@ permalink: /spark/
     setTab('mac'); termOnce = false;
     $('#term-title').textContent = TERM.mac.title;
     var go = function () {
-      heroKey = KeyView($('#keyspot'), { main: true });
+      heroKey = KeyView($('#keyspot'), { main: true, intro: true });
       bindHero(); bindSteps();
       var end = $('[data-end]'); if (end) { var ek = KeyView(end, { size: .6 }); }
       onScroll();
@@ -1063,7 +1094,7 @@ permalink: /spark/
     var ok = false;
     try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
     if (!ok) { fallback(); go(); return; }
-    import('/spark/spark3d.js?v=c14c0e78').then(function (m) {
+    import('/spark/spark3d.js?v=fd331474').then(function (m) {
       try {
         scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); }, onFrame: function () { root.classList.add('gl-ready'); } });
         root.classList.add('gl');
