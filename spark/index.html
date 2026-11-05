@@ -13,13 +13,18 @@ permalink: /spark/
   <meta property="og:description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy on-device trên Mac, miễn phí, open source.">
   <meta property="og:image" content="https://vuongnm.github.io/images/spark-cover.jpg">
   <meta property="og:url" content="https://vuongnm.github.io/spark/">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://vuongnm.github.io/images/spark-cover.jpg">
+  <link rel="canonical" href="https://vuongnm.github.io/spark/">
   <meta name="theme-color" content="#06080d">
   <meta name="color-scheme" content="dark">
   <link rel="icon" type="image/png" href="/images/spark-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="modulepreload" href="/spark/spark3d.js?v=fd331474">
+  <link rel="modulepreload" href="/spark/spark3d.js?v=6261fb66">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
@@ -737,7 +742,8 @@ permalink: /spark/
     if (d && d.st === 'listening') return d.lock ? 'Hands-free. Nhấn ' + k + ' lần nữa để dừng' : d.auto ? 'Đang nghe…' : 'Đang nghe… thả ' + k + ' ra để paste';
     if (d && d.st === 'writing') return 'Đang viết…';
     if (d && d.st === 'done') return 'Đã paste vào ô đang focus';
-    return LIVE.on ? 'Giữ phím này và nói tiếng Việt' : 'Giữ phím này để nói thử';
+    var also = os === 'win' ? ' (hoặc Right Ctrl)' : '';
+    return LIVE.on ? 'Giữ phím này' + also + ' và nói tiếng Việt' : 'Giữ phím này' + also + ' để nói thử';
   }
   function keyhint(msg) { hintEl.innerHTML = msg || hintFor(); }
   // what Spark's basic cleanup does without an LLM: drop ờ/ừm, capital letter, full stop
@@ -896,6 +902,10 @@ permalink: /spark/
     key.addEventListener('keydown', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); kd = true; demo.down(); } });
     key.addEventListener('keyup', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && kd) { e.preventDefault(); kd = false; demo.up(); } });
     key.addEventListener('blur', function () { if (kd) { kd = false; demo.up(); } });
+    // on Windows the real hold key (Right Ctrl) works anywhere on the page, as in the app
+    var ctrlDown = false;
+    addEventListener('keydown', function (e) { if (os === 'win' && e.code === 'ControlRight' && !e.repeat && !ctrlDown) { ctrlDown = true; demo.down(); } });
+    addEventListener('keyup', function (e) { if (e.code === 'ControlRight' && ctrlDown) { ctrlDown = false; demo.up(); } });
     if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { demo.visible = e[0].isIntersecting; }, { threshold: .2 }).observe(spot);
     var last = performance.now() / 1000, acc = 0;
     function loop() {
@@ -1094,7 +1104,7 @@ permalink: /spark/
     var ok = false;
     try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
     if (!ok) { fallback(); go(); return; }
-    import('/spark/spark3d.js?v=fd331474').then(function (m) {
+    import('/spark/spark3d.js?v=6261fb66').then(function (m) {
       try {
         scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); }, onFrame: function () { root.classList.add('gl-ready'); } });
         root.classList.add('gl');

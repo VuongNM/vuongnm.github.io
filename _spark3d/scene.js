@@ -409,6 +409,7 @@ export function start(opts) {
     camera.updateProjectionMatrix()
     tUniforms.uScale.value = (H * pr) / (2 * Math.tan((camera.fov * Math.PI) / 360))
     if (quality >= 2) buildComposer(W, H, pr)
+    if (bloom) bloom.strength = camera.aspect < 0.8 ? 0.34 : 0.55 // phones: less haze over a key that fills the screen
     invalidate()
   }
 
