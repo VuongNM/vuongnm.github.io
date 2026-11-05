@@ -102,7 +102,7 @@ permalink: /spark/
   .stage > :nth-child(2) { animation-delay: .5s; } .stage > :nth-child(3) { animation-delay: .6s; }
   .stage > :nth-child(4) { animation-delay: .65s; } .stage > :nth-child(5) { animation-delay: .75s; }
   h1 { font: 400 clamp(46px, 6.3vw, 92px)/.98 var(--serif); letter-spacing: -.035em; text-wrap: balance; }
-  .dek { max-width: 31em; margin-top: 22px; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+  .dek { max-width: 34em; margin-top: 22px; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
   .kbd, .dek kbd, .steps kbd { display: inline-block; min-width: 1.9em; padding: .2em .5em .24em; border-radius: 7px; border: 1px solid var(--line-2); background: linear-gradient(180deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .05)); box-shadow: 0 2px 0 rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .14); font: 500 .82em/1.1 var(--mono); color: #fff; text-align: center; white-space: nowrap; }
 
   .osswitch { display: inline-flex; gap: 4px; margin-top: 30px; padding: 4px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); }
@@ -117,9 +117,9 @@ permalink: /spark/
   .copy { flex: none; margin: 6px; padding: 11px 20px; border: 0; border-radius: 999px; background: #fff; color: #06080d; font: 600 14px/1 var(--sans); transition: background .2s, transform .2s var(--ease); }
   .copy:hover { background: #e4eaff; }
   .copy:active { transform: scale(.96); }
-  .meta { max-width: 36em; margin-top: 14px; font-size: 14px; line-height: 1.55; color: rgba(243, 245, 251, .66); }
+  .meta { max-width: 40em; margin-top: 14px; font-size: 14px; line-height: 1.55; color: rgba(243, 245, 251, .66); }
   .meta a { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
-  .facts { max-width: 36em; margin-top: 22px; font: 400 12.5px/1.6 var(--mono); color: var(--mute); }
+  .meta .lk { white-space: nowrap; display: inline-block; }
 
   .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .keyspot { position: relative; width: min(100%, 330px); aspect-ratio: 1 / .98; }
@@ -325,7 +325,6 @@ permalink: /spark/
     h1 { font-size: clamp(44px, min(6.3vw, 10.5svh), 92px); }
     .dek { margin-top: 16px; }
     .osswitch { margin-top: 22px; }
-    .facts { margin-top: 22px; }
     .keyspot { width: min(100%, 250px); }
     .win-cap { display: none; }
     .win-body { padding-bottom: 14px; }
@@ -347,7 +346,6 @@ permalink: /spark/
     .cmd { order: 8; width: 100%; }
     .meta { order: 9; }
     .win { order: 10; margin-top: 26px; max-width: none; }
-    .facts { order: 11; margin-top: 26px; }
     .story, .inst-grid { grid-template-columns: minmax(0, 1fr); }
     .story-l { position: static; }
   }
@@ -413,8 +411,8 @@ permalink: /spark/
     <section class="hero" id="top">
       <div class="hero-grid">
         <div class="hero-copy">
-          <h1>Spark: speech to text tiếng Việt</h1>
-          <p class="dek">Giữ phím <kbd data-kn>fn</kbd> rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và hầu hết app khác.</p>
+          <h1>Speech to text<br>tiếng Việt</h1>
+          <p class="dek">Giữ <kbd data-kn>fn</kbd> rồi nói, thả ra là text được paste vào ô đang focus.</p>
 
           <div class="osswitch" role="tablist" aria-label="Hệ điều hành">
             <button type="button" role="tab" data-os-btn="mac" aria-selected="true">macOS</button>
@@ -424,9 +422,7 @@ permalink: /spark/
             <pre tabindex="0" aria-label="Lệnh cài"><span class="prompt" data-prompt>$ </span><code data-cmd-text>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
             <button class="copy" type="button">Copy</button>
           </div>
-          <p class="meta" data-meta>Dán lệnh trên vào Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. macOS 12 trở lên, Apple Silicon, khoảng 135 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.</p>
-
-          <p class="facts">STT chạy local, khoảng 0,1 giây cho 5 giây audio. Từ lúc thả phím đến lúc có chữ khoảng 1 giây. Audio không rời máy. Đo trên MacBook M1, Gemma 4 chạy local.</p>
+          <p class="meta" data-meta>macOS 12+, Apple Silicon, 135 MB. Miễn phí, chỉ dùng phi thương mại. <span class="lk"><a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">Tải .dmg</a> · <a href="#cai-dat" data-go-os="win">Windows beta</a></span></p>
         </div>
 
         <div class="stage">
@@ -619,8 +615,8 @@ permalink: /spark/
     win: { prompt: 'PS> ', cmd: 'irm https://vuongnm.github.io/spark/install.ps1 | iex', key: 'Right Ctrl', term: 'PowerShell' }
   };
   var META = {
-    mac: 'Dán lệnh trên vào Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. macOS 12 trở lên, Apple Silicon, khoảng 135 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.',
-    win: 'Dán lệnh trên vào PowerShell, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>. Windows 10, 11 (beta), khoảng 137 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Cũng có <a href="#cai-dat" data-go-os="mac">bản Mac</a>.',
+    mac: 'macOS 12+, Apple Silicon, 135 MB. Miễn phí, chỉ dùng phi thương mại. <span class="lk"><a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">Tải .dmg</a> · <a href="#cai-dat" data-go-os="win">Windows beta</a></span>',
+    win: 'Windows 10, 11 (beta), 137 MB. Miễn phí, chỉ dùng phi thương mại. <span class="lk"><a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">Tải .exe</a> · <a href="#cai-dat" data-go-os="mac">Bản Mac</a></span>',
     phone: 'Spark chạy trên Mac và Windows. Mở trang này trên máy tính, hoặc <a href="#" data-copy-link>copy link</a> gửi cho chính mình.'
   };
   var LIVE = { state: 'off', on: false, stt: null };
