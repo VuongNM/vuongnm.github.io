@@ -162,36 +162,73 @@ const SPARK_FRAG = /* glsl */ `
 /* ------------------------------------------------------------------ keycap */
 
 /** A tapered keycap with a concave top, like the real thing. Face groups follow BoxGeometry: +x -x +y -y +z -z. */
+/**
+ * A keycap lofted from rings: a squircle outline that leans in, an edge fillet, then a top that is dished
+ * smoothly (zero slope at the rim) so light rolls across it instead of breaking at a crease.
+ * RoundedBoxGeometry cannot do this: its flat top is a single quad, so any dish is faceted.
+ */
 function keycapGeometry() {
-  const w = 2.6, h = 1.3
-  const g = new RoundedBoxGeometry(w, h, w, 14, 0.32)
-  const pos = g.attributes.position, nor = g.attributes.normal
-  const v = new Vector3(), n = new Vector3()
-  const dishR = 1.0, dish = 0.17
-  for (let i = 0; i < pos.count; i++) {
-    v.fromBufferAttribute(pos, i)
-    n.fromBufferAttribute(nor, i)
-    const t = (v.y + h / 2) / h
-    const k = 1 - 0.2 * t
-    v.x *= k
-    v.z *= k
-    // the sides lean in with the taper
-    n.y += 0.22 * (1 - Math.abs(n.y)) * (n.y < 0.9 ? 1 : 0)
-    const top = smooth(0.55, 0.97, n.y)
-    if (top > 0) {
-      const d2 = (v.x * v.x + v.z * v.z) / (dishR * dishR)
-      if (d2 < 1) {
-        v.y -= dish * (1 - d2) * top
-        const nx = (-2 * dish * v.x) / (dishR * dishR), nz = (-2 * dish * v.z) / (dishR * dishR)
-        n.x += (nx - n.x) * top
-        n.z += (nz - n.z) * top
-        n.y += (1 - n.y) * top * 0
-      }
-    }
-    n.normalize()
-    pos.setXYZ(i, v.x, v.y, v.z)
-    nor.setXYZ(i, n.x, n.y, n.z)
+  const H = 1.3, HY = H / 2, A = 1.3 // height, half height, half width at the bottom
+  const CW = 0.86, RF = 0.2, DISH = 0.085 // half width where the top plane starts, edge fillet, dish depth
+  const N = 160, SQ = 5, E = 2 / SQ
+  const WALL = 5, FIL = 12, TOP = 22
+
+  // wall leans in; the fillet starts where the wall is tangent to it
+  const cY = HY - RF
+  let phi0 = 0.2
+  for (let i = 0; i < 12; i++) {
+    const dx = CW + RF * Math.cos(phi0) - A, dy = cY + RF * Math.sin(phi0) + HY
+    phi0 = Math.atan2(-dx, dy)
   }
+  const fx = CW + RF * Math.cos(phi0), fy = cY + RF * Math.sin(phi0)
+
+  const rings = [] // [half width, y]
+  for (let i = 0; i <= WALL; i++) { const t = i / WALL; rings.push([A + (fx - A) * t, -HY + (fy + HY) * t]) }
+  const wallRings = rings.length
+  for (let i = 1; i <= FIL; i++) { const f = phi0 + (Math.PI / 2 - phi0) * (i / FIL); rings.push([CW + RF * Math.cos(f), cY + RF * Math.sin(f)]) }
+  for (let j = 1; j < TOP; j++) { const u = 1 - j / TOP; rings.push([CW * u, HY - DISH * (1 - Math.pow(1 - u * u, 1.25))]) }
+  const R = rings.length
+
+  const pos = new Float32Array((R * N + 1 + N + 1) * 3), uv = new Float32Array((R * N + 1 + N + 1) * 2)
+  const U = 1 / (2 * (fx + 0.0)) // legend spans the widest part of the top
+  const put = (i, x, y, z) => { pos[i * 3] = x; pos[i * 3 + 1] = y; pos[i * 3 + 2] = z; uv[i * 2] = 0.5 - x * U; uv[i * 2 + 1] = 0.5 + z * U }
+  for (let r = 0; r < R; r++) {
+    for (let i = 0; i < N; i++) {
+      const t = (i / N) * Math.PI * 2, c = Math.cos(t), sn = Math.sin(t)
+      put(r * N + i, rings[r][0] * Math.sign(c) * Math.pow(Math.abs(c), E), rings[r][1], rings[r][0] * Math.sign(sn) * Math.pow(Math.abs(sn), E))
+    }
+  }
+  const centre = R * N
+  put(centre, 0, HY - DISH, 0)
+  const bottom = centre + 1
+  for (let i = 0; i < N; i++) { const q = i * 3; put(bottom + i, pos[q], -HY, pos[q + 2]) }
+  const bottomCentre = bottom + N
+  put(bottomCentre, 0, -HY, 0)
+
+  const idx = []
+  const wallEnd = (wallRings - 1) * N * 6
+  for (let r = 0; r < R - 1; r++) {
+    for (let i = 0; i < N; i++) {
+      const a = r * N + i, b = r * N + ((i + 1) % N), c = (r + 1) * N + i, d = (r + 1) * N + ((i + 1) % N)
+      idx.push(a, c, b, b, c, d)
+    }
+  }
+  const sideCount = wallEnd
+  for (let i = 0; i < N; i++) idx.push((R - 1) * N + i, centre, (R - 1) * N + ((i + 1) % N))
+  const topCount = idx.length - sideCount
+  for (let i = 0; i < N; i++) idx.push(bottom + i, bottom + ((i + 1) % N), bottomCentre)
+
+  const g = new BufferGeometry()
+  g.setAttribute('position', new Float32BufferAttribute(pos, 3))
+  g.setAttribute('uv', new Float32BufferAttribute(uv, 2))
+  g.setIndex(idx)
+  g.computeVertexNormals()
+  const nor = g.attributes.normal
+  for (let i = bottom; i <= bottomCentre; i++) nor.setXYZ(i, 0, -1, 0)
+  g.clearGroups()
+  g.addGroup(0, sideCount, 0) // wall
+  g.addGroup(sideCount, topCount, 1) // fillet, top and the legend
+  g.addGroup(sideCount + topCount, N * 3, 0) // underside
   return g
 }
 
@@ -270,10 +307,10 @@ export function start(opts) {
   scene.environment = pmrem.fromScene(room, 0.03).texture
   scene.environmentIntensity = 0.8
 
-  const key1 = new DirectionalLight(0xc8d6ff, 1.0)
+  const key1 = new DirectionalLight(0xc8d6ff, 1.7)
   key1.position.set(-6, 10, 7)
   scene.add(key1)
-  const rim = new PointLight(0xff7a6e, 55, 20, 2)
+  const rim = new PointLight(0xff7a6e, 36, 20, 2)
   rim.position.set(7, 3, -4)
   scene.add(rim)
 
@@ -332,8 +369,8 @@ export function start(opts) {
     x.fillStyle = gr; x.fillRect(0, 0, 128, 128)
     return new CanvasTexture(c)
   })()
-  const capSide = new MeshPhysicalMaterial({ color: 0x10162c, roughness: 0.32, metalness: 0.25, clearcoat: 1, clearcoatRoughness: 0.22, envMapIntensity: 0.55 })
-  const plateMat = new MeshPhysicalMaterial({ color: 0x10162a, roughness: 0.34, metalness: 0.7, envMapIntensity: 0.45 })
+  const capSide = new MeshPhysicalMaterial({ color: 0x232c54, roughness: 0.55, metalness: 0.06, clearcoat: 0.2, clearcoatRoughness: 0.55, envMapIntensity: 0.9 })
+  const plateMat = new MeshPhysicalMaterial({ color: 0x10162a, roughness: 0.46, metalness: 0.6, envMapIntensity: 0.4 })
   const legends = {}
   const font = '"Newsreader", "Iowan Old Style", Georgia, serif'
   const makeLegends = () => {
@@ -349,7 +386,7 @@ export function start(opts) {
     const topMat = capSide.clone()
     topMat.emissive = new Color(0xffffff)
     topMat.emissiveMap = legends[os]
-    topMat.emissiveIntensity = 2.5
+    topMat.emissiveIntensity = 1.9
     const stripMat = new MeshBasicMaterial({ color: new Color(0x4f6cff), toneMapped: false })
     const leakMat = new MeshBasicMaterial({ map: leakTex, color: new Color(0x4f6cff), toneMapped: false, transparent: true, opacity: 0.9, blending: AdditiveBlending, depthWrite: false })
     const plate = new Mesh(plateGeo, plateMat)
@@ -359,7 +396,7 @@ export function start(opts) {
     const leak = new Mesh(leakGeo, leakMat)
     leak.rotation.x = -Math.PI / 2
     leak.position.y = -0.36
-    const cap = new Mesh(capGeo, [capSide, capSide, topMat, capSide, capSide, capSide])
+    const cap = new Mesh(capGeo, [capSide, topMat])
     const lamp = new PointLight(0x4f6cff, 18, 4.2, 2)
     lamp.position.y = -0.55
     group.add(plate, strip, leak, cap, lamp)
@@ -400,7 +437,7 @@ export function start(opts) {
     composer.setPixelRatio(pr)
     composer.setSize(w, h)
     composer.addPass(new RenderPass(scene, camera))
-    bloom = new UnrealBloomPass(new Vector2(w / 2, h / 2), 0.42, 0.5, 0.5)
+    bloom = new UnrealBloomPass(new Vector2(w / 2, h / 2), 0.42, 0.5, 0.82)
     bloom.enabled = bloomOn
     if (lite) { const set = bloom.setSize.bind(bloom); bloom.setSize = (bw, bh) => set(Math.max(2, bw >> 1), Math.max(2, bh >> 1)); bloom.setSize(w * pr, h * pr) }
     composer.addPass(bloom)
@@ -586,7 +623,7 @@ export function start(opts) {
       k.tint.lerp(legT, Math.min(1, dt * 10))
       const pulse = m === 'listening' ? 0.5 + g.level * 1.4 : m === 'writing' ? 0.5 + 0.35 * Math.sin(time * 9) : 0
       k.topMat.emissive.copy(k.tint)
-      k.topMat.emissiveIntensity = 2.5 + pulse * 1.0 + k.flash * 1.2
+      k.topMat.emissiveIntensity = 1.9 + pulse * 0.9 + k.flash * 1.1
       const stripI = 0.9 + pulse * 0.8 + k.flash * 1.4
       k.stripMat.color.copy(k.hot).multiplyScalar(stripI)
       k.leakMat.color.copy(k.hot).multiplyScalar(0.8 + pulse * 0.6)

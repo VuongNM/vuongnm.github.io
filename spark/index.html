@@ -25,7 +25,7 @@ permalink: /spark/
   <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/newsreader-latin-opsz-normal.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/newsreader-vietnamese-opsz-normal.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/inter-latin-wght-normal.woff2" crossorigin>
-  <link rel="modulepreload" href="/spark/spark3d.js?v=f1ebbec4">
+  <link rel="modulepreload" href="/spark/spark3d.js?v=2449b244">
   <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
 <style>
@@ -149,15 +149,21 @@ permalink: /spark/
   .win-bar span { margin-left: 8px; }
   .win-body { padding: 16px 20px 20px; }
   .win-label { display: block; font: 500 11px/1 var(--mono); letter-spacing: .06em; color: var(--mute); text-transform: uppercase; }
-  .raw { min-height: 3.3em; margin-top: 8px; font: 400 13.5px/1.65 var(--mono); color: rgba(243, 245, 251, .62); transition: opacity .35s; }
+  .raw { min-height: 3.3em; margin-top: 8px; margin-bottom: 14px; font: 400 13.5px/1.65 var(--mono); color: rgba(243, 245, 251, .62); transition: opacity .35s; }
   .raw mark { background: none; color: #ffb4ac; text-decoration: underline wavy rgba(255, 122, 110, .8); text-decoration-thickness: 1px; text-underline-offset: 4px; }
-  .out { position: relative; min-height: 3.1em; margin-top: 8px; font: 400 clamp(21px, 2vw, 25px)/1.35 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
-  .out mark { padding: 0 .14em; border-radius: 6px; background: rgba(125, 160, 255, .24); color: #dbe6ff; }
+  .fld { position: relative; padding: 15px 16px 14px; border-radius: 14px; background: rgba(255, 255, 255, .055); border: 1px solid rgba(125, 160, 255, .5); box-shadow: 0 0 0 3px rgba(125, 160, 255, .12); transition: border-color .4s, box-shadow .4s; }
+  .fld-badge { position: absolute; top: -12px; right: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; padding: 4px 11px 4px 5px; border-radius: 999px; background: #0d2a20; border: 1px solid rgba(94, 232, 166, .7); font: 600 11.5px/1 var(--mono); color: #8ff2c4; opacity: 0; transform: translateY(6px) scale(.92); transition: opacity .25s, transform .35s var(--ease); pointer-events: none; }
+  .fld-badge kbd { padding: 3px 6px; border-radius: 6px; background: rgba(94, 232, 166, .18); font: inherit; color: #c4fbe3; }
+  .win.is-pasted .fld { border-color: rgba(94, 232, 166, .75); box-shadow: 0 0 0 3px rgba(94, 232, 166, .16), 0 0 30px rgba(94, 232, 166, .12); }
+  .win.is-pasted .fld-badge { opacity: 1; transform: none; }
+  .out { position: relative; min-height: 2.7em; font: 400 clamp(21px, 2vw, 25px)/1.35 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
+  .out mark { background: none; color: #b7ccff; border-bottom: 1px solid rgba(157, 185, 255, .5); }
   .out .w { animation: pop .38s var(--ease) backwards; }
-  .out.is-empty::after { content: "Chữ Spark viết sẽ hiện ở đây."; color: var(--mute); }
+  .out.is-empty::before { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-right: 3px; vertical-align: -.14em; background: var(--blue-2); animation: blink 1s steps(1, end) infinite; }
+  .out.is-empty::after { content: "Nhắn trong #dev"; color: var(--mute); }
   .caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -.14em; background: var(--blue-2); animation: blink 1s steps(1, end) infinite; }
   .win-cap { padding: 12px 20px 16px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.5; color: var(--mute); }
-  .win.is-fading .raw, .win.is-fading .out { opacity: 0; }
+  .win.is-fading .raw, .win.is-fading .out, .win.is-fading .fld-badge { opacity: 0; }
   @keyframes pop { from { opacity: 0; transform: translateY(6px); filter: blur(4px); } }
   @keyframes blink { 50% { opacity: 0; } }
 
@@ -328,8 +334,9 @@ permalink: /spark/
     .keyspot { width: min(100%, 250px); }
     .win-cap { display: none; }
     .win-body { padding-bottom: 14px; }
-    .raw { min-height: 2.6em; }
+    .raw { min-height: 2.6em; margin-bottom: 12px; }
     .out { min-height: 2.6em; }
+    .fld { padding: 12px 14px 11px; }
   }
   @media (max-width: 1020px) {
     .hero { min-height: 0; padding: 88px 0 40px; display: block; }
@@ -382,7 +389,7 @@ permalink: /spark/
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .rv { opacity: 1; transform: none; transition: none; }
-    .out .w, .bars i, .caret, .term-body .cur, .hero-copy > *, .stage > * { animation: none; }
+    .out .w, .out.is-empty::before, .bars i, .caret, .term-body .cur, .hero-copy > *, .stage > * { animation: none; }
     .win, .term { transition: none; }
   }
 </style>
@@ -436,12 +443,14 @@ permalink: /spark/
           <button class="live" id="live" type="button" hidden aria-pressed="false"><span class="live-t">Thử bằng giọng của bạn</span><small class="live-s">Model STT chạy ngay trong tab này, tải khoảng 38 MB một lần</small></button>
           <div class="bubble-row"><div class="bubble" id="bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
           <figure class="win" id="win">
-            <div class="win-bar"><i></i><i></i><i></i><span>Ô đang focus</span></div>
+            <div class="win-bar"><i></i><i></i><i></i><span># dev</span></div>
             <div class="win-body">
-              <span class="win-label">Transcript (STT)</span>
+              <span class="win-label">Spark nghe được</span>
               <p class="raw" id="raw"><mark>phích</mark> cái <mark>bắp</mark> ở file index <mark>chấm ts</mark> rồi commit và <mark>tút</mark> lên <mark>bờ ran may</mark> nhé</p>
-              <span class="win-label" style="margin-top:14px">Spark paste</span>
-              <p class="out" id="out" aria-live="polite"><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark> rồi commit và <mark>push</mark> lên <mark>branch main</mark> nhé.</p>
+              <div class="fld" id="fld">
+                <span class="fld-badge" aria-hidden="true"><kbd><span class="only-mac">⌘V</span><span class="only-win">Ctrl+V</span></kbd>Đã paste</span>
+                <p class="out" id="out" aria-live="polite"><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark> rồi commit và <mark>push</mark> lên <mark>branch main</mark> nhé.</p>
+              </div>
             </div>
             <figcaption class="win-cap">Câu mẫu, không thu âm bạn. Output là kết quả thật của Spark trên MacBook M1 (Gemma 4 chạy local). Audio mẫu là giọng TTS tiếng Việt của macOS.</figcaption>
           </figure>
@@ -464,10 +473,10 @@ permalink: /spark/
           <h2 id="pipe-h">Bên trong Spark</h2>
           <p class="lede">Từ lúc bạn giữ phím đến lúc có chữ, mọi bước chạy trên máy bạn, trừ khi bạn chọn Claude để cleanup.</p>
           <ol class="pipe-list" id="pipe-list">
-            <li data-n="01"><h3>Thu âm</h3><p><span>Giữ phím thì overlay hiện ở cạnh dưới màn hình, không lấy focus khỏi ô bạn đang gõ. Audio được stream về app trong lúc bạn nói.<em>phím <span data-kn>fn</span> được đọc bằng helper Swift (CGEventTap)</em></span></p></li>
-            <li data-n="02"><h3>Speech to text</h3><p><span>Cứ 300 ms, Spark decode lại 12 giây gần nhất bằng Zipformer tiếng Việt 30M params (sherpa-onnx, CPU), nên transcript hiện real-time. Hotwords giúp model viết đúng khoảng 30 từ dân code hay dùng. Moonshine tiny (tiếng Anh) chạy song song để bắt từ như commit, merge, endpoint.<code class="peek">BẠN <mark>REVIEW</mark> GIÚP MÌNH CÁI <mark>FUNCTION</mark> NÀY TRƯỚC KHI LÊN <mark>PRODUCTION</mark> NHÉ</code><em>~0,1 s cho 5 s audio</em></span></p></li>
-            <li data-n="03"><h3>LLM cleanup</h3><p><span>Gemma 4 E2B chạy local (Metal), hoặc Claude Haiku bằng API key của bạn, viết lại transcript thành câu hoàn chỉnh. Ở Cursor, VS Code, Terminal thì Spark giữ nguyên tên file, function và command. Cleanup bắt đầu ngay khi bạn ngừng nói.<code class="peek"><s>phích cái bắp ở file index chấm ts</s><br><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark></code><em>~1 s sau khi thả phím</em></span></p></li>
-            <li data-n="04"><h3>Guard</h3><p><span>Spark so output với transcript gốc. Output bị loại nếu quá nhiều từ không khớp với những gì bạn nói (dưới 60%), dài bất thường, hoặc có con số bạn không nói. Khi đó Spark fallback sang Claude hoặc basic cleanup.<code class="peek chk"><span class="y">từ khớp transcript</span><span class="y">số khớp lời bạn nói</span><span class="n">lệch quá xa → fallback</span></code><em>checkDivergence · unspokenNumbers</em></span></p></li>
+            <li data-n="01"><h3>Thu âm</h3><p><span>Giữ phím thì overlay hiện ở cạnh dưới màn hình, không lấy focus khỏi ô bạn đang gõ.</span></p></li>
+            <li data-n="02"><h3>Speech to text</h3><p><span>Model tiếng Việt chạy trên máy bạn nên chữ hiện ra ngay trong lúc bạn nói. Một model tiếng Anh nhỏ chạy song song để bắt các từ như commit, merge, endpoint.<code class="peek">BẠN <mark>REVIEW</mark> GIÚP MÌNH CÁI <mark>FUNCTION</mark> NÀY TRƯỚC KHI LÊN <mark>PRODUCTION</mark> NHÉ</code><em>~0,1 s cho 5 s audio</em></span></p></li>
+            <li data-n="03"><h3>LLM cleanup</h3><p><span>Gemma 4 chạy trên máy bạn, hoặc Claude Haiku bằng API key của bạn, viết lại transcript thành câu hoàn chỉnh. Ở Cursor, VS Code, Terminal thì Spark giữ nguyên tên file, function và command.<code class="peek"><s>phích cái bắp ở file index chấm ts</s><br><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark></code><em>~1 s sau khi thả phím</em></span></p></li>
+            <li data-n="04"><h3>Guard</h3><p><span>Spark so kết quả với những gì bạn đã nói. Nếu model thêm ý, đổi con số hoặc bỏ mất nhiều từ, Spark bỏ kết quả đó và dùng Claude (nếu bạn có API key) hoặc cleanup cơ bản.<code class="peek chk"><span class="y">từ khớp transcript</span><span class="y">số khớp lời bạn nói</span><span class="n">lệch quá xa → fallback</span></code></span></p></li>
             <li data-n="05"><h3>Paste</h3><p><span>Spark copy text vào clipboard, gửi <span class="only-mac">⌘V</span><span class="only-win">Ctrl+V</span>, rồi trả lại nội dung clipboard cũ của bạn.<code class="peek">Fix cái bug ở file index.ts<span class="caret"></span></code><em>audio không bao giờ rời máy</em></span></p></li>
           </ol>
         </div>
@@ -494,7 +503,7 @@ permalink: /spark/
         <div class="rv">
           <div class="prose">
             <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Model speech-to-text tiếng Việt nghe những câu như vậy ra chữ lung tung, sửa lại còn mất công hơn tự gõ.</p>
-            <p>Khi app đang focus là Cursor, VS Code hay Terminal, Spark giữ nguyên tên file, tên function và command, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên project hay tên người thì thêm vào mục Từ điển (dictionary) trong app, Spark sẽ dùng chúng làm hotwords cho STT và để viết cho đúng.</p>
+            <p>Khi app đang focus là Cursor, VS Code hay Terminal, Spark giữ nguyên tên file, tên function và command, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên project hay tên người thì thêm vào mục Từ điển (dictionary) trong app, Spark sẽ dùng chúng để nghe và viết cho đúng.</p>
           </div>
           <figure>
             <ul class="miss">
@@ -744,7 +753,7 @@ permalink: /spark/
     flush();
     return out;
   }
-  function render(el, toks, animate) {
+  function render(el, toks, animate, step) {
     el.textContent = '';
     var i = 0, k = 0;
     while (i < toks.length) {
@@ -755,7 +764,7 @@ permalink: /spark/
         while (i < toks.length && toks[i].m) { txt.push(toks[i].t); i++; }
         m.textContent = txt.join(' '); span = m;
       } else { span.textContent = toks[i].t; i++; }
-      if (animate) { span.classList.add('w'); span.style.animationDelay = (k++ * 38) + 'ms'; }
+      if (animate) { span.classList.add('w'); span.style.animationDelay = (k++ * (step == null ? 38 : step)) + 'ms'; }
       el.appendChild(span);
     }
   }
@@ -793,7 +802,7 @@ permalink: /spark/
     this.ex = EX[this.n % EX.length]; this.n++;
     this.live = LIVE.on && !auto; this.rms = 0;
     this.words = this.live ? [] : this.flat(); this.shown = 0; this.st = 'listening'; this.t0 = performance.now() / 1000; this.lock = false; this.auto = !!auto;
-    winEl.classList.remove('is-fading');
+    winEl.classList.remove('is-fading', 'is-pasted');
     rawEl.textContent = ''; outEl.textContent = ''; outEl.classList.add('is-empty');
     bubbleText.textContent = ''; bubbleEl.className = 'bubble is-on';
     heroKey.press(true); heroKey.mode('listening'); if (scene) scene.mode('listening');
@@ -851,7 +860,7 @@ permalink: /spark/
     if (this.st === 'listening' && this.auto) { this.cancel(true); }
     if (this.st === 'listening' && this.lock) { this.finish(); return; }
     if (this.st === 'done') { // the text has landed: a new press starts a new one, like in the app
-      clearTimeout(this.timer); winEl.classList.remove('is-fading');
+      clearTimeout(this.timer); winEl.classList.remove('is-fading', 'is-pasted');
       heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; this.st = 'idle'; this.live = false;
     }
     if (this.st !== 'idle') return;
@@ -874,7 +883,7 @@ permalink: /spark/
     this.live = false;
     this.st = 'idle'; this.since = performance.now() / 1000; this.lock = false;
     heroKey.press(false); heroKey.mode('idle'); if (scene) { scene.mode('idle'); scene.level(0); }
-    bubbleEl.className = 'bubble'; bubbleText.textContent = ''; rawEl.textContent = ''; outEl.classList.add('is-empty'); outEl.textContent = '';
+    bubbleEl.className = 'bubble'; bubbleText.textContent = ''; rawEl.textContent = ''; outEl.classList.add('is-empty'); outEl.textContent = ''; winEl.classList.remove('is-pasted');
     if (!silent) keyhint(null);
   };
   Demo.prototype.finish = function () {
@@ -899,14 +908,14 @@ permalink: /spark/
   // the cleaned text arrives in the focused field
   Demo.prototype.land = function (outText) {
     var self = this;
-    outEl.classList.remove('is-empty'); render(outEl, tokens2(outText), true);
+    outEl.classList.remove('is-empty'); render(outEl, tokens2(outText), true, 7); winEl.classList.add('is-pasted');
     this.st = 'done'; heroKey.mode('done'); if (scene) { scene.mode('done'); scene.kick(0.9); }
     bubbleEl.className = 'bubble is-on is-done'; keyhint('Đã paste vào ô đang focus'); bubbleField.want = 0.2;
     this.timer = setTimeout(function () {
       heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; bubbleText.textContent = '';
       // your own words stay on screen; the sample fades so the next one can start
       if (self.live) { self.live = false; self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); return; }
-      self.timer = setTimeout(function () { winEl.classList.add('is-fading'); self.timer = setTimeout(function () { winEl.classList.remove('is-fading'); self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); }, 450); }, 3200);
+      self.timer = setTimeout(function () { winEl.classList.add('is-fading'); self.timer = setTimeout(function () { winEl.classList.remove('is-fading', 'is-pasted'); self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); }, 450); }, 3200);
     }, 900);
   };
 
@@ -915,7 +924,7 @@ permalink: /spark/
     // first phrase on screen from the start, so the card is never empty
     var first = EX[0];
     render(rawEl, tokens2(first.map(function (s) { return s[0]; }).join(' ')));
-    render(outEl, tokens2(first.map(function (s) { return s[1]; }).join(' '))); outEl.classList.remove('is-empty');
+    render(outEl, tokens2(first.map(function (s) { return s[1]; }).join(' '))); outEl.classList.remove('is-empty'); winEl.classList.add('is-pasted');
     var key = $('#key'), spot = $('#keyspot');
     key.addEventListener('pointerdown', function (e) { if (e.button > 0) return; e.preventDefault(); try { key.setPointerCapture(e.pointerId); } catch (x) {} demo.down(); });
     key.addEventListener('pointerup', function () { demo.up(); });
@@ -947,7 +956,7 @@ permalink: /spark/
   /* ---------------------------------------------------------------- your own voice, transcribed in this tab */
   var liveBtn = $('#live'), liveT = $('.live-t', liveBtn), liveS = $('.live-s', liveBtn), winCap = $('.win-cap');
   var CAP_SAMPLE = winCap.textContent;
-  var CAP_LIVE = 'Model STT của Spark (Zipformer 30M) chạy bằng WebAssembly trong tab này và nghe giọng bạn. Audio không rời trình duyệt. Trang này chưa có hotwords, model tiếng Anh và LLM cleanup như trong app, nên từ tiếng Anh dễ bị nghe sai và ô paste chỉ có basic cleanup.';
+  var CAP_LIVE = 'Model STT của Spark chạy ngay trong tab này và nghe giọng bạn. Audio không rời trình duyệt. Trang này chưa có model tiếng Anh và LLM cleanup như trong app, nên từ tiếng Anh dễ bị nghe sai và ô paste chỉ có cleanup cơ bản.';
   function simd() { try { return WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11])); } catch (e) { return false; } }
   function liveSupported() { return !phone && !!(window.WebAssembly && window.Worker && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && (window.AudioContext || window.webkitAudioContext)) && simd(); }
   function renderLive() {
@@ -1120,7 +1129,7 @@ permalink: /spark/
     var ok = false;
     try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
     if (!ok) { fallback(); return; }
-    import('/spark/spark3d.js?v=f1ebbec4').then(function (m) {
+    import('/spark/spark3d.js?v=2449b244').then(function (m) {
       try {
         scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: fallback, onFrame: function () { root.classList.add('gl-ready'); } });
         root.classList.add('gl'); if (DEBUG) window.__spark = scene;
