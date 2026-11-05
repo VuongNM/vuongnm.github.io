@@ -3,7 +3,7 @@ layout: null
 permalink: /spark/
 ---
 <!doctype html>
-<html lang="vi">
+<html lang="vi" data-os="mac">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,466 +14,954 @@ permalink: /spark/
   <meta property="og:image" content="https://vuongnm.github.io/images/spark-cover.jpg">
   <meta property="og:url" content="https://vuongnm.github.io/spark/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#0b0d12">
+  <meta name="theme-color" content="#06080d">
+  <meta name="color-scheme" content="dark">
   <link rel="icon" type="image/png" href="/images/spark-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
-  <link rel="stylesheet" href="/assets/civic.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
 <style>
-  /* ---------- hero: dark, the app's dot field behind a live example ---------- */
-  .hx {
-    position: relative; overflow: hidden; color: #fff;
-    background:
-      radial-gradient(900px 520px at 12% -12%, rgba(42, 79, 168, .5), transparent 62%),
-      radial-gradient(720px 520px at 104% 108%, rgba(255, 158, 122, .12), transparent 60%),
-      #0b0d12;
+  :root {
+    --bg: #06080d; --bg-2: #0a0d15;
+    --ink: #f3f5fb; --ink-2: rgba(243, 245, 251, .78); --mute: rgba(243, 245, 251, .56);
+    --line: rgba(255, 255, 255, .1); --line-2: rgba(255, 255, 255, .18);
+    --blue: #6f8dff; --blue-2: #9db9ff; --coral: #ff7a6e; --green: #5ee8a6;
+    --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --gutter: clamp(18px, 4.5vw, 56px); --wide: 1240px;
+    --ease: cubic-bezier(.2, .8, .2, 1);
+    --glass: linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .028));
+    color-scheme: dark;
   }
-  .hx-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-  .hx-nav { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
-  .hx-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font: 500 21px/1 var(--serif); letter-spacing: -.01em; }
-  .hx-brand img { width: 28px; height: 28px; border-radius: 7px; }
-  .hx-links { display: flex; gap: clamp(16px, 3vw, 30px); }
-  .hx-links a { color: rgba(255, 255, 255, .72); font-size: 14px; text-decoration: none; transition: color .2s; }
-  .hx-links a:hover { color: #fff; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 84px; background: var(--bg); }
+  body { margin: 0; color: var(--ink); font: 400 17px/1.6 var(--sans); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  h1, h2, h3, p, figure, ul, ol, pre { margin: 0; padding: 0; }
+  ul, ol { list-style: none; }
+  a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  code, kbd, pre { font-family: var(--mono); }
+  :focus-visible { outline: 2px solid var(--blue-2); outline-offset: 3px; border-radius: 6px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .skip { position: fixed; left: 12px; top: -60px; z-index: 100; padding: 10px 16px; border-radius: 999px; background: #fff; color: #06080d; font-weight: 600; text-decoration: none; transition: top .2s; }
+  .skip:focus { top: 12px; }
+  .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
 
-  .hx-grid > * { min-width: 0; }
-  .hx-grid {
-    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-    gap: clamp(32px, 5vw, 72px); align-items: center; padding: clamp(40px, 6vw, 84px) var(--gutter) clamp(64px, 8vw, 112px);
-  }
-  .hx-chip {
-    display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px 7px 12px; border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .04);
-    font: 13px/1.2 var(--mono); color: rgba(255, 255, 255, .82);
-  }
-  .hx-chip i { width: 7px; height: 7px; border-radius: 50%; background: #ff7a6e; box-shadow: 0 0 0 0 rgba(255, 122, 110, .6); animation: hx-live 1.8s ease-out infinite; }
-  @keyframes hx-live { 0% { box-shadow: 0 0 0 0 rgba(255, 122, 110, .55); } 100% { box-shadow: 0 0 0 9px rgba(255, 122, 110, 0); } }
-  .hx-title { font: 400 clamp(46px, 5.8vw, 80px)/1.02 var(--serif); letter-spacing: -.032em; text-wrap: balance; }
-  .hx-dek { max-width: 30em; margin-top: 20px; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.55; color: rgba(255, 255, 255, .72); text-wrap: pretty; }
+  /* ---------- background layers ---------- */
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; display: none; background: var(--bg); }
+  .gl #gl { display: block; }
+  .field2d { position: fixed; inset: 0; z-index: -2; display: none; background: radial-gradient(900px 520px at 70% 30%, rgba(42, 79, 168, .4), transparent 62%), var(--bg); }
+  .field2d canvas { width: 100%; height: 100%; display: block; }
+  .nogl .field2d { display: block; }
+  .veil { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(120% 90% at 50% 40%, rgba(6, 8, 13, 0), rgba(6, 8, 13, .55) 80%); }
 
-  .sp-cmd { display: flex; align-items: center; border-radius: 999px; background: var(--ink); color: #fff; box-shadow: var(--shadow-float); text-align: left; }
-  .sp-cmd pre { flex: 1; min-width: 0; margin: 0; padding: 16px 0 16px 22px; overflow-x: auto; scrollbar-width: none; font: 14px/1.3 var(--mono); }
-  .sp-cmd pre::-webkit-scrollbar { display: none; }
-  .sp-cmd .sp-prompt { color: rgba(255, 255, 255, .45); user-select: none; }
-  .sp-copy { flex: none; margin: 6px; padding: 10px 18px; border: 0; border-radius: 999px; background: #fff; color: var(--ink); font: 600 14px/1 var(--sans); transition: background .2s; }
-  .sp-copy:hover { background: #e9ecf4; }
-  .hx .sp-cmd { max-width: 560px; margin-top: 30px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); box-shadow: none; }
-  .hx-meta { margin-top: 14px; font-size: 14px; color: rgba(255, 255, 255, .56); }
-  .hx-meta a { color: rgba(255, 255, 255, .86); font-weight: 600; text-underline-offset: .22em; text-decoration-thickness: 1px; white-space: nowrap; }
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s, backdrop-filter .3s; border-bottom: 1px solid transparent; }
+  .nav.is-stuck { background: rgba(6, 8, 13, .66); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); border-bottom-color: var(--line); }
+  .nav-in { display: flex; align-items: center; gap: 28px; height: 68px; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 500 22px/1 var(--serif); letter-spacing: -.01em; }
+  .brand img { width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 6px 18px -6px rgba(79, 108, 255, .7); }
+  .nav-links { display: flex; gap: clamp(16px, 2.6vw, 32px); margin-left: auto; }
+  .nav-links a { color: var(--ink-2); font-size: 14px; text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border: 0; border-radius: 999px; background: #fff; color: #06080d; font: 600 14px/1 var(--sans); text-decoration: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, .2), 0 10px 30px -10px rgba(157, 185, 255, .55); transition: transform .3s var(--ease), box-shadow .3s; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(255, 255, 255, .3), 0 14px 38px -10px rgba(157, 185, 255, .8); }
+  .btn-sm { padding: 10px 18px; font-size: 13px; }
 
-  .hx-demo {
-    position: relative; margin: 0; padding: clamp(22px, 2.6vw, 32px); border-radius: 26px;
-    background: rgba(255, 255, 255, .045); border: 1px solid rgba(255, 255, 255, .1);
-    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-    box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .8);
-  }
-  .hx-label { display: block; font: 600 12.5px/1.2 var(--sans); letter-spacing: .02em; color: rgba(255, 255, 255, .48); }
-  .hx-raw { min-height: 3.2em; margin-top: 10px; font: 15px/1.6 var(--mono); color: rgba(255, 255, 255, .62); }
-  .hx-raw mark { background: none; color: rgba(255, 180, 172, .95); text-decoration: underline wavy rgba(255, 122, 110, .75); text-decoration-thickness: 1px; text-underline-offset: 4px; }
-  .hx-mid { display: flex; justify-content: center; padding: 22px 0; }
-  .hx-out { min-height: 2.7em; margin-top: 10px; font: 400 clamp(22px, 2.2vw, 28px)/1.32 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
-  .hx-out mark { padding: 0 .14em; border-radius: 6px; background: rgba(125, 160, 255, .2); color: #dbe6ff; }
-  .hx-raw { transition: opacity .35s; }
-  .hx-demo.is-listening .hx-out, .hx-demo.is-fading .hx-raw, .hx-demo.is-fading .hx-out { opacity: 0; }
-  .hx-demo figcaption { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .08); font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, .5); }
+  /* ---------- hero ---------- */
+  .hero { position: relative; min-height: max(100svh, 780px); display: flex; align-items: center; padding: 96px 0 56px; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(6, 8, 13, .86) 0%, rgba(6, 8, 13, .6) 36%, rgba(6, 8, 13, 0) 64%); }
+  .hero-grid { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+  .hero-grid > * { min-width: 0; }
+  h1 { font: 400 clamp(46px, 6.3vw, 92px)/.98 var(--serif); letter-spacing: -.035em; text-wrap: balance; }
+  .dek { max-width: 31em; margin-top: 22px; font-size: clamp(17px, 1.45vw, 20px); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+  .kbd, .dek kbd, .steps kbd { display: inline-block; min-width: 1.9em; padding: .2em .5em .24em; border-radius: 7px; border: 1px solid var(--line-2); background: linear-gradient(180deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .05)); box-shadow: 0 2px 0 rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .14); font: 500 .82em/1.1 var(--mono); color: #fff; text-align: center; white-space: nowrap; }
+
+  .osswitch { display: inline-flex; gap: 4px; margin-top: 30px; padding: 4px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); }
+  .osswitch button { padding: 7px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--mute); font: 500 13px/1 var(--sans); transition: background .25s, color .25s; }
+  .osswitch button[aria-selected="true"] { background: rgba(255, 255, 255, .13); color: #fff; }
+  .osswitch .beta { margin-left: 4px; font: 500 10px/1 var(--mono); color: var(--coral); text-transform: uppercase; letter-spacing: .04em; }
+
+  .cmd { display: flex; align-items: center; max-width: 590px; margin-top: 12px; border-radius: 999px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line-2); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 24px 60px -30px #000; }
+  .cmd pre { flex: 1; min-width: 0; padding: 17px 0 17px 24px; overflow-x: auto; scrollbar-width: none; font: 400 14px/1.3 var(--mono); }
+  .cmd pre::-webkit-scrollbar { display: none; }
+  .cmd .prompt { color: var(--mute); user-select: none; }
+  .copy { flex: none; margin: 6px; padding: 11px 20px; border: 0; border-radius: 999px; background: #fff; color: #06080d; font: 600 14px/1 var(--sans); transition: background .2s, transform .2s var(--ease); }
+  .copy:hover { background: #e4eaff; }
+  .copy:active { transform: scale(.96); }
+  .meta { max-width: 36em; margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--mute); }
+  .meta a { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 0; margin-top: 30px; font: 400 12.5px/1.3 var(--mono); color: var(--mute); }
+  .facts li { padding: 0 18px; border-left: 1px solid var(--line-2); }
+  .facts li:first-child { padding-left: 0; border-left: 0; }
+  .facts b { display: block; margin-bottom: 3px; font: 500 15px/1.2 var(--mono); color: var(--ink); }
+
+  .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .keyspot { position: relative; width: min(100%, 330px); aspect-ratio: 1 / .98; }
+  .key { position: absolute; inset: 0; border: 0; padding: 0; background: transparent; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; border-radius: 28px; -webkit-tap-highlight-color: transparent; }
+  .key:focus-visible { outline-offset: -6px; }
+  .keyhint { min-height: 1.5em; font: 500 13px/1.4 var(--mono); color: var(--ink-2); text-align: center; }
+  .keyhint kbd { font-size: 12px; }
+  .stage .bubble-row { height: 34px; display: flex; align-items: center; justify-content: center; }
 
   /* the recording bubble, as in the app */
-  .sp-bubble {
-    position: relative; display: flex; align-items: center; justify-content: flex-end; overflow: hidden;
-    width: 172px; height: 30px; padding: 0 14px; border-radius: 999px;
-    background: rgba(20, 21, 26, .95); border: 1px solid rgba(255, 255, 255, .08); color: #fff; font: 13px/1 var(--serif);
-    transform: scale(.82); opacity: .35; transition: transform .28s var(--ease), opacity .2s, box-shadow .3s;
+  .bubble { position: relative; display: flex; align-items: center; justify-content: flex-end; overflow: hidden; width: 188px; height: 32px; padding: 0 15px; border-radius: 999px; background: rgba(14, 16, 22, .94); border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 10px 30px -12px #000; font: 13px/1 var(--serif); transform: scale(.8); opacity: .3; transition: transform .3s var(--ease), opacity .25s, box-shadow .3s; }
+  .bubble.is-on { transform: scale(1); opacity: 1; }
+  .bubble.is-done { box-shadow: 0 0 0 2px rgba(94, 232, 166, .6), 0 0 22px rgba(94, 232, 166, .35); }
+  .bubble canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bubble span { position: relative; z-index: 1; white-space: nowrap; text-shadow: 0 0 6px rgba(0, 0, 0, .9); -webkit-mask-image: linear-gradient(90deg, transparent, #000 22px); mask-image: linear-gradient(90deg, transparent, #000 22px); }
+
+  .win { width: 100%; max-width: 470px; margin: 4px 0 0; border-radius: 20px; background: var(--glass); border: 1px solid var(--line-2); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 50px 100px -40px #000; transform: perspective(1200px) rotateX(var(--wx, 0deg)) rotateY(var(--wy, 0deg)); transition: transform .5s var(--ease); }
+  .win-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line); font: 500 11.5px/1 var(--mono); color: var(--mute); }
+  .win-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .16); }
+  .win-bar span { margin-left: 8px; }
+  .win-body { padding: 16px 20px 20px; }
+  .win-label { display: block; font: 500 11px/1 var(--mono); letter-spacing: .06em; color: var(--mute); text-transform: uppercase; }
+  .raw { min-height: 3.3em; margin-top: 8px; font: 400 13.5px/1.65 var(--mono); color: rgba(243, 245, 251, .62); transition: opacity .35s; }
+  .raw mark { background: none; color: #ffb4ac; text-decoration: underline wavy rgba(255, 122, 110, .8); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .out { position: relative; min-height: 3.1em; margin-top: 8px; font: 400 clamp(21px, 2vw, 25px)/1.35 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
+  .out mark { padding: 0 .14em; border-radius: 6px; background: rgba(125, 160, 255, .24); color: #dbe6ff; }
+  .out .w { animation: pop .38s var(--ease) backwards; }
+  .out.is-empty::after { content: "Chữ Spark viết sẽ hiện ở đây."; color: var(--mute); font-style: italic; }
+  .caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -.14em; background: var(--blue-2); animation: blink 1s steps(1, end) infinite; }
+  .win-cap { padding: 12px 20px 16px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.5; color: var(--mute); }
+  .win.is-fading .raw, .win.is-fading .out { opacity: 0; }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px); filter: blur(4px); } }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* the key without WebGL: the same keycap in CSS */
+  .key2d { display: none; position: absolute; inset: 14% 12% 8%; }
+  .nogl .key2d { display: block; }
+  .key2d .plate { position: absolute; inset: 22% 0 0; border-radius: 26px; background: linear-gradient(180deg, #1a2036, #0b0e17); box-shadow: 0 0 0 1px var(--line-2), 0 30px 60px -20px #000, 0 0 60px -10px rgba(79, 108, 255, .6); }
+  .key2d .cap { position: absolute; inset: 0 11% 24%; border-radius: 22px; background: linear-gradient(180deg, #2a3560, #1a2142); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .18), inset 0 -10px 18px rgba(0, 0, 0, .35), 0 18px 0 -2px #0d1226, 0 36px 40px -10px rgba(0, 0, 0, .7); transition: transform .12s var(--ease); display: flex; align-items: flex-end; padding: 0 0 18% 14%; }
+  .key2d .cap b { font: 600 clamp(30px, 6vw, 54px)/1 var(--serif); color: #cfe0ff; text-shadow: 0 0 18px rgba(157, 185, 255, .8); transition: color .2s, text-shadow .2s; }
+  .keyspot.is-down .key2d .cap { transform: translateY(14px); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14), inset 0 -10px 18px rgba(0, 0, 0, .35), 0 4px 0 -2px #0d1226, 0 14px 30px -10px rgba(0, 0, 0, .7); }
+  .keyspot[data-mode="listening"] .key2d .cap b { color: #ffb0a6; text-shadow: 0 0 18px rgba(255, 122, 110, .9); }
+  .keyspot[data-mode="done"] .key2d .cap b { color: #a7f7cd; text-shadow: 0 0 18px rgba(94, 232, 166, .9); }
+
+  /* ---------- sections ---------- */
+  .sec { position: relative; padding-top: clamp(84px, 11vw, 150px); }
+  h2 { font: 400 clamp(34px, 4.6vw, 62px)/1.02 var(--serif); letter-spacing: -.03em; text-wrap: balance; }
+  .lede { max-width: 36em; margin-top: 18px; font-size: clamp(17px, 1.4vw, 19px); color: var(--ink-2); text-wrap: pretty; }
+  .rv { opacity: 0; transform: translateY(22px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+  .rv.is-in { opacity: 1; transform: none; }
+
+  /* three gestures, one line through them */
+  .steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(16px, 3vw, 44px); margin-top: clamp(32px, 4vw, 56px); }
+  .step { position: relative; }
+  .step .spot { position: relative; height: 168px; width: 168px; }
+  .step h3 .kbd { font-size: .6em; padding: .12em .45em .16em; vertical-align: .18em; }
+  .step h3 { margin-top: 10px; font: 500 clamp(22px, 2vw, 27px)/1.2 var(--serif); letter-spacing: -.015em; }
+  .step p { margin-top: 8px; max-width: 24em; font-size: 15.5px; color: var(--ink-2); }
+  .steps::before { content: ""; position: absolute; left: 0; right: 0; top: 83px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-2) 12%, var(--line-2) 88%, transparent); }
+  .steps .pulse { position: absolute; top: 80px; left: 0; width: 90px; height: 7px; margin-top: -3px; border-radius: 4px; background: linear-gradient(90deg, transparent, var(--blue-2), transparent); filter: blur(2px); opacity: 0; }
+
+  /* inside Spark: a sticky stage and a stack of layers in 3D */
+  .pipe { position: relative; height: 560svh; margin-top: clamp(70px, 9vw, 130px); }
+  .pipe-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; overflow: clip; display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); align-items: center; gap: clamp(20px, 5vw, 80px); max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
+  .pipe-list { margin-top: 26px; }
+  .pipe-list li { position: relative; padding: 14px 0 14px 34px; border-top: 1px solid var(--line); color: var(--mute); transition: color .4s; }
+  .pipe-list li:last-child { border-bottom: 1px solid var(--line); }
+  .pipe-list li::before { content: attr(data-n); position: absolute; left: 0; top: 17px; font: 500 12px/1 var(--mono); color: var(--mute); transition: color .4s; }
+  .pipe-list h3 { font: 500 21px/1.25 var(--serif); letter-spacing: -.01em; color: inherit; }
+  .pipe-list p { display: grid; grid-template-rows: 0fr; margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-2); transition: grid-template-rows .5s var(--ease), margin .5s var(--ease); }
+  .pipe-list p > span { overflow: hidden; }
+  .pipe-list li.is-on { color: #fff; }
+  .pipe-list li.is-on::before { color: var(--blue-2); }
+  .pipe-list li.is-on p { grid-template-rows: 1fr; margin-top: 8px; }
+  .pipe-list em { display: block; margin-top: 8px; font: 500 12.5px/1.4 var(--mono); font-style: normal; color: var(--blue-2); }
+  .pipe-stage { position: relative; height: min(80svh, 660px); perspective: 1700px; perspective-origin: 50% 36%; }
+  .stack { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(58deg) rotateZ(-33deg) scale(var(--sc, .86)); }
+  .layer { position: absolute; left: 50%; top: 50%; width: 430px; height: 250px; margin: -125px 0 0 -215px; transform-style: preserve-3d; transform: translateZ(calc(var(--z) * var(--zk, 1) * 1px + var(--lift, 0) * 56px)); border-radius: 24px; background: linear-gradient(160deg, rgba(30, 40, 84, .96), rgba(10, 14, 30, .97)); border: 1px solid rgba(157, 185, 255, calc(.14 + var(--lift, 0) * .62)); box-shadow: 0 0 calc(var(--lift, 0) * 80px) rgba(111, 141, 255, calc(var(--lift, 0) * .6)), inset 0 1px 0 rgba(255, 255, 255, .12); opacity: calc(.5 + var(--lift, 0) * .5); overflow: hidden; }
+  .layer > b { position: absolute; left: 24px; top: 18px; font: 500 15px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--blue-2); }
+  .layer .body { position: absolute; inset: 56px 24px 22px; }
+  .bars { display: flex; align-items: center; gap: 6px; height: 100%; }
+  .bars i { flex: 1; height: 100%; max-height: 12%; border-radius: 3px; background: linear-gradient(180deg, var(--coral), #ffb59e); animation: bar 1.1s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -83ms); }
+  @keyframes bar { to { max-height: 96%; } }
+  .pills { display: flex; flex-wrap: wrap; gap: 9px; align-content: center; height: 100%; }
+  .pills span { padding: 7px 12px; border-radius: 9px; background: rgba(255, 255, 255, .08); border: 1px solid var(--line-2); font: 500 16px/1 var(--mono); color: rgba(243, 245, 251, .8); }
+  .pills .hot { background: rgba(125, 160, 255, .3); border-color: rgba(157, 185, 255, .7); color: #fff; box-shadow: 0 0 22px rgba(111, 141, 255, .5); }
+  .lines { display: grid; gap: 9px; }
+  .lines i { display: block; height: 11px; width: var(--w); border-radius: 6px; background: rgba(243, 245, 251, .22); }
+  .lines.hi i { height: 14px; background: linear-gradient(90deg, #dbe6ff, var(--blue-2)); box-shadow: 0 0 18px rgba(157, 185, 255, .45); }
+  .arrow { margin: 8px 0; font: 500 22px/1 var(--mono); color: var(--blue-2); }
+  .gchk { display: grid; gap: 14px; margin-top: 4px; }
+  .gchk li { position: relative; height: 34px; padding-left: 46px; }
+  .gchk li::before { content: ""; position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 10px; background: rgba(94, 232, 166, .16) center / 20px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m2 6.3 2.6 2.6L10 3.4' fill='none' stroke='%235ee8a6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); box-shadow: inset 0 0 0 1px rgba(94, 232, 166, .55); }
+  .gchk li::after { content: ""; position: absolute; left: 46px; top: 11px; height: 12px; width: 62%; border-radius: 6px; background: rgba(243, 245, 251, .22); }
+  .gchk li.no::before { background-color: rgba(255, 122, 110, .15); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m3 3 6 6M9 3 3 9' fill='none' stroke='%23ff7a6e' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E"); box-shadow: inset 0 0 0 1px rgba(255, 122, 110, .6); }
+  .gchk li.no::after { width: 48%; background: rgba(255, 122, 110, .35); }
+  .field-mock { height: 100%; padding: 22px 22px; border-radius: 16px; background: rgba(255, 255, 255, .07); border: 1px solid var(--line-2); display: flex; flex-wrap: wrap; align-content: flex-start; gap: 12px; }
+  .field-mock .line { display: block; width: 100%; height: 16px; border-radius: 8px; background: linear-gradient(90deg, #dbe6ff, var(--blue-2)); box-shadow: 0 0 18px rgba(157, 185, 255, .4); }
+  .field-mock .line.short { width: 55%; }
+  .field-mock .caret { height: 22px; margin-left: 0; }
+  .peek { display: block; margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); font: 400 13.5px/1.7 var(--mono); color: rgba(243, 245, 251, .72); }
+  .peek mark { background: rgba(125, 160, 255, .28); color: #e3ecff; border-radius: 4px; padding: 0 3px; }
+  .peek s { color: var(--mute); text-decoration-color: rgba(255, 122, 110, .8); }
+  .peek.chk { display: grid; gap: 6px; }
+  .peek.chk span::before { content: "✓ "; color: var(--green); }
+  .peek.chk span.n::before { content: "✕ "; color: var(--coral); }
+  .beam { position: absolute; left: 50%; top: 50%; width: 2px; height: 860px; margin: -430px 0 0 -1px; transform: rotateX(90deg); background: linear-gradient(180deg, transparent, rgba(157, 185, 255, .7) 12%, rgba(157, 185, 255, .7) 88%, transparent); }
+  .packet { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; transform: translateZ(calc(var(--pz, 0) * 1px)); background: radial-gradient(circle, #fff, var(--blue-2) 45%, transparent 70%); box-shadow: 0 0 40px 10px rgba(157, 185, 255, .7); }
+  .plane { position: absolute; left: 50%; top: 50%; width: 640px; height: 640px; margin: -320px 0 0 -320px; transform: translateZ(-260px); background: radial-gradient(circle, rgba(79, 108, 255, .22), transparent 62%); }
+
+  .story { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 6vw, 90px); align-items: start; }
+  .prose p { max-width: 36em; font-size: 18px; line-height: 1.65; color: var(--ink-2); }
+  .prose p + p { margin-top: 16px; }
+  .prose code { padding: .12em .4em; border-radius: 6px; background: rgba(255, 255, 255, .09); color: var(--ink); font-size: .85em; }
+  .miss { margin-top: 34px; border-top: 1px solid var(--line); }
+  .miss li { display: grid; grid-template-columns: minmax(0, .9fr) 36px minmax(0, 1.1fr); align-items: baseline; gap: 12px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .miss .heard { font: 400 17px/1.4 var(--mono); color: #ffb4ac; text-decoration: underline wavy rgba(255, 122, 110, .7); text-decoration-thickness: 1px; text-underline-offset: 5px; }
+  .miss .arrow { color: var(--mute); text-align: center; }
+  .miss .fixed { font: 400 clamp(30px, 3.4vw, 46px)/1.1 var(--serif); letter-spacing: -.02em; }
+  .miss .dec { font-variant-ligatures: none; }
+  .miss figcaption { margin-top: 12px; font-size: 13px; color: var(--mute); }
+
+  /* install */
+  .inst-tabs { display: inline-flex; gap: 4px; margin-top: 30px; padding: 4px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); }
+  .inst-tabs button { padding: 9px 20px; border: 0; border-radius: 999px; background: transparent; color: var(--mute); font: 500 14px/1 var(--sans); transition: background .25s, color .25s; }
+  .inst-tabs button[aria-selected="true"] { background: rgba(255, 255, 255, .13); color: #fff; }
+  .inst-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 5vw, 72px); align-items: center; margin-top: 34px; }
+  .term-wrap { perspective: 1300px; }
+  .term { border-radius: 18px; background: linear-gradient(180deg, rgba(20, 24, 40, .92), rgba(8, 10, 18, .94)); border: 1px solid var(--line-2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 60px 120px -40px #000, 0 0 90px -30px rgba(79, 108, 255, .5); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .5s var(--ease); position: relative; overflow: hidden; }
+  .term::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(420px 260px at var(--gx, 30%) var(--gy, 0%), rgba(255, 255, 255, .09), transparent 70%); }
+  .term-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid var(--line); font: 500 12px/1 var(--mono); color: var(--mute); }
+  .term-bar i { width: 11px; height: 11px; border-radius: 50%; }
+  .term-bar i:nth-child(1) { background: #ff6a5f; } .term-bar i:nth-child(2) { background: #ffbd3a; } .term-bar i:nth-child(3) { background: #2ac84a; }
+  .term-bar span { margin: 0 auto; transform: translateX(-24px); }
+  .term-body { min-height: 218px; padding: 20px 22px 24px; font: 400 14px/1.75 var(--mono); color: var(--ink-2); white-space: pre-wrap; word-break: break-all; }
+  .term-body .p { color: var(--mute); }
+  .term-body .c { color: #fff; }
+  .term-body .ok { color: var(--green); }
+  .term-body .d { color: var(--mute); }
+  .term-body .cur { display: inline-block; width: 8px; height: 1.1em; vertical-align: -.2em; background: var(--blue-2); animation: blink 1s steps(1, end) infinite; }
+  .term-copy { display: flex; justify-content: flex-end; margin-top: 14px; }
+  .inst-text p { color: var(--ink-2); font-size: 16px; line-height: 1.65; }
+  .inst-text p + p, .inst-text p + pre, .inst-text pre + p { margin-top: 14px; }
+  .inst-text a { color: #fff; }
+  pre.code { padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); font: 400 13.5px/1.6 var(--mono); color: var(--ink); overflow-x: auto; white-space: pre; }
+  pre.code .c { color: var(--mute); }
+  .inst-more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 5vw, 72px); margin-top: clamp(48px, 6vw, 80px); padding-top: 32px; border-top: 1px solid var(--line); }
+  .inst-more h3 { font: 500 24px/1.2 var(--serif); letter-spacing: -.01em; }
+  .inst-more p, .inst-more li { margin-top: 10px; color: var(--ink-2); font-size: 15.5px; }
+  .inst-more ul { margin: 10px 0 0 1.1em; list-style: disc; }
+  .inst-more li { margin-top: 6px; }
+  .inst-more strong { color: #fff; font-weight: 600; }
+  [hidden] { display: none !important; }
+  html[data-os="win"] .only-mac, html[data-os="mac"] .only-win { display: none; }
+
+  .faq { margin-top: 30px; border-top: 1px solid var(--line); max-width: 860px; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { display: flex; justify-content: space-between; gap: 16px; padding: 22px 0; font: 400 clamp(20px, 2vw, 24px)/1.3 var(--serif); letter-spacing: -.01em; cursor: pointer; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; flex: none; font: 300 28px/1 var(--sans); color: var(--mute); transition: transform .3s var(--ease); }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { max-width: 42em; padding: 0 0 24px; font-size: 16px; color: var(--ink-2); }
+  .faq code { padding: .1em .4em; border-radius: 6px; background: rgba(255, 255, 255, .09); font-size: .86em; }
+
+  .end { position: relative; padding: clamp(90px, 12vw, 170px) 0 40px; text-align: center; }
+  .end .spot { position: relative; width: 210px; height: 200px; margin: 0 auto; }
+  .end h2 { margin-top: 34px; }
+  .end .cmd { margin: 28px auto 0; }
+  .end .sub { margin-top: 14px; font-size: 14px; color: var(--mute); }
+  footer { padding: 28px 0 44px; border-top: 1px solid var(--line); margin-top: clamp(60px, 8vw, 110px); font-size: 14px; color: var(--mute); }
+  footer a { color: var(--ink-2); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; }
+
+  @media (min-width: 1021px) and (max-height: 830px) {
+    .hero { min-height: 100svh; padding: 84px 0 28px; }
+    h1 { font-size: clamp(44px, min(6.3vw, 10.5svh), 92px); }
+    .dek { margin-top: 16px; }
+    .osswitch { margin-top: 22px; }
+    .facts { margin-top: 22px; }
+    .keyspot { width: min(100%, 250px); }
+    .win-cap { display: none; }
+    .win-body { padding-bottom: 14px; }
+    .raw { min-height: 2.6em; }
+    .out { min-height: 2.6em; }
   }
-  .sp-bubble.is-on { transform: scale(1); opacity: 1; }
-  .sp-bubble.is-done { box-shadow: 0 0 0 2px rgba(80, 200, 140, .55), 0 0 18px rgba(80, 200, 140, .35); }
-  .sp-bubble canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .sp-bubble span { position: relative; z-index: 1; white-space: nowrap; text-shadow: 0 0 6px rgba(0, 0, 0, .9); -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px); mask-image: linear-gradient(90deg, transparent, #000 20px); }
-
-  /* ---------- the rest of the page: light, editorial ---------- */
-  .sp { padding-bottom: clamp(64px, 9vw, 120px); }
-  .sp h2 { font: 400 clamp(30px, 3.6vw, 42px)/1.08 var(--serif); letter-spacing: -.025em; }
-  .sp h3 { font: 600 17px/1.3 var(--sans); }
-  .sp p { color: var(--ink-2); }
-  .sp a { text-underline-offset: .22em; text-decoration-thickness: 1px; }
-  .sp code, .sp kbd, .hx kbd { font: .9em/1 var(--mono); }
-  .sp kbd {
-    display: inline-block; min-width: 1.9em; padding: .28em .5em; border-radius: 7px;
-    background: #fff; border: 1px solid var(--line-strong); box-shadow: 0 1px 0 var(--line-strong); text-align: center; color: var(--ink);
+  @media (max-width: 1020px) {
+    .hero { min-height: 0; padding: 88px 0 40px; display: block; }
+    .hero-grid { display: flex; flex-direction: column; align-items: stretch; }
+    .hero-copy, .stage { display: contents; }
+    .hero::before { background: linear-gradient(180deg, rgba(6, 8, 13, .72), rgba(6, 8, 13, .25) 55%, rgba(6, 8, 13, .5)); }
+    h1 { order: 1; font-size: clamp(42px, 11vw, 70px); }
+    .dek { order: 2; margin-top: 14px; font-size: 16.5px; }
+    .keyspot { order: 3; width: min(60vw, 240px); margin: 10px auto 0; align-self: center; }
+    .keyhint { order: 4; margin-top: 2px; }
+    .bubble-row { order: 5; margin-top: 4px; align-self: center; }
+    .osswitch { order: 6; margin-top: 18px; align-self: flex-start; }
+    .cmd { order: 7; width: 100%; }
+    .meta { order: 8; }
+    .win { order: 9; margin-top: 26px; max-width: none; }
+    .facts { order: 10; margin-top: 26px; }
+    .story, .inst-grid { grid-template-columns: minmax(0, 1fr); }
   }
-  .sp-section { max-width: calc(880px + 2 * var(--gutter)); margin: clamp(72px, 10vw, 120px) auto 0; scroll-margin-top: 24px; }
-
-  .sp-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; counter-reset: how; }
-  .sp-how li { padding: 22px; border-radius: var(--r-sm); background: var(--bg-alt); counter-increment: how; }
-  .sp-how li::before { content: counter(how); display: block; font: 400 34px/1 var(--serif); color: var(--navy); }
-  .sp-how h3 { margin-top: 14px; }
-  .sp-how p { margin-top: 6px; font-size: 15.5px; }
-
-  .sp-story { max-width: 38em; margin-top: 22px; }
-  .sp-story p { font-size: 18px; line-height: 1.6; }
-  .sp-story p + p { margin-top: 14px; }
-
-  .sp-install { margin-top: 28px; border-top: 1px solid var(--line); }
-  .sp-install > div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
-  .sp-install > div > div { min-width: 0; }
-  .sp-install h3 { font: 400 24px/1.2 var(--serif); letter-spacing: -.01em; }
-  .sp-install .tag { display: block; margin-top: 4px; font: 600 13px/1.4 var(--sans); color: var(--muted); }
-  .sp-install p + p, .sp-install p + pre, .sp-install pre + p, .sp-install ul + p { margin-top: 12px; }
-  .sp-install p, .sp-install li { font-size: 16px; }
-  .sp-install ul { margin-top: 10px; padding-left: 1.2em; color: var(--ink-2); }
-  .sp-install li + li { margin-top: 6px; }
-  .sp pre.sp-code { margin-top: 12px; padding: 14px 18px; border-radius: 14px; background: var(--bg-alt); font: 14px/1.6 var(--mono); color: var(--ink); overflow-x: auto; white-space: pre; }
-  .sp pre.sp-code .c { color: var(--muted); }
-
-  .sp-faq { margin-top: 24px; border-top: 1px solid var(--line); }
-  .sp-faq details { border-bottom: 1px solid var(--line); }
-  .sp-faq summary { display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; font: 400 21px/1.3 var(--serif); letter-spacing: -.01em; cursor: pointer; list-style: none; }
-  .sp-faq summary::-webkit-details-marker { display: none; }
-  .sp-faq summary::after { content: "+"; flex: none; font: 300 26px/1 var(--sans); color: var(--muted); transition: transform .25s var(--ease); }
-  .sp-faq details[open] summary::after { transform: rotate(45deg); }
-  .sp-faq details p { max-width: 40em; padding: 0 0 22px; font-size: 16px; }
-
-  .sp-end { margin-top: clamp(72px, 10vw, 120px); text-align: center; }
-  .sp-end .sp-cmd { max-width: 600px; margin: 24px auto 0; }
-
-  .sx-foot { padding: 28px 0 40px; border-top: 1px solid var(--line); }
-  .sx-foot p { font-size: 14px; color: var(--muted); }
-  .sx-foot a { color: var(--ink); text-underline-offset: .22em; text-decoration-thickness: 1px; }
-
-  @media (max-width: 900px) {
-    .hx-grid { grid-template-columns: minmax(0, 1fr); }
-    .hx-demo { max-width: 620px; }
-  }
-  @media (max-width: 760px) {
-    .sp-how { grid-template-columns: 1fr; }
-    .sp-install > div { grid-template-columns: 1fr; gap: 10px; }
-    .sp-cmd pre { padding-left: 18px; font-size: 13px; }
+  @media (max-width: 860px) {
+    .nav-links a:not(:last-child) { display: none; }
+    .steps { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .steps::before, .steps .pulse { display: none; }
+    .step { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 0 12px; align-items: center; }
+    .step .spot { width: 110px; height: 108px; grid-row: 1 / span 2; }
+    .step h3 { margin: 0; align-self: end; }
+    .step p { margin: 4px 0 0; align-self: start; }
+    .pipe { height: 520svh; }
+    .pipe-sticky { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; align-content: start; gap: 0; padding-top: 72px; }
+    .pipe-stage { order: -1; height: 32svh; margin-bottom: 22px; }
+    .stack { --sc: .36; --zk: .42; }
+    .pipe-copy .lede { display: none; }
+    .pipe-copy h2 { font-size: 30px; }
+    .pipe-list { margin-top: 12px; }
+    .pipe-list li:not(.is-on) { padding-top: 9px; padding-bottom: 9px; }
+    .pipe-list li:not(.is-on) h3 { font-size: 17px; }
+    .inst-more { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 560px) {
-    .hx-links a:not(:last-child) { display: none; }
-    .hx-chip { align-items: flex-start; border-radius: 14px; font-size: 12px; line-height: 1.45; }
-    .hx-chip i { flex: none; margin-top: 6px; }
+    .cmd pre { padding-left: 18px; font-size: 12.5px; }
+    .copy { padding: 10px 16px; }
+    .win-body { padding: 14px 16px 18px; }
+    .miss li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .miss .arrow { display: none; }
+    .stack { --sc: .33; --zk: .42; }
+    .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; font-size: 11px; }
+    .facts li { padding: 0 10px; }
+    .facts b { font-size: 13px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hx-chip i { animation: none; }
-    .sp-bubble, .sp-faq summary::after, .hx-out { transition: none; }
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .out .w, .bars i, .caret, .term-body .cur { animation: none; }
+    .win, .term { transition: none; }
   }
 </style>
 </head>
 <body>
-  <header class="hx">
-    <canvas class="hx-field" aria-hidden="true"></canvas>
-    <nav class="wrap hx-nav" aria-label="Spark">
-      <a class="hx-brand" href="/spark/"><img src="/images/spark-icon.png" alt="" width="28" height="28">Spark</a>
-      <div class="hx-links">
+  <a class="skip" href="#main">Bỏ qua phần đầu</a>
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="field2d" aria-hidden="true"><canvas></canvas></div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <div class="nav-in">
+      <a class="brand" href="#top"><img src="/images/spark-icon.png" alt="" width="28" height="28"><span>Spark</span></a>
+      <nav class="nav-links" aria-label="Spark">
         <a href="#cach-dung">Cách dùng</a>
+        <a href="#ben-trong">Bên trong</a>
         <a href="#cai-dat">Cài đặt</a>
         <a href="#hoi-dap">FAQ</a>
-        <a href="https://github.com/VuongNM/spark">GitHub</a>
-      </div>
-    </nav>
-
-    <div class="hx-grid" style="max-width: var(--wide); margin: 0 auto;">
-      <div>
-        <h1 class="hx-title">Spark: speech to text tiếng Việt</h1>
-        <p class="hx-dek">Giữ phím fn rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và mọi app khác.</p>
-        <div class="sp-cmd">
-          <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
-          <button class="sp-copy" type="button">Copy</button>
-        </div>
-        <p class="hx-meta">Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#windows">bản Windows</a> beta.</p>
-      </div>
-
-      <figure class="hx-demo">
-        <span class="hx-label">Transcript (STT)</span>
-        <p class="hx-raw"></p>
-        <div class="hx-mid"><div class="sp-bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
-        <span class="hx-label">Output sau khi Spark viết lại</span>
-        <p class="hx-out"></p>
-        <figcaption>Output thật trên MacBook M1, LLM cleanup bằng Gemma 4 chạy local, không cần mạng. Audio mẫu là giọng TTS tiếng Việt (Linh) có sẵn trong macOS.</figcaption>
-      </figure>
+        <a href="https://github.com/VuongNM/spark" rel="noopener">GitHub</a>
+      </nav>
+      <a class="btn btn-sm" href="#cai-dat">Tải về</a>
     </div>
   </header>
 
-  <main class="sp" id="main">
-    <section class="wrap sp-section" id="cach-dung">
-      <h2>Cách dùng</h2>
-      <ol class="sp-how">
-        <li><h3>Giữ <kbd>fn</kbd> rồi nói</h3><p>Một overlay nhỏ hiện ở cạnh dưới màn hình, hiển thị transcript real-time trong lúc bạn nói.</p></li>
-        <li><h3>Thả phím</h3><p>Khoảng 1 giây sau, text đã xử lý được paste vào ô đang focus, trong bất kỳ app nào.</p></li>
-        <li><h3>Hands-free</h3><p>Double-tap <kbd>fn</kbd> để nói mà không cần giữ phím, nhấn <kbd>fn</kbd> lần nữa để dừng.</p></li>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Spark: speech to text tiếng Việt</h1>
+          <p class="dek">Giữ phím <kbd data-kn>fn</kbd> rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và mọi app khác.</p>
+
+          <div class="osswitch" role="tablist" aria-label="Hệ điều hành">
+            <button type="button" role="tab" data-os-btn="mac" aria-selected="true">macOS</button>
+            <button type="button" role="tab" data-os-btn="win" aria-selected="false">Windows<span class="beta">beta</span></button>
+          </div>
+          <div class="cmd">
+            <pre tabindex="0" aria-label="Lệnh cài"><span class="prompt" data-prompt>$ </span><code data-cmd-text>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
+            <button class="copy" type="button">Copy</button>
+          </div>
+          <p class="meta" data-meta>Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.</p>
+
+          <ul class="facts">
+            <li><b>~0,1 s</b>STT / 5 s audio</li>
+            <li><b>~1 s</b>thả phím → có chữ</li>
+            <li><b>0 byte</b>audio rời máy</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <div class="keyspot" id="keyspot" data-key>
+            <button class="key" id="key" type="button" aria-describedby="keyhint">
+              <span class="key2d" aria-hidden="true"><span class="plate"></span><span class="cap"><b data-legend>fn</b></span></span>
+              <span class="sr">Giữ để thử Spark. Thả ra để xem text được paste.</span>
+            </button>
+          </div>
+          <p class="keyhint" id="keyhint" role="status" aria-live="polite">Giữ phím này để nói thử</p>
+          <div class="bubble-row"><div class="bubble" id="bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
+          <figure class="win" id="win">
+            <div class="win-bar"><i></i><i></i><i></i><span>Ô đang focus</span></div>
+            <div class="win-body">
+              <span class="win-label">Transcript (STT)</span>
+              <p class="raw" id="raw"><mark>phích</mark> cái <mark>bắp</mark> ở file index <mark>chấm ts</mark> rồi commit và <mark>tút</mark> lên <mark>bờ ran may</mark> nhé</p>
+              <span class="win-label" style="margin-top:14px">Spark paste</span>
+              <p class="out" id="out" aria-live="polite"><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark> rồi commit và <mark>push</mark> lên <mark>branch main</mark> nhé.</p>
+            </div>
+            <figcaption class="win-cap">Câu mẫu, không thu âm bạn. Output là kết quả thật của Spark trên MacBook M1 (Gemma 4 chạy local). Audio mẫu là giọng TTS tiếng Việt của macOS.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wrap" id="cach-dung">
+      <h2 class="rv">Cách dùng</h2>
+      <ol class="steps rv">
+        <li class="step"><div class="spot" data-key data-step="0"></div><div><h3>Giữ <kbd class="kbd" data-kn>fn</kbd> rồi nói</h3><p>Một overlay nhỏ hiện ở cạnh dưới màn hình, hiển thị transcript real-time trong lúc bạn nói.</p></div></li>
+        <li class="step"><div class="spot" data-key data-step="1"></div><div><h3>Thả phím</h3><p>Khoảng 1 giây sau, text đã xử lý được paste vào ô đang focus, trong bất kỳ app nào.</p></div></li>
+        <li class="step"><div class="spot" data-key data-step="2"></div><div><h3>Hands-free</h3><p>Double-tap <kbd class="kbd" data-kn>fn</kbd> để nói mà không cần giữ phím, nhấn <kbd class="kbd" data-kn>fn</kbd> lần nữa để dừng.</p></div></li>
+        <span class="pulse" aria-hidden="true"></span>
       </ol>
     </section>
 
-    <section class="wrap sp-section">
-      <h2>Vì sao mình làm Spark</h2>
-      <div class="sp-story">
-        <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Model speech-to-text tiếng Việt nghe những câu như vậy ra chữ lung tung, "report" thành "lừa đảo", "deploy" thành "đi phôi", sửa lại còn mất công hơn tự gõ.</p>
-        <p>Spark chạy hai model STT on-device qua sherpa-onnx. Zipformer tiếng Việt (30M params) xử lý 5 giây audio trong khoảng 0,1 giây trên CPU, còn Moonshine tiny (tiếng Anh) chạy song song để bắt các từ như commit, merge, endpoint. Sau đó một LLM viết lại transcript thành câu hoàn chỉnh, có dấu câu và đúng chính tả tiếng Anh: Gemma 4 E2B chạy local, hoặc Claude Haiku qua API key của bạn.</p>
-        <p>Khi app đang focus là Cursor, VS Code hay Terminal, Spark giữ nguyên tên file, tên function và command, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên project hay tên người thì thêm vào mục Từ điển (dictionary) trong app, Spark sẽ dùng chúng làm hotwords cho STT và để viết cho đúng.</p>
-        <p>Spark luôn so output của LLM với transcript gốc, nếu model tự thêm nội dung hoặc đổi số thì output đó bị loại. Audio không bao giờ rời khỏi máy, và nếu dùng Gemma thì chạy offline hoàn toàn.</p>
+    <section class="pipe" id="ben-trong" aria-labelledby="pipe-h">
+      <div class="pipe-sticky">
+        <div class="pipe-copy">
+          <h2 id="pipe-h">Bên trong Spark</h2>
+          <p class="lede">Từ lúc bạn giữ phím đến lúc có chữ, mọi bước chạy trên máy bạn.</p>
+          <ol class="pipe-list" id="pipe-list">
+            <li data-n="01"><h3>Thu âm</h3><p><span>Giữ phím thì overlay hiện ở cạnh dưới màn hình, không lấy focus khỏi ô bạn đang gõ. Audio được stream về app trong lúc bạn nói.<em>phím <span data-kn>fn</span> được đọc bằng helper Swift (CGEventTap)</em></span></p></li>
+            <li data-n="02"><h3>Speech to text</h3><p><span>Cứ 300 ms, Spark decode lại 12 giây gần nhất bằng Zipformer tiếng Việt 30M params (sherpa-onnx, CPU), nên transcript hiện real-time. Hotwords giúp model viết đúng khoảng 30 từ dân code hay dùng. Moonshine tiny (tiếng Anh) chạy song song để bắt từ như commit, merge, endpoint.<code class="peek">BẠN <mark>REVIEW</mark> GIÚP MÌNH CÁI <mark>FUNCTION</mark> NÀY TRƯỚC KHI LÊN <mark>PRODUCTION</mark> NHÉ</code><em>~0,1 s cho 5 s audio</em></span></p></li>
+            <li data-n="03"><h3>LLM cleanup</h3><p><span>Gemma 4 E2B chạy local (Metal), hoặc Claude Haiku bằng API key của bạn, viết lại transcript thành câu hoàn chỉnh. Ở Cursor, VS Code, Terminal thì Spark giữ nguyên tên file, function và command. Cleanup bắt đầu ngay khi bạn ngừng nói.<code class="peek"><s>phích cái bắp ở file index chấm ts</s><br><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark></code><em>~1 s sau khi thả phím</em></span></p></li>
+            <li data-n="04"><h3>Guard</h3><p><span>Spark luôn so output với transcript gốc. Nếu LLM thêm từ hoặc đổi số, output đó bị loại và Spark fallback sang Claude hoặc basic cleanup.<code class="peek chk"><span class="y">không thêm từ</span><span class="y">không đổi số</span><span class="n">lệch transcript → fallback</span></code><em>checkDivergence · unspokenNumbers</em></span></p></li>
+            <li data-n="05"><h3>Paste</h3><p><span>Spark copy text vào clipboard, gửi <span class="only-mac">⌘V</span><span class="only-win">Ctrl+V</span>, rồi trả lại nội dung clipboard cũ của bạn.<code class="peek">Fix cái bug ở file index.ts<span class="caret"></span></code><em>audio không bao giờ rời máy</em></span></p></li>
+          </ol>
+        </div>
+        <div class="pipe-stage" aria-hidden="true">
+          <div class="stack" id="stack">
+            <div class="plane"></div>
+            <div class="beam"></div>
+            <div class="layer" style="--z:340"><b>01 · thu âm</b><div class="body"><div class="bars"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><i style="--k:8"></i><i style="--k:9"></i><i style="--k:10"></i><i style="--k:11"></i><i style="--k:12"></i><i style="--k:13"></i><i style="--k:14"></i><i style="--k:15"></i><i style="--k:16"></i><i style="--k:17"></i><i style="--k:18"></i><i style="--k:19"></i><i style="--k:20"></i><i style="--k:21"></i></div></div></div>
+            <div class="layer" style="--z:170"><b>02 · speech to text</b><div class="body"><div class="pills"><span>BẠN</span><span class="hot">REVIEW</span><span>GIÚP MÌNH</span><span>CÁI</span><span class="hot">FUNCTION</span><span>NÀY</span><span>TRƯỚC KHI</span><span class="hot">PRODUCTION</span></div></div></div>
+            <div class="layer" style="--z:0"><b>03 · llm cleanup</b><div class="body"><div class="lines"><i style="--w:92%"></i><i style="--w:64%"></i><i style="--w:78%"></i></div><div class="arrow">↓</div><div class="lines hi"><i style="--w:88%"></i><i style="--w:70%"></i><i style="--w:54%"></i></div></div></div>
+            <div class="layer" style="--z:-170"><b>04 · guard</b><div class="body"><ul class="gchk"><li></li><li></li><li class="no"></li></ul></div></div>
+            <div class="layer" style="--z:-340"><b>05 · paste</b><div class="body"><div class="field-mock"><span class="line"></span><span class="line short"></span><span class="caret"></span></div></div></div>
+            <span class="packet" id="packet"></span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wrap sp-section" id="cai-dat">
-      <h2>Cài đặt</h2>
-      <div class="sp-install">
+    <section class="sec wrap" id="vi-sao">
+      <div class="story">
+        <div class="rv"><h2>Vì sao mình làm Spark</h2></div>
+        <div class="rv">
+          <div class="prose">
+            <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Model speech-to-text tiếng Việt nghe những câu như vậy ra chữ lung tung, sửa lại còn mất công hơn tự gõ.</p>
+            <p>Khi app đang focus là Cursor, VS Code hay Terminal, Spark giữ nguyên tên file, tên function và command, ví dụ nói "index chấm ts" sẽ ra <code>index.ts</code>. Tên project hay tên người thì thêm vào mục Từ điển (dictionary) trong app, Spark sẽ dùng chúng làm hotwords cho STT và để viết cho đúng.</p>
+          </div>
+          <figure>
+            <ul class="miss">
+              <li><span class="heard">lừa đảo</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="report"><span class="sr">report</span><span aria-hidden="true" class="dec">report</span></span></li>
+              <li><span class="heard">đi phôi</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="deploy"><span class="sr">deploy</span><span aria-hidden="true" class="dec">deploy</span></span></li>
+              <li><span class="heard">bờ ran may</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="branch main"><span class="sr">branch main</span><span aria-hidden="true" class="dec">branch main</span></span></li>
+            </ul>
+            <figcaption>Bên trái là chữ model tiếng Việt nghe ra. Bên phải là chữ Spark paste.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec wrap" id="cai-dat">
+      <h2 class="rv">Cài đặt</h2>
+      <div class="inst-tabs rv" role="tablist" aria-label="Cách cài">
+        <button type="button" role="tab" id="tab-mac" aria-controls="p-mac" aria-selected="true" data-tab="mac">macOS</button>
+        <button type="button" role="tab" id="tab-win" aria-controls="p-win" aria-selected="false" data-tab="win">Windows</button>
+        <button type="button" role="tab" id="tab-src" aria-controls="p-src" aria-selected="false" data-tab="src">Build từ source</button>
+      </div>
+      <div class="inst-grid rv">
         <div>
-          <h3>macOS<span class="tag">Apple Silicon (M1 trở lên)</span></h3>
-          <div>
-            <p>Mở Terminal và chạy:</p>
-            <pre class="sp-code">curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</pre>
-            <p>Script tải release mới nhất từ <a href="https://github.com/VuongNM/spark/releases">GitHub Releases</a>, copy Spark.app vào /Applications rồi mở app. Muốn update thì chạy lại lệnh này. Nên <a href="/spark/install.sh">đọc script</a> trước khi chạy.</p>
-            <p>Nếu tải bằng browser thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa được sign bằng Developer ID và notarize với Apple (cần Apple Developer Program, 99 USD/năm), nên lần đầu mở Gatekeeper sẽ chặn. Vào System Settings → Privacy &amp; Security, bấm “Open Anyway”, hoặc xoá quarantine attribute:</p>
-            <pre class="sp-code">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
+          <div class="term-wrap">
+            <div class="term" id="term">
+              <div class="term-bar"><i></i><i></i><i></i><span id="term-title">Terminal</span></div>
+              <pre class="term-body" id="term-body" aria-label="Lệnh cài và kết quả"><span class="p">$ </span><span class="c">curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</span></pre>
+            </div>
+          </div>
+          <div class="term-copy"><button class="copy" type="button" id="term-copy">Copy lệnh</button></div>
+        </div>
+        <div class="inst-text">
+          <div id="p-mac" role="tabpanel" aria-labelledby="tab-mac">
+            <p>Mở Terminal và chạy lệnh bên cạnh. Script tải release mới nhất từ <a href="https://github.com/VuongNM/spark/releases" rel="noopener">GitHub Releases</a>, copy Spark.app vào /Applications rồi mở app. Muốn update thì chạy lại lệnh này. Nên <a href="/spark/install.sh">đọc script</a> trước khi chạy.</p>
+            <p>Apple Silicon (M1 trở lên). Nếu tải bằng browser thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa được sign bằng Developer ID và notarize với Apple (cần Apple Developer Program, 99 USD/năm), nên lần đầu mở Gatekeeper sẽ chặn. Vào System Settings → Privacy &amp; Security, bấm “Open Anyway”, hoặc xoá quarantine attribute:</p>
+            <pre class="code" tabindex="0">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
+          </div>
+          <div id="p-win" role="tabpanel" aria-labelledby="tab-win" hidden>
+            <p>Mở PowerShell và chạy lệnh bên cạnh (Windows 10, 11). Script tải bản cài mới nhất, cài cho user hiện tại, không cần quyền admin, rồi mở Spark. Giữ <kbd class="kbd">Right Ctrl</kbd> để nói.</p>
+            <p>Bản Windows được build bằng CI nhưng chưa test kỹ trên máy thật, gặp lỗi thì mở <a href="https://github.com/VuongNM/spark/issues" rel="noopener">issue trên GitHub</a> giúp mình nhé. Hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>.</p>
+          </div>
+          <div id="p-src" role="tabpanel" aria-labelledby="tab-src" hidden>
+            <p>Stack: Electron, React, TypeScript, sherpa-onnx, node-llama-cpp. License MIT. Phím fn trên macOS cần Xcode Command Line Tools để build helper Swift.</p>
+            <p><a href="https://github.com/VuongNM/spark" rel="noopener">github.com/VuongNM/spark</a></p>
           </div>
         </div>
+      </div>
+
+      <div class="inst-more rv">
         <div>
           <h3>Lần đầu mở</h3>
-          <div>
-            <p>Spark mở một hướng dẫn ngắn. Nó tải model STT (khoảng 80 MB), xin các permission dưới đây, rồi cho bạn giữ fn đọc thử ba câu mẫu để xem Spark viết lại thế nào. Muốn xem lại thì vào Cài đặt → Chung.</p>
-            <ul>
-              <li><strong>Microphone</strong>, để thu âm trong lúc bạn giữ phím.</li>
-              <li><strong>Accessibility</strong>, để bắt phím fn và gửi lệnh paste (⌘V).</li>
-              <li><strong>Input Monitoring</strong>, nếu macOS hỏi. Spark chỉ đọc phím fn, không log các phím khác.</li>
-            </ul>
-            <p>Nếu nhấn fn mà emoji picker hiện lên, vào System Settings → Keyboard và đặt “Press 🌐 key to” thành “Do Nothing”.</p>
-            <p>Muốn có LLM cleanup thì tải Gemma 4 hoặc nhập Anthropic API key ngay trong hướng dẫn, hoặc sau này trong Cài đặt.</p>
-          </div>
-        </div>
-        <div id="windows">
-          <h3>Windows<span class="tag">Beta · Windows 10, 11</span></h3>
-          <div>
-            <p>Mở PowerShell và chạy:</p>
-            <pre class="sp-code">irm https://vuongnm.github.io/spark/install.ps1 | iex</pre>
-            <p>Giữ <kbd>Right Ctrl</kbd> để nói. Bản Windows được build bằng CI nhưng chưa test kỹ trên máy thật, gặp lỗi thì mở <a href="https://github.com/VuongNM/spark/issues">issue trên GitHub</a> giúp mình nhé.</p>
-          </div>
-        </div>
-        <div>
-          <h3>Build từ source</h3>
-          <div>
-            <pre class="sp-code">git clone https://github.com/VuongNM/spark.git
-cd spark
-npm ci
-npm run build:native   <span class="c"># phím fn trên macOS, cần Xcode Command Line Tools</span>
-npm run dev</pre>
-            <p>Stack: Electron, React, TypeScript, sherpa-onnx, node-llama-cpp. License MIT.</p>
-          </div>
+          <p>Spark mở một hướng dẫn ngắn. Nó tải model STT (khoảng 80 MB), xin các permission dưới đây, rồi cho bạn giữ <span data-kn>fn</span> đọc thử ba câu mẫu để xem Spark viết lại thế nào. Muốn xem lại thì vào Cài đặt → Chung.</p>
+          <ul class="only-mac">
+            <li><strong>Microphone</strong>, để thu âm trong lúc bạn giữ phím.</li>
+            <li><strong>Accessibility</strong>, để bắt phím fn và gửi lệnh paste (⌘V).</li>
+            <li><strong>Input Monitoring</strong>, nếu macOS hỏi. Spark chỉ đọc phím fn, không log các phím khác.</li>
+          </ul>
+          <p class="only-mac">Nếu nhấn fn mà emoji picker hiện lên, vào System Settings → Keyboard và đặt “Press 🌐 key to” thành “Do Nothing”.</p>
+          <p>Muốn có LLM cleanup thì tải Gemma 4 hoặc nhập Anthropic API key ngay trong hướng dẫn, hoặc sau này trong Cài đặt.</p>
         </div>
         <div>
           <h3>Uninstall</h3>
-          <div>
-            <p>Xoá app và toàn bộ data (settings, history, models):</p>
-            <pre class="sp-code">rm -rf /Applications/Spark.app ~/Library/Application\ Support/Spark</pre>
-          </div>
+          <p>Xoá app và toàn bộ data (settings, history, models):</p>
+          <pre class="code only-mac" tabindex="0" style="margin-top:12px">rm -rf /Applications/Spark.app ~/Library/Application\ Support/Spark</pre>
+          <p class="only-win">Gỡ Spark trong Settings → Apps. Data nằm ở <code>%APPDATA%\Spark</code>, xoá thư mục này nếu muốn dọn hết.</p>
         </div>
       </div>
     </section>
 
-    <section class="wrap sp-section" id="hoi-dap">
-      <h2>FAQ</h2>
-      <div class="sp-faq">
-        <details>
-          <summary>Spark có gửi audio đi đâu không?</summary>
-          <p>Không. Speech-to-text chạy hoàn toàn on-device. Nếu bạn chọn Claude để cleanup thì Spark chỉ gửi transcript (text, không có audio) tới Anthropic API bằng key của bạn. History chỉ lưu local và xoá được trong app.</p>
-        </details>
-        <details>
-          <summary>Sao macOS chặn file .dmg?</summary>
-          <p>Để Gatekeeper cho mở thẳng, app cần được sign bằng Developer ID và notarize qua Apple Developer Program (99 USD/năm). Spark chưa làm bước này. Source code public nên bạn có thể đọc hoặc tự build.</p>
-        </details>
-        <details>
-          <summary>Sao cài bằng curl lại không bị chặn?</summary>
-          <p>Browser gắn quarantine attribute (<code>com.apple.quarantine</code>) cho file tải về, và Gatekeeper chỉ kiểm tra file có attribute này. curl không gắn attribute đó, nên đọc script trước khi chạy.</p>
-        </details>
-        <details>
-          <summary>Có cần mạng không?</summary>
-          <p>Chỉ cần lúc tải model lần đầu và khi dùng Claude API. Dùng Gemma thì Spark chạy offline hoàn toàn.</p>
-        </details>
-        <details>
-          <summary>Có mất phí không?</summary>
-          <p>Spark miễn phí. Nếu dùng Claude thì Anthropic tính phí API theo key của bạn.</p>
-        </details>
-        <details>
-          <summary>Yêu cầu phần cứng?</summary>
-          <p>Mọi Mac Apple Silicon đều chạy được. Gemma 4 dùng thêm khoảng 2 GB RAM, nên máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p>
-        </details>
+    <section class="sec wrap" id="hoi-dap">
+      <h2 class="rv">FAQ</h2>
+      <div class="faq rv">
+        <details><summary>Spark có gửi audio đi đâu không?</summary><p>Không. Speech-to-text chạy hoàn toàn on-device. Nếu bạn chọn Claude để cleanup thì Spark chỉ gửi transcript (text, không có audio) tới Anthropic API bằng key của bạn. History chỉ lưu local và xoá được trong app.</p></details>
+        <details><summary>Sao macOS chặn file .dmg?</summary><p>Để Gatekeeper cho mở thẳng, app cần được sign bằng Developer ID và notarize qua Apple Developer Program (99 USD/năm). Spark chưa làm bước này. Source code public nên bạn có thể đọc hoặc tự build.</p></details>
+        <details><summary>Sao cài bằng curl lại không bị chặn?</summary><p>Browser gắn quarantine attribute (<code>com.apple.quarantine</code>) cho file tải về, và Gatekeeper chỉ kiểm tra file có attribute này. curl không gắn attribute đó, nên đọc script trước khi chạy.</p></details>
+        <details><summary>Có cần mạng không?</summary><p>Chỉ cần lúc tải model lần đầu và khi dùng Claude API. Dùng Gemma thì Spark chạy offline hoàn toàn.</p></details>
+        <details><summary>Có mất phí không?</summary><p>Spark miễn phí. Nếu dùng Claude thì Anthropic tính phí API theo key của bạn.</p></details>
+        <details><summary>Yêu cầu phần cứng?</summary><p>Mọi Mac Apple Silicon đều chạy được. Gemma 4 dùng thêm khoảng 2 GB RAM, nên máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p></details>
       </div>
     </section>
 
-    <section class="wrap sp-end">
-      <h2>Cài Spark</h2>
-      <div class="sp-cmd">
-        <pre><span class="sp-prompt">$ </span><code>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
-        <button class="sp-copy" type="button">Copy</button>
+    <section class="end wrap" aria-labelledby="end-h">
+      <div class="spot" data-key data-end></div>
+      <h2 id="end-h">Cài Spark</h2>
+      <div class="cmd">
+        <pre tabindex="0" aria-label="Lệnh cài"><span class="prompt" data-prompt>$ </span><code data-cmd-text>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
+        <button class="copy" type="button">Copy</button>
       </div>
+      <p class="sub">Miễn phí, open source (MIT). Chạy lại lệnh này để update.</p>
     </section>
   </main>
 
-  <footer class="sx-foot">
+  <footer>
     <div class="wrap">
-      <p>Spark là side project của <a href="/">Vincent Nguyen</a>, open source trên <a href="https://github.com/VuongNM/spark">GitHub</a> (MIT).</p>
+      <p>Spark là side project của <a href="/">Vincent Nguyen</a>, open source trên <a href="https://github.com/VuongNM/spark" rel="noopener">GitHub</a> (MIT).</p>
+      <p>Speech model: sherpa-onnx (Apache-2.0).</p>
     </div>
   </footer>
 
 <script>
 (function () {
-  // ?motion plays the demo even with Reduce Motion on (for checking the animation).
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion\b/.test(location.search);
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var root = document.documentElement;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion\b/.test(location.search);
+  var clamp = function (x, a, b) { return Math.min(b, Math.max(a, x)); };
+  var smooth = function (a, b, x) { var t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 
-  // Copy buttons
-  document.querySelectorAll('.sp-cmd').forEach(function (box) {
-    var btn = box.querySelector('.sp-copy');
-    btn.addEventListener('click', function () {
-      var text = box.querySelector('code').textContent;
-      var done = function () { btn.textContent = 'Đã copy'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
-      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
-      else { var r = document.createRange(); r.selectNodeContents(box.querySelector('code')); getSelection().removeAllRanges(); getSelection().addRange(r); }
-    });
+  /* ---------------------------------------------------------------- platform */
+  var ua = navigator.userAgent || '';
+  var phone = /Android|iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var os = /Win/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '') ? 'win' : 'mac';
+  var OS = {
+    mac: { prompt: '$ ', cmd: 'curl -fsSL https://vuongnm.github.io/spark/install.sh | bash', key: 'fn', term: 'Terminal' },
+    win: { prompt: 'PS> ', cmd: 'irm https://vuongnm.github.io/spark/install.ps1 | iex', key: 'Right Ctrl', term: 'PowerShell' }
+  };
+  var META = {
+    mac: 'Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.',
+    win: 'Chạy lệnh trên trong PowerShell, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>. Windows 10, 11 (beta), 137 MB, miễn phí, open source (MIT). Cũng có <a href="#cai-dat" data-go-os="mac">bản Mac</a>.',
+    phone: 'Spark chạy trên Mac và Windows. Mở trang này trên máy tính, hoặc <a href="#" data-copy-link>copy link</a> gửi cho chính mình.'
+  };
+  var scene = null, DEBUG = /[?&]debug\b/.test(location.search);
+  if (DEBUG) window.__sparkDebug = function () { return { demo: demo, scene: scene }; };
+
+  function setOS(v, fromUser) {
+    os = v; root.dataset.os = v;
+    $$('[data-os-btn]').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.osBtn === v ? 'true' : 'false'); });
+    $$('[data-kn]').forEach(function (e) { e.textContent = OS[v].key; });
+    $$('[data-cmd-text]').forEach(function (e) { e.textContent = OS[v].cmd; });
+    $$('[data-prompt]').forEach(function (e) { e.textContent = OS[v].prompt; });
+    $$('[data-legend]').forEach(function (e) { e.textContent = v === 'mac' ? 'fn' : 'ctrl'; });
+    var meta = $('[data-meta]'); meta.innerHTML = phone ? META.phone : META[v];
+    if (scene) scene.setOS(v);
+    if (fromUser) { setTab(v); }
+    keyhint(null);
+  }
+  $$('[data-os-btn]').forEach(function (b) { b.addEventListener('click', function () { setOS(b.dataset.osBtn, true); }); });
+  document.addEventListener('click', function (e) {
+    var go = e.target.closest && e.target.closest('[data-go-os]');
+    if (go) { setOS(go.dataset.goOs, true); }
+    var cl = e.target.closest && e.target.closest('[data-copy-link]');
+    if (cl) { e.preventDefault(); copyText(location.href.split('#')[0], cl); }
   });
 
-  // Value noise, the same idea as the app's bit field: soft patches of dots drifting slowly.
+  /* ---------------------------------------------------------------- copy */
+  function copyText(text, btn) {
+    var done = function () { if (btn) { var old = btn.textContent; btn.textContent = 'Đã copy'; setTimeout(function () { btn.textContent = old; }, 1600); } };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+    else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove(); }
+  }
+  $$('.cmd .copy').forEach(function (btn) {
+    btn.addEventListener('click', function () { copyText(OS[os].cmd, btn); celebrate(); });
+  });
+  $('#term-copy').addEventListener('click', function () { copyText(termCmd(), this); runTerm(); celebrate(); });
+
+  /* ---------------------------------------------------------------- nav, reveal, pointer */
+  var nav = $('#nav');
+  function onScroll() { nav.classList.toggle('is-stuck', scrollY > 24); pipeUpdate(); }
+  addEventListener('scroll', onScroll, { passive: true });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    $$('.rv').forEach(function (el) { io.observe(el); });
+  } else { $$('.rv').forEach(function (el) { el.classList.add('is-in'); }); }
+
+  var winEl = $('#win');
+  if (!reduce && matchMedia('(pointer: fine)').matches) {
+    addEventListener('pointermove', function (e) {
+      var x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      winEl.style.setProperty('--wy', (x * 6).toFixed(2) + 'deg');
+      winEl.style.setProperty('--wx', (-y * 5).toFixed(2) + 'deg');
+    }, { passive: true });
+    var term = $('#term');
+    term.parentNode.addEventListener('pointermove', function (e) {
+      var r = term.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      term.style.setProperty('--ry', ((x - .5) * 9).toFixed(2) + 'deg');
+      term.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
+      term.style.setProperty('--gx', (x * 100) + '%'); term.style.setProperty('--gy', (y * 100) + '%');
+    });
+    term.parentNode.addEventListener('pointerleave', function () { term.style.setProperty('--ry', '0deg'); term.style.setProperty('--rx', '0deg'); });
+  }
+
+  /* ---------------------------------------------------------------- 2D dot field (bubble, and the whole background without WebGL) */
   function hash(x, y, z) { var h = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453; return h - Math.floor(h); }
-  function smooth(t) { return t * t * (3 - 2 * t); }
+  function sm(t) { return t * t * (3 - 2 * t); }
   function noise(x, y, z) {
-    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
-    var xf = smooth(x - xi), yf = smooth(y - yi), zf = smooth(z - zi);
+    var xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z), xf = sm(x - xi), yf = sm(y - yi), zf = sm(z - zi), v = [];
     function l(a, b, t) { return a + (b - a) * t; }
-    var v = [];
     for (var k = 0; k < 2; k++) for (var j = 0; j < 2; j++) for (var i = 0; i < 2; i++) v.push(hash(xi + i, yi + j, zi + k));
     return l(l(l(v[0], v[1], xf), l(v[2], v[3], xf), yf), l(l(v[4], v[5], xf), l(v[6], v[7], xf), yf), zf);
   }
-
-  // A dot field on a canvas. energy (0–1) lights more dots and speeds the drift.
-  function field(canvas, opts) {
-    var ctx = canvas.getContext('2d'), w = 0, h = 0, dpr = 1;
-    var flow = 0, t = 0, f = { energy: 0, want: 0 };
-    // Resizing a canvas clears it, so draw the current frame again right away.
-    function fit() {
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      w = canvas.clientWidth; h = canvas.clientHeight;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      if (f.draw) f.draw(0);
-    }
-    fit();
-    if (window.ResizeObserver) new ResizeObserver(fit).observe(canvas);
+  function field(canvas, o) {
+    var ctx = canvas.getContext('2d'), w = 0, h = 0, dpr = 1, flow = 0, t = 0, f = { energy: 0, want: 0 };
+    function fit() { dpr = Math.min(2, devicePixelRatio || 1); w = canvas.clientWidth; h = canvas.clientHeight; canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); if (f.draw) f.draw(0); }
+    fit(); if (window.ResizeObserver) new ResizeObserver(fit).observe(canvas);
     f.draw = function (dt) {
-      t += dt;
-      f.energy += (f.want - f.energy) * Math.min(1, dt * (f.want > f.energy ? 10 : 3));
-      flow += dt * (0.04 + f.energy * 0.6);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-      var p = opts.pitch, cols = Math.ceil(w / p), rows = Math.ceil(h / p);
-      var cut = 0.56 - 0.2 * f.energy;
+      t += dt; f.energy += (f.want - f.energy) * Math.min(1, dt * (f.want > f.energy ? 10 : 3)); flow += dt * (0.04 + f.energy * 0.6);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h);
+      var p = o.pitch, cols = Math.ceil(w / p), rows = Math.ceil(h / p), cut = 0.56 - 0.2 * f.energy;
       for (var r = 0; r <= rows; r++) {
-        var fade = opts.fade ? opts.fade(r * p / h) : 1;
-        if (fade <= 0) continue;
+        var fade = o.fade ? o.fade(r * p / h) : 1; if (fade <= 0) continue;
         for (var c = 0; c <= cols; c++) {
-          var n = noise(c * opts.scale, r * opts.scale - flow, t * 0.08);
-          var g = (n - cut) / (1 - cut);
-          if (g <= 0) continue;
-          var a = Math.min(1, g * 1.6) * fade * opts.alpha;
-          ctx.fillStyle = 'rgba(' + opts.rgb + ',' + a.toFixed(3) + ')';
-          ctx.beginPath();
-          ctx.arc(c * p + p / 2, r * p + p / 2, opts.radius * (0.6 + g * (0.8 + f.energy * 0.6)), 0, 6.283);
-          ctx.fill();
+          var n = noise(c * o.scale, r * o.scale - flow, t * 0.08), g = (n - cut) / (1 - cut); if (g <= 0) continue;
+          ctx.fillStyle = 'rgba(' + o.rgb + ',' + (Math.min(1, g * 1.6) * fade * o.alpha).toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(c * p + p / 2, r * p + p / 2, o.radius * (0.6 + g * (0.8 + f.energy * 0.6)), 0, 6.283); ctx.fill();
         }
       }
     };
     return f;
   }
+  var bubbleEl = $('#bubble'), bubbleText = $('span', bubbleEl);
+  var bubbleField = field($('canvas', bubbleEl), { pitch: 5, scale: 0.12, rgb: '255,140,128', alpha: 0.8, radius: 0.9 });
+  var bgField = null;
 
-  var hero = field(document.querySelector('.hx-field'), { pitch: 16, scale: 0.06, rgb: '170,190,255', alpha: 0.22, radius: 1.5,
-    fade: function (y) { return Math.max(0, 1 - y * 0.9); } });
-  var bubbleEl = document.querySelector('.sp-bubble');
-  var bubble = field(bubbleEl.querySelector('canvas'), { pitch: 5, scale: 0.12, rgb: '255,140,128', alpha: 0.75, radius: 0.9 });
-  var bubbleText = bubbleEl.querySelector('span');
-  var demo = document.querySelector('.hx-demo');
-  var rawEl = demo.querySelector('.hx-raw');
-  var outEl = demo.querySelector('.hx-out');
-
-  // Real runs of the full pipeline (macOS Linh voice → Zipformer → Gemma 4 on an M1).
-  // [brackets] mark what Spark changed.
-  var examples = [
-    { raw: '[phích] cái [bắp] ở file index [chấm ts] rồi commit và [tút] lên [bờ ran may] nhé',
-      out: '[Fix] cái [bug] ở file [index.ts] rồi commit và [push] lên [branch main] nhé.' },
-    { raw: 'nhắn anh nam là chiều nay [ba giờ] họp [ri vi mô cốt] nhé',
-      out: 'Nhắn anh Nam là chiều nay [3 giờ] họp [review code] nhé.' },
-    { raw: 'ở màn hình đăng nhập chậm quá kiểm tra giúp mình xem do [đa ta bếp] hay do [mảng]',
-      out: 'Ở màn hình đăng nhập chậm quá, kiểm tra giúp mình xem do [database] hay do [mạng].' }
+  /* ---------------------------------------------------------------- the demo: hold the key */
+  // Real runs of the whole pipeline (macOS Linh voice → Zipformer → Gemma 4 on an M1), cut into phrases.
+  // [brackets] mark what Spark changed. Letting go early pastes only the phrases you got through.
+  var EX = [
+    [['[phích] cái [bắp]', '[Fix] cái [bug]'], ['ở file index [chấm ts]', 'ở file [index.ts]'], ['rồi commit và [tút] lên', 'rồi commit và [push] lên'], ['[bờ ran may] nhé', '[branch main] nhé.']],
+    [['nhắn anh [nam] là', 'Nhắn anh [Nam] là'], ['chiều nay [ba giờ] họp', 'chiều nay [3 giờ] họp'], ['[ri vi mô cốt] nhé', '[review code] nhé.']],
+    [['ở màn hình đăng nhập chậm quá', '[Ở] màn hình đăng nhập chậm quá[,]'], ['kiểm tra giúp mình xem', 'kiểm tra giúp mình xem'], ['do [đa ta bếp] hay do [mảng]', 'do [database] hay do [mạng].']]
   ];
-  function parts(s) { return s.match(/\[[^\]]+\]|[^\s\[]+/g).map(function (w) { return w[0] === '[' ? { t: w.slice(1, -1), mark: true } : { t: w }; }); }
-  function render(el, list) {
+  function tokens2(s) {
+    var out = [], mark = false, buf = '', bm = false;
+    function flush() { if (buf) { out.push({ t: buf, m: bm }); buf = ''; bm = false; } }
+    for (var i = 0; i < s.length; i++) {
+      var ch = s[i];
+      if (ch === '[') { mark = true; } else if (ch === ']') { mark = false; }
+      else if (ch === ' ') { flush(); }
+      else { if (mark) bm = true; buf += ch; }
+    }
+    flush();
+    return out;
+  }
+  function render(el, toks, animate) {
     el.textContent = '';
-    list.forEach(function (p, i) {
+    var i = 0, k = 0;
+    while (i < toks.length) {
+      var span = document.createElement('span');
       if (i) el.appendChild(document.createTextNode(' '));
-      if (p.mark) { var m = document.createElement('mark'); m.textContent = p.t; el.appendChild(m); }
-      else el.appendChild(document.createTextNode(p.t));
+      if (toks[i].m) {
+        var m = document.createElement('mark'), txt = [];
+        while (i < toks.length && toks[i].m) { txt.push(toks[i].t); i++; }
+        m.textContent = txt.join(' '); span = m;
+      } else { span.textContent = toks[i].t; i++; }
+      if (animate) { span.classList.add('w'); span.style.animationDelay = (k++ * 38) + 'ms'; }
+      el.appendChild(span);
+    }
+  }
+  var rawEl = $('#raw'), outEl = $('#out'), hintEl = $('#keyhint');
+  function keyhint(msg) { hintEl.innerHTML = msg || 'Giữ phím này để nói thử'; }
+
+  var WORD = 0.26, demo = null, heroKey = null;
+  function Demo() {
+    this.st = 'idle'; this.n = 0; this.ex = EX[0]; this.t0 = 0; this.since = performance.now() / 1000; this.lastUser = -1e9;
+    this.lock = false; this.lastTap = -1e9; this.auto = false; this.shown = 0; this.heard = []; this.timer = 0; this.visible = true;
+  }
+  Demo.prototype.flat = function () {
+    var out = [];
+    this.ex.forEach(function (seg, si) { tokens2(seg[0]).forEach(function (w) { out.push({ t: w.t, m: w.m, seg: si }); }); });
+    return out;
+  };
+  Demo.prototype.begin = function (auto) {
+    if (this.st !== 'idle') return;
+    clearTimeout(this.timer);
+    this.ex = EX[this.n % EX.length]; this.n++;
+    this.words = this.flat(); this.shown = 0; this.st = 'listening'; this.t0 = performance.now() / 1000; this.lock = false; this.auto = !!auto;
+    winEl.classList.remove('is-fading');
+    rawEl.textContent = ''; outEl.textContent = ''; outEl.classList.add('is-empty');
+    bubbleText.textContent = ''; bubbleEl.className = 'bubble is-on';
+    heroKey.press(true); heroKey.mode('listening'); if (scene) scene.mode('listening');
+    keyhint(auto ? 'Đang nghe…' : 'Đang nghe… thả <span class="kbd">' + OS[os].key + '</span> ra để paste');
+  };
+  Demo.prototype.tick = function (now) {
+    var el = now - this.t0;
+    if (this.st === 'listening') {
+      var want = Math.min(this.words.length, Math.floor(el / WORD) + 1);
+      if (want > this.shown) {
+        this.shown = want;
+        render(rawEl, this.words.slice(0, want));
+        bubbleText.textContent = this.words.slice(Math.max(0, want - 4), want).map(function (w) { return w.t; }).join(' ');
+        if (scene) scene.kick(0.55);
+      }
+      var syll = (el / WORD) % 1, lvl = this.shown >= this.words.length ? 0.15 : 0.35 + 0.55 * Math.max(0, 1 - syll * 2.2);
+      bubbleField.want = lvl; if (scene) scene.level(lvl); if (bgField) bgField.want = lvl;
+      if (this.auto && !this.lock && this.shown >= this.words.length && el > this.words.length * WORD + 0.5) this.finish();
+      if (this.auto && !this.visible) this.cancel(true);
+    } else if (this.st === 'idle') {
+      bubbleField.want = 0; if (bgField) bgField.want = 0; if (scene) scene.level(0);
+      // nobody touched it for a while: play one phrase by itself so the page is alive
+      var idle = now - this.since;
+      if (!reduce && this.visible && idle > 2.2 && now - this.lastUser > 9) this.begin(true);
+    }
+  };
+  Demo.prototype.down = function () {
+    this.lastUser = performance.now() / 1000;
+    if (this.st === 'listening' && this.auto) { this.cancel(true); }
+    if (this.st === 'listening' && this.lock) { this.finish(); return; }
+    if (this.st !== 'idle') return;
+    this.begin(false);
+  };
+  Demo.prototype.up = function () {
+    this.lastUser = performance.now() / 1000;
+    if (this.st !== 'listening' || this.auto || this.lock) return;
+    var now = performance.now() / 1000, held = now - this.t0;
+    if (held < 0.25) {
+      // as in the app: a quick tap does nothing, two quick taps lock hands-free
+      if (now - this.lastTap < 0.45) { this.lock = true; this.lastTap = -1e9; heroKey.press(false); keyhint('Hands-free. Nhấn <span class="kbd">' + OS[os].key + '</span> lần nữa để dừng'); return; }
+      this.lastTap = now; this.cancel(false); keyhint('Giữ lâu hơn một chút. Nhấn nhanh là Spark huỷ.'); setTimeout(function () { if (demo.st === 'idle') keyhint(null); }, 2600);
+      return;
+    }
+    this.finish();
+  };
+  Demo.prototype.cancel = function (silent) {
+    this.st = 'idle'; this.since = performance.now() / 1000; this.lock = false;
+    heroKey.press(false); heroKey.mode('idle'); if (scene) { scene.mode('idle'); scene.level(0); }
+    bubbleEl.className = 'bubble'; bubbleText.textContent = ''; rawEl.textContent = ''; outEl.classList.add('is-empty'); outEl.textContent = '';
+    if (!silent) keyhint(null);
+  };
+  Demo.prototype.finish = function () {
+    var self = this;
+    if (this.st !== 'listening') return;
+    var got = 0; this.words.slice(0, this.shown).forEach(function (w) { got = Math.max(got, w.seg + 1); });
+    this.st = 'writing'; this.lock = false;
+    heroKey.press(false); heroKey.mode('writing'); if (scene) { scene.mode('writing'); scene.level(0.1); }
+    bubbleField.want = 0.5; keyhint('Đang viết…');
+    this.timer = setTimeout(function () {
+      var outText = self.ex.slice(0, got).map(function (s) { return s[1]; }).join(' ');
+      outEl.classList.remove('is-empty'); render(outEl, tokens2(outText), true);
+      self.st = 'done'; heroKey.mode('done'); if (scene) { scene.mode('done'); scene.kick(0.9); }
+      bubbleEl.className = 'bubble is-on is-done'; keyhint('Đã paste vào ô đang focus'); bubbleField.want = 0.2;
+      self.timer = setTimeout(function () {
+        heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; bubbleText.textContent = '';
+        self.timer = setTimeout(function () { winEl.classList.add('is-fading'); self.timer = setTimeout(function () { winEl.classList.remove('is-fading'); self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); }, 450); }, 3200);
+      }, 900);
+    }, 750);
+  };
+
+  function bindHero() {
+    demo = new Demo();
+    // first phrase on screen from the start, so the card is never empty
+    var first = EX[0];
+    render(rawEl, tokens2(first.map(function (s) { return s[0]; }).join(' ')));
+    render(outEl, tokens2(first.map(function (s) { return s[1]; }).join(' '))); outEl.classList.remove('is-empty');
+    var key = $('#key'), spot = $('#keyspot');
+    key.addEventListener('pointerdown', function (e) { if (e.button > 0) return; e.preventDefault(); try { key.setPointerCapture(e.pointerId); } catch (x) {} demo.down(); });
+    key.addEventListener('pointerup', function () { demo.up(); });
+    key.addEventListener('pointercancel', function () { demo.up(); });
+    key.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    var kd = false;
+    key.addEventListener('keydown', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); kd = true; demo.down(); } });
+    key.addEventListener('keyup', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && kd) { e.preventDefault(); kd = false; demo.up(); } });
+    key.addEventListener('blur', function () { if (kd) { kd = false; demo.up(); } });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { demo.visible = e[0].isIntersecting; }, { threshold: .2 }).observe(spot);
+    var last = performance.now() / 1000, acc = 0;
+    function loop() {
+      var now = performance.now() / 1000, dt = now - last; last = now; acc += dt;
+      if (!document.hidden) { demo.tick(now); if (acc >= 1 / 30) { bubbleField.draw(acc); if (bgField && !scene) bgField.draw(acc); acc = 0; } }
+      requestAnimationFrame(loop);
+    }
+    if (reduce) { bubbleEl.className = 'bubble is-on is-done'; bubbleField.draw(0.016); if (bgField) bgField.draw(0.016); }
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------------------------------------------------------------- keys on the page */
+  function KeyView(el, opts) {
+    var h = scene ? scene.addKey(el, opts || {}) : null;
+    return {
+      press: function (on) { if (h) h.press(on); else el.classList.toggle('is-down', !!on); },
+      mode: function (m) { if (h) h.mode(m); else el.dataset.mode = m; },
+      kick: function (a) { if (h) h.kick(a); }
+    };
+  }
+  function celebrate() {
+    if (!demo || demo.st !== 'idle' || !heroKey) return;
+    heroKey.mode('done'); if (scene) { scene.kick(1); }
+    setTimeout(function () { if (demo.st === 'idle') heroKey.mode('idle'); }, 900);
+  }
+
+  // "Giữ, nói, thả": three small keys, played in turn while the section is on screen
+  function bindSteps() {
+    var spots = $$('.step .spot'), keys = spots.map(function (s, i) { return KeyView(s, { size: .5 }); });
+    var section = $('#cach-dung'), pulse = $('.steps .pulse'), vis = false, seq = 0, timers = [];
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; if (vis && !seq) play(); }, { threshold: .35 }).observe(section);
+    function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function sweep(i) { if (!pulse || reduce) return; var w = $('.steps').clientWidth / 3; pulse.style.transition = 'none'; pulse.style.opacity = 0; pulse.style.transform = 'translateX(' + (w * i + 130) + 'px)'; pulse.offsetWidth; pulse.style.transition = 'transform .9s var(--ease), opacity .9s'; pulse.style.opacity = 1; pulse.style.transform = 'translateX(' + (w * (i + 1) + 10) + 'px)'; at(900, function () { pulse.style.opacity = 0; }); }
+    function play() {
+      if (reduce) { keys[0].mode('listening'); keys[0].press(true); keys[1].mode('done'); keys[2].mode('listening'); return; }
+      seq = 1;
+      keys[0].press(true); keys[0].mode('listening'); keys[0].kick(.6);
+      at(700, function () { keys[0].kick(.5); }); at(1400, function () { keys[0].kick(.5); });
+      at(2100, function () { keys[0].press(false); keys[0].mode('idle'); sweep(0); });
+      at(2800, function () { keys[1].mode('done'); keys[1].kick(.9); });
+      at(3500, function () { keys[1].mode('idle'); sweep(1); });
+      at(4300, function () { keys[2].press(true); });
+      at(4450, function () { keys[2].press(false); });
+      at(4650, function () { keys[2].press(true); keys[2].mode('listening'); });
+      at(4800, function () { keys[2].press(false); keys[2].kick(.6); });
+      at(5600, function () { keys[2].kick(.5); });
+      at(6600, function () { keys[2].press(true); });
+      at(6800, function () { keys[2].press(false); keys[2].mode('idle'); });
+      at(8200, function () { seq = 0; timers = []; if (vis) play(); });
+    }
+  }
+
+  /* ---------------------------------------------------------------- inside Spark: scroll through the layers */
+  var pipe = $('#ben-trong'), stack = $('#stack'), layers = $$('.layer', stack), items = $$('#pipe-list li'), packet = $('#packet');
+  var pipeIdx = -1;
+  function pipeUpdate() {
+    if (!pipe) return;
+    var r = pipe.getBoundingClientRect(), span = r.height - innerHeight;
+    if (r.bottom < -200 || r.top > innerHeight + 200) return;
+    var p = clamp(-r.top / span, 0, 1), f = p * layers.length, idx = clamp(Math.floor(f), 0, layers.length - 1);
+    // the active layer rises; neighbours follow a little as the packet passes
+    layers.forEach(function (l, i) { var d = Math.abs(i + .5 - f); l.style.setProperty('--lift', clamp(1 - d * 1.15, 0, 1).toFixed(3)); });
+    // the packet travels the beam from layer 1 (top) to layer 5 (bottom)
+    var zk = parseFloat(getComputedStyle(stack).getPropertyValue('--zk')) || 1;
+    var z = (340 - clamp((f - .5) / (layers.length - 1), 0, 1) * 680) * zk;
+    packet.style.setProperty('--pz', z.toFixed(1));
+    if (idx !== pipeIdx) { pipeIdx = idx; items.forEach(function (li, i) { li.classList.toggle('is-on', i === idx); if (i === idx) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); }
+  }
+
+  /* ---------------------------------------------------------------- install terminal */
+  var tab = 'mac', termTimers = [], termOnce = false;
+  var TERM = {
+    mac: { title: 'Terminal', cmd: 'curl -fsSL https://vuongnm.github.io/spark/install.sh | bash', out: [['Đang tải Spark…', ''], ['#bar', ''], ['Đã cài vào /Applications/Spark.app. Đang mở Spark…', 'ok']] },
+    win: { title: 'PowerShell', cmd: 'irm https://vuongnm.github.io/spark/install.ps1 | iex', out: [['Downloading Spark...', ''], ['Installing...', ''], ['Installed to C:\\Users\\bạn\\AppData\\Local\\Programs\\Spark\\Spark.exe', 'ok']] },
+    src: { title: 'Terminal', cmd: 'git clone https://github.com/VuongNM/spark.git\ncd spark && npm ci\nnpm run build:native   # phím fn trên macOS\nnpm run dev', out: [] }
+  };
+  function termCmd() { return tab === 'src' ? 'git clone https://github.com/VuongNM/spark.git && cd spark && npm ci && npm run build:native && npm run dev' : TERM[tab].cmd; }
+  function setTab(v) {
+    tab = v;
+    $$('[data-tab]').forEach(function (b) { var on = b.dataset.tab === v; b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+    ['mac', 'win', 'src'].forEach(function (k) { $('#p-' + k).hidden = k !== v; });
+    $('#term-title').textContent = TERM[v].title;
+    runTerm();
+  }
+  $$('[data-tab]').forEach(function (b) { b.addEventListener('click', function () { if (b.dataset.tab !== tab) { if (b.dataset.tab !== 'src') setOS(b.dataset.tab, false); setTab(b.dataset.tab); } }); });
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function runTerm() {
+    termTimers.forEach(clearTimeout); termTimers = [];
+    var body = $('#term-body'), t = TERM[tab], prompt = tab === 'win' ? 'PS> ' : '$ ', i = 0, html = '';
+    function put(h, cursor) { body.innerHTML = h + (cursor ? '<span class="cur"></span>' : ''); }
+    function at(ms, fn) { termTimers.push(setTimeout(fn, ms)); }
+    if (reduce) { put('<span class="p">' + prompt + '</span><span class="c">' + esc(t.cmd) + '</span>' + t.out.map(function (o) { return '\n' + (o[0] === '#bar' ? '######################################## 100,0%' : '<span class="' + (o[1] || 'd') + '">' + esc(o[0]) + '</span>'); }).join(''), false); return; }
+    var typed = '', ms = 260;
+    put('<span class="p">' + prompt + '</span>', true);
+    for (i = 0; i < t.cmd.length; i++) (function (k) { at(ms + k * 22, function () { typed = t.cmd.slice(0, k + 1); put('<span class="p">' + prompt + '</span><span class="c">' + esc(typed) + '</span>', true); }); })(i);
+    ms += t.cmd.length * 22 + 420;
+    html = '<span class="p">' + prompt + '</span><span class="c">' + esc(t.cmd) + '</span>';
+    t.out.forEach(function (o) {
+      if (o[0] === '#bar') {
+        var base = html;
+        for (var b = 0; b <= 40; b++) (function (n) { at(ms + n * 38, function () { put(base + '\n<span class="d">' + '#'.repeat(n) + ' '.repeat(40 - n) + ' ' + (n * 2.5).toFixed(1).replace('.', ',') + '%</span>', true); }); })(b);
+        ms += 41 * 38; html += '\n<span class="d">' + '#'.repeat(40) + ' 100,0%</span>'; var done = html; at(ms, function () { put(done, true); });
+      } else {
+        html += '\n<span class="' + (o[1] || 'd') + '">' + esc(o[0]) + '</span>'; var h = html; at(ms, function () { put(h, true); }); ms += 520;
+      }
     });
+    at(ms + 200, function () { put(html, true); });
   }
-  examples.forEach(function (e) { e.rawParts = parts(e.raw); e.outParts = parts(e.out); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { if (e[0].isIntersecting && !termOnce) { termOnce = true; runTerm(); } }, { threshold: .4 }).observe($('#term'));
+  } else { runTerm(); }
 
-  // The first example is on screen from the start, so the card is never empty.
-  render(rawEl, examples[0].rawParts);
-  render(outEl, examples[0].outParts);
-  if (reduce) {
-    bubbleEl.className = 'sp-bubble is-on is-done';
-    bubble.draw(0.016);
-    hero.draw(0.016);
-    return;
-  }
+  /* ---------------------------------------------------------------- the three words Spark fixes, decoded as they come into view */
+  $$('.miss .fixed').forEach(function (el) {
+    var dec = $('.dec', el), final = el.dataset.final, glyphs = 'abcdefghijklmnopqrstuvwxyz0123456789', played = false;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    dec.textContent = '';
+    new IntersectionObserver(function (e, ob) {
+      if (!e[0].isIntersecting || played) return; played = true; ob.disconnect();
+      var t0 = performance.now(), delay = $$('.miss .fixed').indexOf(el) * 260;
+      (function step(now) {
+        var k = clamp((now - t0 - delay) / 700, 0, 1), out = '';
+        for (var i = 0; i < final.length; i++) out += final[i] === ' ' ? ' ' : (i / final.length < k ? final[i] : glyphs[(Math.random() * glyphs.length) | 0]);
+        dec.textContent = now - t0 < delay ? '' : out;
+        if (k < 1 || now - t0 < delay) requestAnimationFrame(step); else dec.textContent = final;
+      })(t0);
+    }, { threshold: .8 }).observe(el);
+  });
 
-  // The loop: listen (words stream in), write, show the result, then the next example.
-  var phase = 'show', at = 0.7, shown = 0, n = 1, ex = examples[0];
-  var WORD = 0.22;
-  function set(p) { phase = p; at = 0; }
-  function step(dt) {
-    at += dt;
-    if (phase === 'start') {
-      ex = examples[n % examples.length]; n++;
-      shown = 0; rawEl.textContent = ''; outEl.textContent = '';
-      demo.classList.remove('is-fading'); demo.classList.add('is-listening');
-      bubbleText.textContent = ''; bubbleEl.className = 'sp-bubble is-on';
-      set('listen');
-    } else if (phase === 'listen') {
-      var want = Math.min(ex.rawParts.length, Math.floor(at / WORD) + 1);
-      if (want > shown) {
-        shown = want;
-        render(rawEl, ex.rawParts.slice(0, shown));
-        bubbleText.textContent = ex.rawParts.slice(0, shown).map(function (p) { return p.t; }).join(' ');
-      }
-      var syll = (at / WORD) % 1;
-      bubble.want = hero.want = 0.35 + 0.55 * Math.max(0, 1 - syll * 2.2);
-      if (at > ex.rawParts.length * WORD + 0.35) set('write');
-    } else if (phase === 'write') {
-      bubble.want = 0.4; hero.want = 0.2;
-      if (at > 0.8) {
-        render(outEl, ex.outParts); demo.classList.remove('is-listening');
-        bubbleEl.className = 'sp-bubble is-on is-done'; bubble.want = 0.6;
-        set('show');
-      }
-    } else if (phase === 'show') {
-      bubble.want = hero.want = 0;
-      if (at > 0.7) bubbleEl.className = 'sp-bubble';
-      if (at > 4.2) { demo.classList.add('is-fading'); set('fade'); }
-    } else if (phase === 'fade') {
-      if (at > 0.4) set('start');
-    }
+  /* ---------------------------------------------------------------- start: WebGL if it works, the 2D field if not */
+  function fallback() {
+    root.classList.remove('gl'); root.classList.add('nogl'); scene = null;
+    bgField = field($('.field2d canvas'), { pitch: 16, scale: 0.06, rgb: '170,190,255', alpha: 0.2, radius: 1.5, fade: function (y) { return Math.max(0, 1 - y * 0.9); } });
   }
-
-  var visible = true, last = 0, acc = 0;
-  if (window.IntersectionObserver) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(document.querySelector('.hx'));
-  function frame(now) {
-    var dt = Math.min(0.1, (now - (last || now)) / 1000); last = now;
-    acc += dt;
-    if (visible && !document.hidden && acc >= 1 / 30) {
-      step(acc);
-      hero.draw(acc);
-      bubble.draw(acc);
-      acc = 0;
-    }
-    requestAnimationFrame(frame);
+  function init() {
+    setOS(os, false);
+    setTab('mac'); termOnce = false;
+    $('#term-title').textContent = TERM.mac.title;
+    var go = function () {
+      heroKey = KeyView($('#keyspot'), { main: true });
+      bindHero(); bindSteps();
+      var end = $('[data-end]'); if (end) { var ek = KeyView(end, { size: .6 }); }
+      onScroll();
+    };
+    var ok = false;
+    try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
+    if (!ok) { fallback(); go(); return; }
+    import('/spark/spark3d.js?v=1').then(function (m) {
+      try {
+        scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); } });
+        root.classList.add('gl');
+        if (DEBUG) window.__spark = scene;
+      } catch (e) { fallback(); }
+      go();
+    }).catch(function () { fallback(); go(); });
   }
-  requestAnimationFrame(frame);
+  // don't wait for the load event: a slow web font would hold the whole 3D scene back
+  function boot() { (window.requestIdleCallback || function (f) { setTimeout(f, 60); })(init, { timeout: 700 }); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 </body>
