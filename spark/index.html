@@ -19,6 +19,7 @@ permalink: /spark/
   <link rel="icon" type="image/png" href="/images/spark-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="modulepreload" href="/spark/spark3d.js?v=c14c0e78">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
@@ -52,8 +53,9 @@ permalink: /spark/
   .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
 
   /* ---------- background layers ---------- */
-  #gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; display: none; background: var(--bg); }
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; display: none; background: var(--bg); opacity: 0; transition: opacity 1s ease; }
   .gl #gl { display: block; }
+  .gl-ready #gl { opacity: 1; }
   .field2d { position: fixed; inset: 0; z-index: -2; display: none; background: radial-gradient(900px 520px at 70% 30%, rgba(42, 79, 168, .4), transparent 62%), var(--bg); }
   .field2d canvas { width: 100%; height: 100%; display: block; }
   .nogl .field2d { display: block; }
@@ -100,13 +102,20 @@ permalink: /spark/
   .facts li:first-child { padding-left: 0; border-left: 0; }
   .facts b { display: block; margin-bottom: 3px; font: 500 15px/1.2 var(--mono); color: var(--ink); }
 
-  .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .keyspot { position: relative; width: min(100%, 330px); aspect-ratio: 1 / .98; }
   .key { position: absolute; inset: 0; border: 0; padding: 0; background: transparent; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; border-radius: 28px; -webkit-tap-highlight-color: transparent; }
   .key:focus-visible { outline-offset: -6px; }
   .keyhint { min-height: 1.5em; font: 500 13px/1.4 var(--mono); color: var(--ink-2); text-align: center; }
   .keyhint kbd { font-size: 12px; }
-  .stage .bubble-row { height: 34px; display: flex; align-items: center; justify-content: center; }
+  .live { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; overflow: hidden; padding: 7px 18px 8px; border-radius: 14px; border: 1px solid var(--line-2); background: rgba(255, 255, 255, .05); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #fff; font: 500 13px/1.25 var(--sans); text-align: center; transition: border-color .3s, background .3s; }
+  .live::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(111, 141, 255, .38) var(--p, 0%), transparent var(--p, 0%)); transition: background .25s; }
+  .live > * { position: relative; }
+  .live small { font: 400 11.5px/1.35 var(--mono); color: var(--mute); }
+  .live:hover { background: rgba(255, 255, 255, .09); }
+  .live[data-state="ready"][aria-pressed="true"] { border-color: rgba(94, 232, 166, .6); }
+  .live[data-state="error"] { border-color: rgba(255, 122, 110, .6); }
+  .stage .bubble-row { height: 30px; display: flex; align-items: center; justify-content: center; }
 
   /* the recording bubble, as in the app */
   .bubble { position: relative; display: flex; align-items: center; justify-content: flex-end; overflow: hidden; width: 188px; height: 32px; padding: 0 15px; border-radius: 999px; background: rgba(14, 16, 22, .94); border: 1px solid rgba(255, 255, 255, .1); box-shadow: 0 10px 30px -12px #000; font: 13px/1 var(--serif); transform: scale(.8); opacity: .3; transition: transform .3s var(--ease), opacity .25s, box-shadow .3s; }
@@ -134,8 +143,8 @@ permalink: /spark/
   @keyframes blink { 50% { opacity: 0; } }
 
   /* the key without WebGL: the same keycap in CSS */
-  .key2d { display: none; position: absolute; inset: 14% 12% 8%; }
-  .nogl .key2d { display: block; }
+  .key2d { display: block; position: absolute; inset: 14% 12% 8%; transition: opacity .7s ease; }
+  .gl-ready .key2d { opacity: 0; }
   .key2d .plate { position: absolute; inset: 22% 0 0; border-radius: 26px; background: linear-gradient(180deg, #1a2036, #0b0e17); box-shadow: 0 0 0 1px var(--line-2), 0 30px 60px -20px #000, 0 0 60px -10px rgba(79, 108, 255, .6); }
   .key2d .cap { position: absolute; inset: 0 11% 24%; border-radius: 22px; background: linear-gradient(180deg, #2a3560, #1a2142); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .18), inset 0 -10px 18px rgba(0, 0, 0, .35), 0 18px 0 -2px #0d1226, 0 36px 40px -10px rgba(0, 0, 0, .7); transition: transform .12s var(--ease); display: flex; align-items: flex-end; padding: 0 0 18% 14%; }
   .key2d .cap b { font: 600 clamp(30px, 6vw, 54px)/1 var(--serif); color: #cfe0ff; text-shadow: 0 0 18px rgba(157, 185, 255, .8); transition: color .2s, text-shadow .2s; }
@@ -293,12 +302,13 @@ permalink: /spark/
     .dek { order: 2; margin-top: 14px; font-size: 16.5px; }
     .keyspot { order: 3; width: min(60vw, 240px); margin: 10px auto 0; align-self: center; }
     .keyhint { order: 4; margin-top: 2px; }
-    .bubble-row { order: 5; margin-top: 4px; align-self: center; }
-    .osswitch { order: 6; margin-top: 18px; align-self: flex-start; }
-    .cmd { order: 7; width: 100%; }
-    .meta { order: 8; }
-    .win { order: 9; margin-top: 26px; max-width: none; }
-    .facts { order: 10; margin-top: 26px; }
+    .live { order: 5; align-self: center; margin-top: 8px; }
+    .bubble-row { order: 6; margin-top: 4px; align-self: center; }
+    .osswitch { order: 7; margin-top: 18px; align-self: flex-start; }
+    .cmd { order: 8; width: 100%; }
+    .meta { order: 9; }
+    .win { order: 10; margin-top: 26px; max-width: none; }
+    .facts { order: 11; margin-top: 26px; }
     .story, .inst-grid { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 860px) {
@@ -391,6 +401,7 @@ permalink: /spark/
             </button>
           </div>
           <p class="keyhint" id="keyhint" role="status" aria-live="polite">Giữ phím này để nói thử</p>
+          <button class="live" id="live" type="button" hidden aria-pressed="false"><span class="live-t">Thử bằng giọng của bạn</span><small class="live-s">Model STT chạy ngay trong tab này, tải 38 MB một lần</small></button>
           <div class="bubble-row"><div class="bubble" id="bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
           <figure class="win" id="win">
             <div class="win-bar"><i></i><i></i><i></i><span>Ô đang focus</span></div>
@@ -545,7 +556,7 @@ permalink: /spark/
   <footer>
     <div class="wrap">
       <p>Spark là side project của <a href="/">Vincent Nguyen</a>, open source trên <a href="https://github.com/VuongNM/spark" rel="noopener">GitHub</a> (MIT).</p>
-      <p>Speech model: sherpa-onnx (Apache-2.0).</p>
+      <p>Model STT tiếng Việt: <a href="https://huggingface.co/hynt/Zipformer-30M-RNNT-6000h" rel="noopener">Zipformer-30M-RNNT-6000h</a> của hynt (CC BY-NC-ND 4.0), bản int8 ONNX của <a href="https://huggingface.co/csukuangfj2/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09" rel="noopener">csukuangfj</a>. Runtime: <a href="https://github.com/k2-fsa/sherpa-onnx" rel="noopener">sherpa-onnx</a> (Apache-2.0). Đồ hoạ: <a href="https://threejs.org" rel="noopener">three.js</a> (MIT).</p>
     </div>
   </footer>
 
@@ -572,6 +583,7 @@ permalink: /spark/
     win: 'Chạy lệnh trên trong PowerShell, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>. Windows 10, 11 (beta), 137 MB, miễn phí, open source (MIT). Cũng có <a href="#cai-dat" data-go-os="mac">bản Mac</a>.',
     phone: 'Spark chạy trên Mac và Windows. Mở trang này trên máy tính, hoặc <a href="#" data-copy-link>copy link</a> gửi cho chính mình.'
   };
+  var LIVE = { state: 'off', on: false, stt: null };
   var scene = null, DEBUG = /[?&]debug\b/.test(location.search);
   if (DEBUG) window.__sparkDebug = function () { return { demo: demo, scene: scene }; };
 
@@ -700,7 +712,14 @@ permalink: /spark/
     }
   }
   var rawEl = $('#raw'), outEl = $('#out'), hintEl = $('#keyhint');
-  function keyhint(msg) { hintEl.innerHTML = msg || 'Giữ phím này để nói thử'; }
+  function keyhint(msg) { hintEl.innerHTML = msg || (LIVE.on ? 'Giữ phím này và nói tiếng Việt' : 'Giữ phím này để nói thử'); }
+  // what Spark's basic cleanup does without an LLM: drop ờ/ừm, capital letter, full stop
+  function basic(text) {
+    var t = (text || '').toLocaleLowerCase('vi').replace(/(^|\s)(ờ|ừm|ừ|ờm|ơ)(?=\s|$)/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!t) return '';
+    t = t.charAt(0).toLocaleUpperCase('vi') + t.slice(1);
+    return /[.!?…]$/.test(t) ? t : t + '.';
+  }
 
   var WORD = 0.26, demo = null, heroKey = null;
   function Demo() {
@@ -716,16 +735,43 @@ permalink: /spark/
     if (this.st !== 'idle') return;
     clearTimeout(this.timer);
     this.ex = EX[this.n % EX.length]; this.n++;
-    this.words = this.flat(); this.shown = 0; this.st = 'listening'; this.t0 = performance.now() / 1000; this.lock = false; this.auto = !!auto;
+    this.live = LIVE.on && !auto; this.rms = 0;
+    this.words = this.live ? [] : this.flat(); this.shown = 0; this.st = 'listening'; this.t0 = performance.now() / 1000; this.lock = false; this.auto = !!auto;
     winEl.classList.remove('is-fading');
     rawEl.textContent = ''; outEl.textContent = ''; outEl.classList.add('is-empty');
     bubbleText.textContent = ''; bubbleEl.className = 'bubble is-on';
     heroKey.press(true); heroKey.mode('listening'); if (scene) scene.mode('listening');
     keyhint(auto ? 'Đang nghe…' : 'Đang nghe… thả <span class="kbd">' + OS[os].key + '</span> ra để paste');
+    if (this.live) {
+      var self = this;
+      LIVE.stt.onPartial = function (t) { self.partial(t); };
+      LIVE.stt.onLevel = function (r) { self.rms = r; };
+      // the first press has to open the microphone: say so, and start talking only once it listens
+      if (LIVE.stt.state !== 'listening') keyhint('Đang mở micro…');
+      LIVE.stt.onState = function (st) { if (st === 'listening' && self.st === 'listening') keyhint('Đang nghe… thả <span class="kbd">' + OS[os].key + '</span> ra để paste'); };
+      LIVE.stt.start().catch(function (e) { self.micFail(e); });
+    }
+  };
+  // live: the words the speech model has heard so far
+  Demo.prototype.partial = function (text) {
+    if (this.st !== 'listening' || !this.live) return;
+    var ws = text.toLocaleLowerCase('vi').split(/\s+/).filter(Boolean);
+    if (ws.length > this.shown && scene) scene.kick(0.5);
+    this.shown = ws.length;
+    render(rawEl, ws.map(function (t) { return { t: t, m: false }; }));
+    bubbleText.textContent = ws.slice(-4).join(' ');
+  };
+  Demo.prototype.micFail = function (e) {
+    if (this.st === 'idle') return;
+    this.cancel(true); LIVE.on = false; renderLive();
+    keyhint(e && e.name === 'NotAllowedError' ? 'Trình duyệt đang chặn microphone. Bật lại cho trang này rồi thử lại.' : 'Không mở được microphone.');
   };
   Demo.prototype.tick = function (now) {
     var el = now - this.t0;
-    if (this.st === 'listening') {
+    if (this.st === 'listening' && this.live) {
+      var l = clamp(this.rms * 9, 0, 1);
+      bubbleField.want = 0.15 + 0.75 * l; if (scene) scene.level(l);
+    } else if (this.st === 'listening') {
       var want = Math.min(this.words.length, Math.floor(el / WORD) + 1);
       if (want > this.shown) {
         this.shown = want;
@@ -741,7 +787,7 @@ permalink: /spark/
       bubbleField.want = 0; if (bgField) bgField.want = 0; if (scene) scene.level(0);
       // nobody touched it for a while: play one phrase by itself so the page is alive
       var idle = now - this.since;
-      if (!reduce && this.visible && idle > 2.2 && now - this.lastUser > 9) this.begin(true);
+      if (!reduce && !LIVE.on && this.visible && idle > 2.2 && now - this.lastUser > 9) this.begin(true);
     }
   };
   Demo.prototype.down = function () {
@@ -764,6 +810,8 @@ permalink: /spark/
     this.finish();
   };
   Demo.prototype.cancel = function (silent) {
+    if (this.live && LIVE.stt) { try { LIVE.stt.onPartial = null; LIVE.stt.stop(); } catch (x) {} }
+    this.live = false;
     this.st = 'idle'; this.since = performance.now() / 1000; this.lock = false;
     heroKey.press(false); heroKey.mode('idle'); if (scene) { scene.mode('idle'); scene.level(0); }
     bubbleEl.className = 'bubble'; bubbleText.textContent = ''; rawEl.textContent = ''; outEl.classList.add('is-empty'); outEl.textContent = '';
@@ -772,20 +820,34 @@ permalink: /spark/
   Demo.prototype.finish = function () {
     var self = this;
     if (this.st !== 'listening') return;
-    var got = 0; this.words.slice(0, this.shown).forEach(function (w) { got = Math.max(got, w.seg + 1); });
     this.st = 'writing'; this.lock = false;
     heroKey.press(false); heroKey.mode('writing'); if (scene) { scene.mode('writing'); scene.level(0.1); }
     bubbleField.want = 0.5; keyhint('Đang viết…');
+    if (this.live) {
+      LIVE.stt.onPartial = null;
+      LIVE.stt.stop().then(function (text) {
+        var raw = (text || '').toLocaleLowerCase('vi').trim();
+        if (!raw) { self.live = false; self.cancel(true); keyhint('Không nghe rõ. Thử nói gần micro hơn.'); self.live = false; setTimeout(function () { if (self.st === 'idle') keyhint(null); }, 3000); return; }
+        render(rawEl, tokens2(raw));
+        self.land(basic(raw));
+      }).catch(function (e) { self.micFail(e); });
+      return;
+    }
+    var got = 0; this.words.slice(0, this.shown).forEach(function (w) { got = Math.max(got, w.seg + 1); });
+    this.timer = setTimeout(function () { self.land(self.ex.slice(0, got).map(function (s) { return s[1]; }).join(' ')); }, 750);
+  };
+  // the cleaned text arrives in the focused field
+  Demo.prototype.land = function (outText) {
+    var self = this;
+    outEl.classList.remove('is-empty'); render(outEl, tokens2(outText), true);
+    this.st = 'done'; heroKey.mode('done'); if (scene) { scene.mode('done'); scene.kick(0.9); }
+    bubbleEl.className = 'bubble is-on is-done'; keyhint('Đã paste vào ô đang focus'); bubbleField.want = 0.2;
     this.timer = setTimeout(function () {
-      var outText = self.ex.slice(0, got).map(function (s) { return s[1]; }).join(' ');
-      outEl.classList.remove('is-empty'); render(outEl, tokens2(outText), true);
-      self.st = 'done'; heroKey.mode('done'); if (scene) { scene.mode('done'); scene.kick(0.9); }
-      bubbleEl.className = 'bubble is-on is-done'; keyhint('Đã paste vào ô đang focus'); bubbleField.want = 0.2;
-      self.timer = setTimeout(function () {
-        heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; bubbleText.textContent = '';
-        self.timer = setTimeout(function () { winEl.classList.add('is-fading'); self.timer = setTimeout(function () { winEl.classList.remove('is-fading'); self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); }, 450); }, 3200);
-      }, 900);
-    }, 750);
+      heroKey.mode('idle'); if (scene) scene.mode('idle'); bubbleEl.className = 'bubble'; bubbleText.textContent = '';
+      // your own words stay on screen; the sample fades so the next one can start
+      if (self.live) { self.live = false; self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); return; }
+      self.timer = setTimeout(function () { winEl.classList.add('is-fading'); self.timer = setTimeout(function () { winEl.classList.remove('is-fading'); self.st = 'idle'; self.since = performance.now() / 1000; keyhint(null); }, 450); }, 3200);
+    }, 900);
   };
 
   function bindHero() {
@@ -812,6 +874,57 @@ permalink: /spark/
     }
     if (reduce) { bubbleEl.className = 'bubble is-on is-done'; bubbleField.draw(0.016); if (bgField) bgField.draw(0.016); }
     requestAnimationFrame(loop);
+  }
+
+  /* ---------------------------------------------------------------- your own voice, transcribed in this tab */
+  var liveBtn = $('#live'), liveT = $('.live-t', liveBtn), liveS = $('.live-s', liveBtn), winCap = $('.win-cap');
+  var CAP_SAMPLE = winCap.textContent;
+  var CAP_LIVE = 'Giọng của bạn, được model STT của Spark (Zipformer 30M) chạy bằng WebAssembly ngay trong tab này. Audio không rời khỏi trình duyệt. Ô paste chỉ có basic cleanup, bước LLM cleanup chỉ có trong app.';
+  function simd() { try { return WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11])); } catch (e) { return false; } }
+  function liveSupported() { return !phone && !!(window.WebAssembly && window.Worker && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && (window.AudioContext || window.webkitAudioContext)) && simd(); }
+  function renderLive() {
+    var st = LIVE.state;
+    liveBtn.dataset.state = st; liveBtn.setAttribute('aria-pressed', LIVE.on ? 'true' : 'false');
+    if (st === 'off') { liveT.textContent = 'Thử bằng giọng của bạn'; liveS.textContent = 'Model STT chạy ngay trong tab này, tải 38 MB một lần'; }
+    else if (st === 'loading') { liveT.textContent = 'Đang tải model…'; liveS.textContent = 'Chỉ tải một lần, lần sau lấy từ cache.'; }
+    else if (st === 'error') { liveT.textContent = 'Không tải được model'; liveS.textContent = 'Bấm để thử lại'; }
+    else if (LIVE.on) { liveT.textContent = 'Đang dùng giọng của bạn'; liveS.textContent = 'Bấm để quay lại câu mẫu'; }
+    else { liveT.textContent = 'Dùng giọng của bạn'; liveS.textContent = 'Model đã tải'; }
+    liveBtn.style.setProperty('--p', st === 'loading' ? (liveBtn._pct || 0) + '%' : '0%');
+    winCap.textContent = LIVE.on ? CAP_LIVE : CAP_SAMPLE;
+    keyhint(null);
+  }
+  function setLiveOn(on) {
+    LIVE.on = on; renderLive();
+    if (!on && LIVE.stt) LIVE.stt.releaseMic();
+    if (!demo) return;
+    demo.cancel(true);
+    if (on) { rawEl.textContent = ''; outEl.textContent = ''; outEl.classList.add('is-empty'); keyhint(null); }
+    else { var f = EX[0]; render(rawEl, tokens2(f.map(function (x) { return x[0]; }).join(' '))); render(outEl, tokens2(f.map(function (x) { return x[1]; }).join(' '))); outEl.classList.remove('is-empty'); keyhint(null); }
+  }
+  function loadLive() {
+    LIVE.state = 'loading'; liveBtn._pct = 0; renderLive();
+    // ask for the microphone now, while the click still counts as a gesture; the model downloads meanwhile
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (st) { st.getTracks().forEach(function (t) { t.stop(); }); }, function () {});
+    import('/spark/live/webstt.js?v=1').then(function (m) {
+      return m.createStt({
+        windowSec: 8,
+        onProgress: function (p) {
+          liveBtn._pct = p.pct || 0; liveBtn.style.setProperty('--p', liveBtn._pct + '%');
+          liveT.textContent = p.phase === 'download' ? 'Đang tải model… ' + Math.round(p.pct) + '%' : 'Đang khởi tạo…';
+          if (p.phase === 'download') liveS.textContent = (p.loaded / 1048576).toFixed(1).replace('.', ',') + ' / ' + (p.total / 1048576).toFixed(1).replace('.', ',') + ' MB. Chỉ tải một lần, lần sau lấy từ cache.';
+        }
+      });
+    }).then(function (stt) {
+      LIVE.stt = stt; LIVE.state = 'ready'; setLiveOn(true);
+    }).catch(function () { LIVE.state = 'error'; LIVE.on = false; renderLive(); });
+  }
+  if (liveSupported()) {
+    liveBtn.hidden = false;
+    liveBtn.addEventListener('click', function () {
+      if (LIVE.state === 'loading') return;
+      if (LIVE.state === 'ready') setLiveOn(!LIVE.on); else loadLive();
+    });
   }
 
   /* ---------------------------------------------------------------- keys on the page */
@@ -934,7 +1047,7 @@ permalink: /spark/
 
   /* ---------------------------------------------------------------- start: WebGL if it works, the 2D field if not */
   function fallback() {
-    root.classList.remove('gl'); root.classList.add('nogl'); scene = null;
+    root.classList.remove('gl', 'gl-ready'); root.classList.add('nogl'); scene = null;
     bgField = field($('.field2d canvas'), { pitch: 16, scale: 0.06, rgb: '170,190,255', alpha: 0.2, radius: 1.5, fade: function (y) { return Math.max(0, 1 - y * 0.9); } });
   }
   function init() {
@@ -950,9 +1063,9 @@ permalink: /spark/
     var ok = false;
     try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
     if (!ok) { fallback(); go(); return; }
-    import('/spark/spark3d.js?v=1').then(function (m) {
+    import('/spark/spark3d.js?v=c14c0e78').then(function (m) {
       try {
-        scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); } });
+        scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); }, onFrame: function () { root.classList.add('gl-ready'); } });
         root.classList.add('gl');
         if (DEBUG) window.__spark = scene;
       } catch (e) { fallback(); }

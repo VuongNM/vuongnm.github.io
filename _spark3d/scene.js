@@ -461,6 +461,7 @@ export function start(opts) {
     k.group.scale.setScalar(s)
   }
 
+  let shown = false
   let raf = 0, running = true, last = performance.now() / 1000, frames = 0, slow = 0, tAcc = 0
   function invalidate() {
     if (!raf && running) raf = requestAnimationFrame(frame)
@@ -572,6 +573,7 @@ export function start(opts) {
 
     if (composer && quality >= 2) composer.render()
     else renderer.render(scene, camera)
+    if (!shown) { shown = true; opts.onFrame?.() }
 
     // keep the frame rate honest: drop effects before dropping frames
     frames++
