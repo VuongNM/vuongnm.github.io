@@ -8,9 +8,9 @@ permalink: /spark/
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Spark: speech to text tiếng Việt cho dân code</title>
-  <meta name="description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy on-device trên Mac, miễn phí, open source.">
+  <meta name="description" content="Spark gõ tiếng Việt bằng giọng nói, lẫn từ tiếng Anh vẫn được. Chạy on-device trên Mac, miễn phí, open source.">
   <meta property="og:title" content="Spark: speech to text tiếng Việt cho dân code">
-  <meta property="og:description" content="Spark gõ tiếng Việt bằng giọng nói, chen từ tiếng Anh thoải mái. Chạy on-device trên Mac, miễn phí, open source.">
+  <meta property="og:description" content="Spark gõ tiếng Việt bằng giọng nói, lẫn từ tiếng Anh vẫn được. Chạy on-device trên Mac, miễn phí, open source.">
   <meta property="og:image" content="https://vuongnm.github.io/images/spark-cover.jpg">
   <meta property="og:url" content="https://vuongnm.github.io/spark/">
   <meta property="og:image:width" content="1200">
@@ -22,13 +22,22 @@ permalink: /spark/
   <meta name="theme-color" content="#06080d">
   <meta name="color-scheme" content="dark">
   <link rel="icon" type="image/png" href="/images/spark-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="modulepreload" href="/spark/spark3d.js?v=6261fb66">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/newsreader-latin-opsz-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/newsreader-vietnamese-opsz-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="/spark/fonts/inter-latin-wght-normal.woff2" crossorigin>
+  <link rel="modulepreload" href="/spark/spark3d.js?v=f1ebbec4">
   <noscript><style>.rv { opacity: 1; transform: none; } .pipe { height: auto; } .pipe-sticky { position: static; height: auto; padding: 80px var(--gutter); } .pipe-stage { display: none; } .pipe-list p { grid-template-rows: 1fr; margin-top: 8px; } .osswitch { display: none; }</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Spark","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Windows","description":"Speech to text tiếng Việt cho dân code: giữ phím, nói, thả ra là text được paste vào ô đang focus. Chạy on-device.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://vuongnm.github.io/spark/","license":"https://opensource.org/licenses/MIT"}</script>
 <style>
+  @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/spark/fonts/newsreader-vietnamese-opsz-normal.woff2) format('woff2-variations'); unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB; }
+  @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/spark/fonts/newsreader-latin-ext-opsz-normal.woff2) format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/spark/fonts/newsreader-latin-opsz-normal.woff2) format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/spark/fonts/inter-vietnamese-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB; }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/spark/fonts/inter-latin-ext-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/spark/fonts/inter-latin-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(/spark/fonts/jetbrains-mono-vietnamese-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(/spark/fonts/jetbrains-mono-latin-ext-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(/spark/fonts/jetbrains-mono-latin-wght-normal.woff2) format('woff2-variations'); unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   :root {
     --bg: #06080d; --bg-2: #0a0d15;
     --ink: #f3f5fb; --ink-2: rgba(243, 245, 251, .78); --mute: rgba(243, 245, 251, .56);
@@ -67,8 +76,8 @@ permalink: /spark/
   .veil { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(120% 90% at 50% 40%, rgba(6, 8, 13, 0), rgba(6, 8, 13, .55) 80%); }
 
   /* ---------- nav ---------- */
-  .nav { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s, backdrop-filter .3s; border-bottom: 1px solid transparent; }
-  .nav.is-stuck { background: rgba(6, 8, 13, .66); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); border-bottom-color: var(--line); }
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; background: linear-gradient(180deg, rgba(6, 8, 13, .72), rgba(6, 8, 13, 0)); transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+  .nav.is-stuck { background: rgba(6, 8, 13, .84);  border-bottom-color: var(--line); }
   .nav-in { display: flex; align-items: center; gap: 28px; height: 68px; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
   .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 500 22px/1 var(--serif); letter-spacing: -.01em; }
   .brand img { width: 28px; height: 28px; border-radius: 7px; box-shadow: 0 6px 18px -6px rgba(79, 108, 255, .7); }
@@ -84,6 +93,7 @@ permalink: /spark/
   .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(6, 8, 13, .86) 0%, rgba(6, 8, 13, .6) 36%, rgba(6, 8, 13, 0) 64%); }
   .hero-grid { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .hero-grid > * { min-width: 0; }
+  @media (min-width: 1021px) { .hero-copy .cmd { width: min(640px, calc(100% + 24px)); } }
   @keyframes up { from { opacity: 0; translate: 0 22px; } }
   .hero-copy > *, .stage > :not(.keyspot) { animation: up 1.1s var(--ease) backwards; }
   .hero-copy > :nth-child(1) { animation-delay: .05s; } .hero-copy > :nth-child(2) { animation-delay: .15s; }
@@ -100,19 +110,16 @@ permalink: /spark/
   .osswitch button[aria-selected="true"] { background: rgba(255, 255, 255, .13); color: #fff; }
   .osswitch .beta { margin-left: 4px; font: 500 10px/1 var(--mono); color: var(--coral); text-transform: uppercase; letter-spacing: .04em; }
 
-  .cmd { display: flex; align-items: center; max-width: 590px; margin-top: 12px; border-radius: 999px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line-2); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 24px 60px -30px #000; }
-  .cmd pre { flex: 1; min-width: 0; padding: 17px 0 17px 24px; overflow-x: auto; scrollbar-width: none; font: 400 14px/1.3 var(--mono); }
+  .cmd { display: flex; align-items: center; width: min(100%, 640px); margin-top: 12px; border-radius: 999px; background: rgba(14, 18, 32, .8); border: 1px solid var(--line-2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 24px 60px -30px #000; }
+  .cmd pre { flex: 1; min-width: 0; padding: 17px 0 17px 22px; overflow-x: auto; scrollbar-width: none; font: 400 12.5px/1.3 var(--mono); }
   .cmd pre::-webkit-scrollbar { display: none; }
   .cmd .prompt { color: var(--mute); user-select: none; }
   .copy { flex: none; margin: 6px; padding: 11px 20px; border: 0; border-radius: 999px; background: #fff; color: #06080d; font: 600 14px/1 var(--sans); transition: background .2s, transform .2s var(--ease); }
   .copy:hover { background: #e4eaff; }
   .copy:active { transform: scale(.96); }
-  .meta { max-width: 36em; margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--mute); }
+  .meta { max-width: 36em; margin-top: 14px; font-size: 14px; line-height: 1.55; color: rgba(243, 245, 251, .66); }
   .meta a { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
-  .facts { display: flex; flex-wrap: wrap; gap: 8px 0; margin-top: 30px; font: 400 12.5px/1.3 var(--mono); color: var(--mute); }
-  .facts li { padding: 0 18px; border-left: 1px solid var(--line-2); }
-  .facts li:first-child { padding-left: 0; border-left: 0; }
-  .facts b { display: block; margin-bottom: 3px; font: 500 15px/1.2 var(--mono); color: var(--ink); }
+  .facts { max-width: 36em; margin-top: 22px; font: 400 12.5px/1.6 var(--mono); color: var(--mute); }
 
   .stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .keyspot { position: relative; width: min(100%, 330px); aspect-ratio: 1 / .98; }
@@ -120,7 +127,7 @@ permalink: /spark/
   .key:focus-visible { outline-offset: -6px; }
   .keyhint { min-height: 1.5em; font: 500 13px/1.4 var(--mono); color: var(--ink-2); text-align: center; }
   .keyhint kbd { font-size: 12px; }
-  .live { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; overflow: hidden; padding: 7px 18px 8px; border-radius: 14px; border: 1px solid var(--line-2); background: rgba(255, 255, 255, .05); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #fff; font: 500 13px/1.25 var(--sans); text-align: center; transition: border-color .3s, background .3s; }
+  .live { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; overflow: hidden; padding: 7px 18px 8px; border-radius: 14px; border: 1px solid var(--line-2); background: rgba(16, 20, 36, .86); color: #fff; font: 500 13px/1.25 var(--sans); text-align: center; transition: border-color .3s, background .3s; }
   .live::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(111, 141, 255, .38) var(--p, 0%), transparent var(--p, 0%)); transition: background .25s; }
   .live > * { position: relative; }
   .live small { font: 400 11.5px/1.35 var(--mono); color: var(--mute); }
@@ -136,7 +143,7 @@ permalink: /spark/
   .bubble canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   .bubble span { position: relative; z-index: 1; white-space: nowrap; text-shadow: 0 0 6px rgba(0, 0, 0, .9); -webkit-mask-image: linear-gradient(90deg, transparent, #000 22px); mask-image: linear-gradient(90deg, transparent, #000 22px); }
 
-  .win { width: 100%; max-width: 470px; margin: 4px 0 0; border-radius: 20px; background: var(--glass); border: 1px solid var(--line-2); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 50px 100px -40px #000; transform: perspective(1200px) rotateX(var(--wx, 0deg)) rotateY(var(--wy, 0deg)); transition: transform .5s var(--ease); }
+  .win { width: 100%; max-width: 470px; margin: 4px 0 0; border-radius: 20px; background: linear-gradient(180deg, rgba(24, 29, 49, .92), rgba(12, 15, 28, .92)); border: 1px solid var(--line-2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 50px 100px -40px #000; transform: perspective(1200px) rotateX(var(--wx, 0deg)) rotateY(var(--wy, 0deg)); transition: transform .5s var(--ease); }
   .win-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line); font: 500 11.5px/1 var(--mono); color: var(--mute); }
   .win-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .16); }
   .win-bar span { margin-left: 8px; }
@@ -147,7 +154,7 @@ permalink: /spark/
   .out { position: relative; min-height: 3.1em; margin-top: 8px; font: 400 clamp(21px, 2vw, 25px)/1.35 var(--serif); letter-spacing: -.01em; color: #fff; transition: opacity .35s; }
   .out mark { padding: 0 .14em; border-radius: 6px; background: rgba(125, 160, 255, .24); color: #dbe6ff; }
   .out .w { animation: pop .38s var(--ease) backwards; }
-  .out.is-empty::after { content: "Chữ Spark viết sẽ hiện ở đây."; color: var(--mute); font-style: italic; }
+  .out.is-empty::after { content: "Chữ Spark viết sẽ hiện ở đây."; color: var(--mute); }
   .caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: -.14em; background: var(--blue-2); animation: blink 1s steps(1, end) infinite; }
   .win-cap { padding: 12px 20px 16px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.5; color: var(--mute); }
   .win.is-fading .raw, .win.is-fading .out { opacity: 0; }
@@ -172,6 +179,7 @@ permalink: /spark/
   .rv.is-in { opacity: 1; transform: none; }
 
   /* three gestures, one line through them */
+  .steps-wrap { position: relative; }
   .steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(16px, 3vw, 44px); margin-top: clamp(32px, 4vw, 56px); }
   .step { position: relative; }
   .step .spot { position: relative; height: 168px; width: 168px; }
@@ -179,7 +187,7 @@ permalink: /spark/
   .step h3 { margin-top: 10px; font: 500 clamp(22px, 2vw, 27px)/1.2 var(--serif); letter-spacing: -.015em; }
   .step p { margin-top: 8px; max-width: 24em; font-size: 15.5px; color: var(--ink-2); }
   .steps::before { content: ""; position: absolute; left: 0; right: 0; top: 83px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-2) 12%, var(--line-2) 88%, transparent); }
-  .steps .pulse { position: absolute; top: 80px; left: 0; width: 90px; height: 7px; margin-top: -3px; border-radius: 4px; background: linear-gradient(90deg, transparent, var(--blue-2), transparent); filter: blur(2px); opacity: 0; }
+  .steps-wrap .pulse { position: absolute; top: 80px; left: 0; width: 90px; height: 7px; margin-top: -3px; border-radius: 4px; background: linear-gradient(90deg, transparent, var(--blue-2), transparent); filter: blur(2px); opacity: 0; }
 
   /* inside Spark: a sticky stage and a stack of layers in 3D */
   .pipe { position: relative; height: 560svh; margin-top: clamp(70px, 9vw, 130px); }
@@ -197,12 +205,14 @@ permalink: /spark/
   .pipe-list em { display: block; margin-top: 8px; font: 500 12.5px/1.4 var(--mono); font-style: normal; color: var(--blue-2); }
   .pipe-stage { position: relative; height: min(80svh, 660px); perspective: 1700px; perspective-origin: 50% 36%; }
   .stack { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(58deg) rotateZ(-33deg) scale(var(--sc, .86)); }
-  .layer { position: absolute; left: 50%; top: 50%; width: 430px; height: 250px; margin: -125px 0 0 -215px; transform-style: preserve-3d; transform: translateZ(calc(var(--z) * var(--zk, 1) * 1px + var(--lift, 0) * 56px)); border-radius: 24px; background: linear-gradient(160deg, rgba(30, 40, 84, .96), rgba(10, 14, 30, .97)); border: 1px solid rgba(157, 185, 255, calc(.14 + var(--lift, 0) * .62)); box-shadow: 0 0 calc(var(--lift, 0) * 80px) rgba(111, 141, 255, calc(var(--lift, 0) * .6)), inset 0 1px 0 rgba(255, 255, 255, .12); opacity: calc(.5 + var(--lift, 0) * .5); overflow: hidden; }
+  .layer { position: absolute; left: 50%; top: 50%; width: 430px; height: 250px; margin: -125px 0 0 -215px; transform-style: preserve-3d; transform: translateZ(calc(var(--z) * var(--zk, 1) * 1px + var(--lift, 0) * 56px)); border-radius: 24px; background: linear-gradient(160deg, rgba(30, 40, 84, .96), rgba(10, 14, 30, .97)); border: 1px solid rgba(157, 185, 255, .14); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12); opacity: calc(.5 + var(--lift, 0) * .5); will-change: transform, opacity; }
+  .layer::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 1px solid rgba(157, 185, 255, .75); box-shadow: 0 0 60px rgba(111, 141, 255, .5); opacity: var(--lift, 0); pointer-events: none; }
   .layer > b { position: absolute; left: 24px; top: 18px; font: 500 15px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--blue-2); }
   .layer .body { position: absolute; inset: 56px 24px 22px; }
   .bars { display: flex; align-items: center; gap: 6px; height: 100%; }
-  .bars i { flex: 1; height: 100%; max-height: 12%; border-radius: 3px; background: linear-gradient(180deg, var(--coral), #ffb59e); animation: bar 1.1s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -83ms); }
-  @keyframes bar { to { max-height: 96%; } }
+  .bars i { flex: 1; height: 100%; transform: scaleY(.12); border-radius: 3px; background: linear-gradient(180deg, var(--coral), #ffb59e); animation: bar 1.1s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -83ms); }
+  @keyframes bar { to { transform: scaleY(.96); } }
+  .pipe:not(.is-live) :is(.bars i, .caret) { animation-play-state: paused; }
   .pills { display: flex; flex-wrap: wrap; gap: 9px; align-content: center; height: 100%; }
   .pills span { padding: 7px 12px; border-radius: 9px; background: rgba(255, 255, 255, .08); border: 1px solid var(--line-2); font: 500 16px/1 var(--mono); color: rgba(243, 245, 251, .8); }
   .pills .hot { background: rgba(125, 160, 255, .3); border-color: rgba(157, 185, 255, .7); color: #fff; box-shadow: 0 0 22px rgba(111, 141, 255, .5); }
@@ -230,6 +240,10 @@ permalink: /spark/
   .packet { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; transform: translateZ(calc(var(--pz, 0) * 1px)); background: radial-gradient(circle, #fff, var(--blue-2) 45%, transparent 70%); box-shadow: 0 0 40px 10px rgba(157, 185, 255, .7); }
   .plane { position: absolute; left: 50%; top: 50%; width: 640px; height: 640px; margin: -320px 0 0 -320px; transform: translateZ(-260px); background: radial-gradient(circle, rgba(79, 108, 255, .22), transparent 62%); }
 
+  .story-l { position: sticky; top: 96px; align-self: start; }
+  .shot { margin: 28px 0 0; }
+  .shot img { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line-2); box-shadow: 0 30px 70px -30px #000; }
+  .shot figcaption { margin-top: 10px; font-size: 13px; line-height: 1.5; color: var(--mute); }
   .story { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 6vw, 90px); align-items: start; }
   .prose p { max-width: 36em; font-size: 18px; line-height: 1.65; color: var(--ink-2); }
   .prose p + p { margin-top: 16px; }
@@ -239,7 +253,6 @@ permalink: /spark/
   .miss .heard { font: 400 17px/1.4 var(--mono); color: #ffb4ac; text-decoration: underline wavy rgba(255, 122, 110, .7); text-decoration-thickness: 1px; text-underline-offset: 5px; }
   .miss .arrow { color: var(--mute); text-align: center; }
   .miss .fixed { font: 400 clamp(30px, 3.4vw, 46px)/1.1 var(--serif); letter-spacing: -.02em; }
-  .miss .dec { font-variant-ligatures: none; }
   .miss figcaption { margin-top: 12px; font-size: 13px; color: var(--mute); }
 
   /* install */
@@ -297,6 +310,7 @@ permalink: /spark/
     .pipe-sticky { padding-top: 76px; }
     .pipe-copy h2 { font-size: clamp(30px, 5.2svh, 44px); }
     .pipe-copy .lede { display: none; }
+    .beam, .packet { display: none; }
     .pipe-list { margin-top: 14px; }
     .pipe-list li { padding-top: 10px; padding-bottom: 10px; }
     .pipe-list li::before { top: 13px; }
@@ -325,7 +339,7 @@ permalink: /spark/
     .hero::before { background: linear-gradient(180deg, rgba(6, 8, 13, .72), rgba(6, 8, 13, .25) 55%, rgba(6, 8, 13, .5)); }
     h1 { order: 1; font-size: clamp(42px, 11vw, 70px); }
     .dek { order: 2; margin-top: 14px; font-size: 16.5px; }
-    .keyspot { order: 3; width: min(60vw, 240px); margin: 10px auto 0; align-self: center; }
+    .keyspot { order: 3; width: min(52vw, 200px); margin: 6px auto 0; align-self: center; }
     .keyhint { order: 4; margin-top: 2px; }
     .live { order: 5; align-self: center; margin-top: 8px; }
     .bubble-row { order: 6; margin-top: 4px; align-self: center; }
@@ -335,11 +349,12 @@ permalink: /spark/
     .win { order: 10; margin-top: 26px; max-width: none; }
     .facts { order: 11; margin-top: 26px; }
     .story, .inst-grid { grid-template-columns: minmax(0, 1fr); }
+    .story-l { position: static; }
   }
   @media (max-width: 860px) {
     .nav-links a:not(:last-child) { display: none; }
     .steps { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-    .steps::before, .steps .pulse { display: none; }
+    .steps::before, .steps-wrap .pulse { display: none; }
     .step { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 0 12px; align-items: center; }
     .step .spot { width: 110px; height: 108px; grid-row: 1 / span 2; }
     .step h3 { margin: 0; align-self: end; }
@@ -355,16 +370,16 @@ permalink: /spark/
     .pipe-list li:not(.is-on) h3 { font-size: 17px; }
     .inst-more { grid-template-columns: minmax(0, 1fr); }
   }
+  @media (max-width: 700px) {
+    .cmd { border-radius: 22px; }
+    .cmd pre { white-space: pre-wrap; word-break: break-all; padding: 14px 0 14px 18px; font-size: 12.5px; line-height: 1.5; }
+  }
   @media (max-width: 560px) {
-    .cmd pre { padding-left: 18px; font-size: 12.5px; }
     .copy { padding: 10px 16px; }
     .win-body { padding: 14px 16px 18px; }
     .miss li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
     .miss .arrow { display: none; }
     .stack { --sc: .33; --zk: .42; }
-    .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; font-size: 11px; }
-    .facts li { padding: 0 10px; }
-    .facts b { font-size: 13px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -399,7 +414,7 @@ permalink: /spark/
       <div class="hero-grid">
         <div class="hero-copy">
           <h1>Spark: speech to text tiếng Việt</h1>
-          <p class="dek">Giữ phím <kbd data-kn>fn</kbd> rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và mọi app khác.</p>
+          <p class="dek">Giữ phím <kbd data-kn>fn</kbd> rồi nói, thả ra là Spark paste text vào ô đang focus. Dùng được trong Cursor, VS Code, Terminal, Slack và hầu hết app khác.</p>
 
           <div class="osswitch" role="tablist" aria-label="Hệ điều hành">
             <button type="button" role="tab" data-os-btn="mac" aria-selected="true">macOS</button>
@@ -409,13 +424,9 @@ permalink: /spark/
             <pre tabindex="0" aria-label="Lệnh cài"><span class="prompt" data-prompt>$ </span><code data-cmd-text>curl -fsSL https://vuongnm.github.io/spark/install.sh | bash</code></pre>
             <button class="copy" type="button">Copy</button>
           </div>
-          <p class="meta" data-meta>Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.</p>
+          <p class="meta" data-meta>Dán lệnh trên vào Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. macOS 12 trở lên, Apple Silicon, khoảng 135 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.</p>
 
-          <ul class="facts">
-            <li><b>~0,1 s</b>STT / 5 s audio</li>
-            <li><b>~1 s</b>thả phím → có chữ</li>
-            <li><b>0 byte</b>audio rời máy</li>
-          </ul>
+          <p class="facts">STT chạy local, khoảng 0,1 giây cho 5 giây audio. Từ lúc thả phím đến lúc có chữ khoảng 1 giây. Audio không rời máy. Đo trên MacBook M1, Gemma 4 chạy local.</p>
         </div>
 
         <div class="stage">
@@ -426,7 +437,7 @@ permalink: /spark/
             </button>
           </div>
           <p class="keyhint" id="keyhint" role="status" aria-live="polite">Giữ phím này để nói thử</p>
-          <button class="live" id="live" type="button" hidden aria-pressed="false"><span class="live-t">Thử bằng giọng của bạn</span><small class="live-s">Model STT chạy ngay trong tab này, tải 38 MB một lần</small></button>
+          <button class="live" id="live" type="button" hidden aria-pressed="false"><span class="live-t">Thử bằng giọng của bạn</span><small class="live-s">Model STT chạy ngay trong tab này, tải khoảng 38 MB một lần</small></button>
           <div class="bubble-row"><div class="bubble" id="bubble" aria-hidden="true"><canvas></canvas><span></span></div></div>
           <figure class="win" id="win">
             <div class="win-bar"><i></i><i></i><i></i><span>Ô đang focus</span></div>
@@ -444,24 +455,23 @@ permalink: /spark/
 
     <section class="sec wrap" id="cach-dung">
       <h2 class="rv">Cách dùng</h2>
-      <ol class="steps rv">
+      <div class="steps-wrap rv"><ol class="steps">
         <li class="step"><div class="spot" data-key data-step="0"></div><div><h3>Giữ <kbd class="kbd" data-kn>fn</kbd> rồi nói</h3><p>Một overlay nhỏ hiện ở cạnh dưới màn hình, hiển thị transcript real-time trong lúc bạn nói.</p></div></li>
-        <li class="step"><div class="spot" data-key data-step="1"></div><div><h3>Thả phím</h3><p>Khoảng 1 giây sau, text đã xử lý được paste vào ô đang focus, trong bất kỳ app nào.</p></div></li>
+        <li class="step"><div class="spot" data-key data-step="1"></div><div><h3>Thả phím</h3><p>Khoảng 1 giây sau, text đã xử lý được paste vào ô đang focus, trong hầu hết app.</p></div></li>
         <li class="step"><div class="spot" data-key data-step="2"></div><div><h3>Hands-free</h3><p>Double-tap <kbd class="kbd" data-kn>fn</kbd> để nói mà không cần giữ phím, nhấn <kbd class="kbd" data-kn>fn</kbd> lần nữa để dừng.</p></div></li>
-        <span class="pulse" aria-hidden="true"></span>
-      </ol>
+      </ol><span class="pulse" aria-hidden="true"></span></div>
     </section>
 
     <section class="pipe" id="ben-trong" aria-labelledby="pipe-h">
       <div class="pipe-sticky">
         <div class="pipe-copy">
           <h2 id="pipe-h">Bên trong Spark</h2>
-          <p class="lede">Từ lúc bạn giữ phím đến lúc có chữ, mọi bước chạy trên máy bạn.</p>
+          <p class="lede">Từ lúc bạn giữ phím đến lúc có chữ, mọi bước chạy trên máy bạn, trừ khi bạn chọn Claude để cleanup.</p>
           <ol class="pipe-list" id="pipe-list">
             <li data-n="01"><h3>Thu âm</h3><p><span>Giữ phím thì overlay hiện ở cạnh dưới màn hình, không lấy focus khỏi ô bạn đang gõ. Audio được stream về app trong lúc bạn nói.<em>phím <span data-kn>fn</span> được đọc bằng helper Swift (CGEventTap)</em></span></p></li>
             <li data-n="02"><h3>Speech to text</h3><p><span>Cứ 300 ms, Spark decode lại 12 giây gần nhất bằng Zipformer tiếng Việt 30M params (sherpa-onnx, CPU), nên transcript hiện real-time. Hotwords giúp model viết đúng khoảng 30 từ dân code hay dùng. Moonshine tiny (tiếng Anh) chạy song song để bắt từ như commit, merge, endpoint.<code class="peek">BẠN <mark>REVIEW</mark> GIÚP MÌNH CÁI <mark>FUNCTION</mark> NÀY TRƯỚC KHI LÊN <mark>PRODUCTION</mark> NHÉ</code><em>~0,1 s cho 5 s audio</em></span></p></li>
             <li data-n="03"><h3>LLM cleanup</h3><p><span>Gemma 4 E2B chạy local (Metal), hoặc Claude Haiku bằng API key của bạn, viết lại transcript thành câu hoàn chỉnh. Ở Cursor, VS Code, Terminal thì Spark giữ nguyên tên file, function và command. Cleanup bắt đầu ngay khi bạn ngừng nói.<code class="peek"><s>phích cái bắp ở file index chấm ts</s><br><mark>Fix</mark> cái <mark>bug</mark> ở file <mark>index.ts</mark></code><em>~1 s sau khi thả phím</em></span></p></li>
-            <li data-n="04"><h3>Guard</h3><p><span>Spark luôn so output với transcript gốc. Nếu LLM thêm từ hoặc đổi số, output đó bị loại và Spark fallback sang Claude hoặc basic cleanup.<code class="peek chk"><span class="y">không thêm từ</span><span class="y">không đổi số</span><span class="n">lệch transcript → fallback</span></code><em>checkDivergence · unspokenNumbers</em></span></p></li>
+            <li data-n="04"><h3>Guard</h3><p><span>Spark so output với transcript gốc. Output bị loại nếu quá nhiều từ không khớp với những gì bạn nói (dưới 60%), dài bất thường, hoặc có con số bạn không nói. Khi đó Spark fallback sang Claude hoặc basic cleanup.<code class="peek chk"><span class="y">từ khớp transcript</span><span class="y">số khớp lời bạn nói</span><span class="n">lệch quá xa → fallback</span></code><em>checkDivergence · unspokenNumbers</em></span></p></li>
             <li data-n="05"><h3>Paste</h3><p><span>Spark copy text vào clipboard, gửi <span class="only-mac">⌘V</span><span class="only-win">Ctrl+V</span>, rồi trả lại nội dung clipboard cũ của bạn.<code class="peek">Fix cái bug ở file index.ts<span class="caret"></span></code><em>audio không bao giờ rời máy</em></span></p></li>
           </ol>
         </div>
@@ -482,7 +492,9 @@ permalink: /spark/
 
     <section class="sec wrap" id="vi-sao">
       <div class="story">
-        <div class="rv"><h2>Vì sao mình làm Spark</h2></div>
+        <div class="rv story-l"><h2>Vì sao mình làm Spark</h2>
+          <figure class="shot"><img src="/spark/app-history.jpg" width="1200" height="860" loading="lazy" decoding="async" alt="Màn hình Lịch sử trong app Spark: mỗi dòng là một lần đọc, đã viết lại, kèm app đang focus và engine cleanup."><figcaption>Màn hình Lịch sử trong app: mỗi dòng là một lần đọc, có app đang focus và engine cleanup (Gemma 4 local ở đây).</figcaption></figure>
+        </div>
         <div class="rv">
           <div class="prose">
             <p>Lúc làm việc mình hay nói nửa Việt nửa Anh, kiểu "report toàn bộ bằng tiếng Việt". Model speech-to-text tiếng Việt nghe những câu như vậy ra chữ lung tung, sửa lại còn mất công hơn tự gõ.</p>
@@ -490,9 +502,9 @@ permalink: /spark/
           </div>
           <figure>
             <ul class="miss">
-              <li><span class="heard">lừa đảo</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="report"><span class="sr">report</span><span aria-hidden="true" class="dec">report</span></span></li>
-              <li><span class="heard">đi phôi</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="deploy"><span class="sr">deploy</span><span aria-hidden="true" class="dec">deploy</span></span></li>
-              <li><span class="heard">bờ ran may</span><span class="arrow" aria-hidden="true">→</span><span class="fixed" data-final="branch main"><span class="sr">branch main</span><span aria-hidden="true" class="dec">branch main</span></span></li>
+              <li><span class="heard">lừa đảo</span><span class="arrow" aria-hidden="true">→</span><span class="fixed">report</span></li>
+              <li><span class="heard">đi phôi</span><span class="arrow" aria-hidden="true">→</span><span class="fixed">deploy</span></li>
+              <li><span class="heard">bờ ran may</span><span class="arrow" aria-hidden="true">→</span><span class="fixed">branch main</span></li>
             </ul>
             <figcaption>Bên trái là chữ model tiếng Việt nghe ra. Bên phải là chữ Spark paste.</figcaption>
           </figure>
@@ -520,11 +532,12 @@ permalink: /spark/
         <div class="inst-text">
           <div id="p-mac" role="tabpanel" aria-labelledby="tab-mac">
             <p>Mở Terminal và chạy lệnh bên cạnh. Script tải release mới nhất từ <a href="https://github.com/VuongNM/spark/releases" rel="noopener">GitHub Releases</a>, copy Spark.app vào /Applications rồi mở app. Muốn update thì chạy lại lệnh này. Nên <a href="/spark/install.sh">đọc script</a> trước khi chạy.</p>
-            <p>Apple Silicon (M1 trở lên). Nếu tải bằng browser thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa được sign bằng Developer ID và notarize với Apple (cần Apple Developer Program, 99 USD/năm), nên lần đầu mở Gatekeeper sẽ chặn. Vào System Settings → Privacy &amp; Security, bấm “Open Anyway”, hoặc xoá quarantine attribute:</p>
+            <p>Apple Silicon (M1 trở lên), macOS 12 trở lên. Nếu tải bằng browser thì dùng <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">file .dmg</a> rồi kéo Spark vào Applications. Spark chưa được sign bằng Developer ID và notarize với Apple, nên lần đầu mở Gatekeeper sẽ chặn. Vào System Settings → Privacy &amp; Security, bấm “Open Anyway”, hoặc xoá quarantine attribute:</p>
             <pre class="code" tabindex="0">xattr -dr com.apple.quarantine /Applications/Spark.app</pre>
           </div>
           <div id="p-win" role="tabpanel" aria-labelledby="tab-win" hidden>
             <p>Mở PowerShell và chạy lệnh bên cạnh (Windows 10, 11). Script tải bản cài mới nhất, cài cho user hiện tại, không cần quyền admin, rồi mở Spark. Giữ <kbd class="kbd">Right Ctrl</kbd> để nói.</p>
+            <p>File .exe chưa được code-sign, và script gỡ dấu “tải từ internet” (Unblock-File) khỏi file để SmartScreen không chặn. Nên <a href="/spark/install.ps1">đọc script</a> trước khi chạy.</p>
             <p>Bản Windows được build bằng CI nhưng chưa test kỹ trên máy thật, gặp lỗi thì mở <a href="https://github.com/VuongNM/spark/issues" rel="noopener">issue trên GitHub</a> giúp mình nhé. Hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>.</p>
           </div>
           <div id="p-src" role="tabpanel" aria-labelledby="tab-src" hidden>
@@ -544,7 +557,7 @@ permalink: /spark/
             <li><strong>Input Monitoring</strong>, nếu macOS hỏi. Spark chỉ đọc phím fn, không log các phím khác.</li>
           </ul>
           <p class="only-mac">Nếu nhấn fn mà emoji picker hiện lên, vào System Settings → Keyboard và đặt “Press 🌐 key to” thành “Do Nothing”.</p>
-          <p>Muốn có LLM cleanup thì tải Gemma 4 hoặc nhập Anthropic API key ngay trong hướng dẫn, hoặc sau này trong Cài đặt.</p>
+          <p>Muốn có LLM cleanup thì tải Gemma 4 (3,1 GB) hoặc nhập Anthropic API key ngay trong hướng dẫn, hoặc sau này trong Cài đặt.</p>
         </div>
         <div>
           <h3>Uninstall</h3>
@@ -559,11 +572,13 @@ permalink: /spark/
       <h2 class="rv">FAQ</h2>
       <div class="faq rv">
         <details><summary>Spark có gửi audio đi đâu không?</summary><p>Không. Speech-to-text chạy hoàn toàn on-device. Nếu bạn chọn Claude để cleanup thì Spark chỉ gửi transcript (text, không có audio) tới Anthropic API bằng key của bạn. History chỉ lưu local và xoá được trong app.</p></details>
-        <details><summary>Sao macOS chặn file .dmg?</summary><p>Để Gatekeeper cho mở thẳng, app cần được sign bằng Developer ID và notarize qua Apple Developer Program (99 USD/năm). Spark chưa làm bước này. Source code public nên bạn có thể đọc hoặc tự build.</p></details>
+        <details><summary>Sao macOS chặn file .dmg?</summary><p>Để Gatekeeper cho mở thẳng, app cần được sign bằng Developer ID và notarize qua Apple Developer Program. Spark chưa làm bước này. Source code public nên bạn có thể đọc hoặc tự build.</p></details>
         <details><summary>Sao cài bằng curl lại không bị chặn?</summary><p>Browser gắn quarantine attribute (<code>com.apple.quarantine</code>) cho file tải về, và Gatekeeper chỉ kiểm tra file có attribute này. curl không gắn attribute đó, nên đọc script trước khi chạy.</p></details>
         <details><summary>Có cần mạng không?</summary><p>Chỉ cần lúc tải model lần đầu và khi dùng Claude API. Dùng Gemma thì Spark chạy offline hoàn toàn.</p></details>
+        <details><summary>Dùng ở công ty được không?</summary><p>Code của Spark là MIT. Model STT tiếng Việt là Zipformer-30M-RNNT-6000h của hynt, license CC BY-NC-ND 4.0, nghĩa là chỉ dùng phi thương mại. Nếu bạn cần dùng cho công việc kiếm tiền, hãy đọc kỹ license đó hoặc hỏi tác giả model.</p></details>
+        <details><summary>Có bản Linux không?</summary><p>Chưa có. Spark chạy trên macOS (Apple Silicon) và Windows (beta).</p></details>
         <details><summary>Có mất phí không?</summary><p>Spark miễn phí. Nếu dùng Claude thì Anthropic tính phí API theo key của bạn.</p></details>
-        <details><summary>Yêu cầu phần cứng?</summary><p>Mọi Mac Apple Silicon đều chạy được. Gemma 4 dùng thêm khoảng 2 GB RAM, nên máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p></details>
+        <details><summary>Yêu cầu phần cứng?</summary><p>Mac Apple Silicon, macOS 12 trở lên (mình mới test trên MacBook M1). Gemma 4 phải tải 3,1 GB và dùng thêm khoảng 2 GB RAM, nên máy 8 GB thì dùng Claude sẽ nhẹ hơn.</p></details>
       </div>
     </section>
 
@@ -604,8 +619,8 @@ permalink: /spark/
     win: { prompt: 'PS> ', cmd: 'irm https://vuongnm.github.io/spark/install.ps1 | iex', key: 'Right Ctrl', term: 'PowerShell' }
   };
   var META = {
-    mac: 'Chạy lệnh trên trong Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. Apple Silicon, 133 MB, miễn phí, open source (MIT). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.',
-    win: 'Chạy lệnh trên trong PowerShell, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>. Windows 10, 11 (beta), 137 MB, miễn phí, open source (MIT). Cũng có <a href="#cai-dat" data-go-os="mac">bản Mac</a>.',
+    mac: 'Dán lệnh trên vào Terminal, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-mac-arm64.dmg">tải file .dmg</a>. macOS 12 trở lên, Apple Silicon, khoảng 135 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Có <a href="#cai-dat" data-go-os="win">bản Windows</a> beta.',
+    win: 'Dán lệnh trên vào PowerShell, hoặc <a href="https://github.com/VuongNM/spark/releases/latest/download/Spark-win-x64.exe">tải file .exe</a>. Windows 10, 11 (beta), khoảng 137 MB, miễn phí. Code MIT, model STT theo license CC BY-NC-ND (chỉ dùng phi thương mại). Cũng có <a href="#cai-dat" data-go-os="mac">bản Mac</a>.',
     phone: 'Spark chạy trên Mac và Windows. Mở trang này trên máy tính, hoặc <a href="#" data-copy-link>copy link</a> gửi cho chính mình.'
   };
   var LIVE = { state: 'off', on: false, stt: null };
@@ -630,6 +645,18 @@ permalink: /spark/
     if (go) { setOS(go.dataset.goOs, true); }
     var cl = e.target.closest && e.target.closest('[data-copy-link]');
     if (cl) { e.preventDefault(); copyText(location.href.split('#')[0], cl); }
+  });
+
+  /* ---------------------------------------------------------------- tabs: arrow keys, one tab stop */
+  $$('[role="tablist"]').forEach(function (list) {
+    var tabs = $$('[role="tab"]', list);
+    function sync() { tabs.forEach(function (t) { t.tabIndex = t.getAttribute('aria-selected') === 'true' ? 0 : -1; }); }
+    new MutationObserver(sync).observe(list, { subtree: true, attributes: true, attributeFilter: ['aria-selected'] }); sync();
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement); if (i < 0) return;
+      var n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : -1;
+      if (n < 0) return; e.preventDefault(); n = (n + tabs.length) % tabs.length; tabs[n].focus(); tabs[n].click();
+    });
   });
 
   /* ---------------------------------------------------------------- copy */
@@ -896,10 +923,14 @@ permalink: /spark/
     var key = $('#key'), spot = $('#keyspot');
     key.addEventListener('pointerdown', function (e) { if (e.button > 0) return; e.preventDefault(); try { key.setPointerCapture(e.pointerId); } catch (x) {} demo.down(); });
     key.addEventListener('pointerup', function () { demo.up(); });
-    key.addEventListener('pointercancel', function () { demo.up(); });
+    key.addEventListener('pointercancel', function () { if (demo.st === 'listening' && !demo.lock) demo.cancel(false); });
     key.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    // a click that did not come from a press (screen readers, voice control) plays one phrase
+    var sawPress = 0;
+    key.addEventListener('pointerdown', function () { sawPress = performance.now(); }, true);
+    key.addEventListener('click', function (e) { if (e.detail === 0 && performance.now() - sawPress > 600 && demo.st === 'idle') { demo.lastUser = performance.now() / 1000; demo.begin(true); } });
     var kd = false;
-    key.addEventListener('keydown', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); kd = true; demo.down(); } });
+    key.addEventListener('keydown', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { e.preventDefault(); kd = true; sawPress = performance.now(); demo.down(); } });
     key.addEventListener('keyup', function (e) { if ((e.code === 'Space' || e.code === 'Enter') && kd) { e.preventDefault(); kd = false; demo.up(); } });
     key.addEventListener('blur', function () { if (kd) { kd = false; demo.up(); } });
     // on Windows the real hold key (Right Ctrl) works anywhere on the page, as in the app
@@ -920,13 +951,13 @@ permalink: /spark/
   /* ---------------------------------------------------------------- your own voice, transcribed in this tab */
   var liveBtn = $('#live'), liveT = $('.live-t', liveBtn), liveS = $('.live-s', liveBtn), winCap = $('.win-cap');
   var CAP_SAMPLE = winCap.textContent;
-  var CAP_LIVE = 'Giọng của bạn, được model STT của Spark (Zipformer 30M) chạy bằng WebAssembly ngay trong tab này. Audio không rời khỏi trình duyệt. Ô paste chỉ có basic cleanup, bước LLM cleanup chỉ có trong app.';
+  var CAP_LIVE = 'Model STT của Spark (Zipformer 30M) chạy bằng WebAssembly trong tab này và nghe giọng bạn. Audio không rời trình duyệt. Trang này chưa có hotwords, model tiếng Anh và LLM cleanup như trong app, nên từ tiếng Anh dễ bị nghe sai và ô paste chỉ có basic cleanup.';
   function simd() { try { return WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11])); } catch (e) { return false; } }
   function liveSupported() { return !phone && !!(window.WebAssembly && window.Worker && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && (window.AudioContext || window.webkitAudioContext)) && simd(); }
   function renderLive() {
     var st = LIVE.state;
     liveBtn.dataset.state = st; liveBtn.setAttribute('aria-pressed', LIVE.on ? 'true' : 'false');
-    if (st === 'off') { liveT.textContent = 'Thử bằng giọng của bạn'; liveS.textContent = 'Model STT chạy ngay trong tab này, tải 38 MB một lần'; }
+    if (st === 'off') { liveT.textContent = 'Thử bằng giọng của bạn'; liveS.textContent = 'Model STT chạy ngay trong tab này, tải khoảng 38 MB một lần'; }
     else if (st === 'loading') { liveT.textContent = 'Đang tải model…'; liveS.textContent = 'Chỉ tải một lần, lần sau lấy từ cache.'; }
     else if (st === 'error') { liveT.textContent = 'Không tải được model'; liveS.textContent = 'Bấm để thử lại'; }
     else if (LIVE.on) { liveT.textContent = 'Đang dùng giọng của bạn'; liveS.textContent = 'Bấm để quay lại câu mẫu'; }
@@ -953,7 +984,7 @@ permalink: /spark/
         onProgress: function (p) {
           liveBtn._pct = p.pct || 0; liveBtn.style.setProperty('--p', liveBtn._pct + '%');
           liveT.textContent = p.phase === 'download' ? 'Đang tải model… ' + Math.round(p.pct) + '%' : 'Đang khởi tạo…';
-          if (p.phase === 'download') liveS.textContent = (p.loaded / 1048576).toFixed(1).replace('.', ',') + ' / ' + (p.total / 1048576).toFixed(1).replace('.', ',') + ' MB. Chỉ tải một lần, lần sau lấy từ cache.';
+          if (p.phase === 'download') liveS.textContent = 'Model ' + (p.loaded / 1e6).toFixed(1).replace('.', ',') + ' / ' + (p.total / 1e6).toFixed(1).replace('.', ',') + ' MB. Chỉ tải một lần, lần sau lấy từ cache.';
         }
       });
     }).then(function (stt) {
@@ -969,14 +1000,18 @@ permalink: /spark/
   }
 
   /* ---------------------------------------------------------------- keys on the page */
+  var views = [];
   function KeyView(el, opts) {
-    var h = scene ? scene.addKey(el, opts || {}) : null;
-    return {
-      press: function (on) { if (h) h.press(on); else el.classList.toggle('is-down', !!on); },
-      mode: function (m) { if (h) h.mode(m); else el.dataset.mode = m; },
-      kick: function (a) { if (h) h.kick(a); }
-    };
+    var v = { el: el, opts: opts || {}, h: null, down: false, m: 'idle' };
+    v.press = function (on) { v.down = !!on; if (v.h) v.h.press(on); else el.classList.toggle('is-down', !!on); };
+    v.mode = function (m) { v.m = m; if (v.h) v.h.mode(m); else el.dataset.mode = m; };
+    v.kick = function (a) { if (v.h) v.h.kick(a); };
+    views.push(v);
+    if (scene) attachView(v);
+    return v;
   }
+  function attachView(v) { v.h = scene.addKey(v.el, v.opts); v.h.press(v.down); v.h.mode(v.m); v.el.classList.remove('is-down'); v.el.removeAttribute('data-mode'); }
+  function detachViews() { views.forEach(function (v) { v.h = null; v.el.classList.toggle('is-down', v.down); v.el.dataset.mode = v.m; }); }
   function celebrate() {
     if (!demo || demo.st !== 'idle' || !heroKey) return;
     heroKey.mode('done'); if (scene) { scene.kick(1); }
@@ -986,7 +1021,7 @@ permalink: /spark/
   // "Giữ, nói, thả": three small keys, played in turn while the section is on screen
   function bindSteps() {
     var spots = $$('.step .spot'), keys = spots.map(function (s, i) { return KeyView(s, { size: .5 }); });
-    var section = $('#cach-dung'), pulse = $('.steps .pulse'), vis = false, seq = 0, timers = [];
+    var section = $('#cach-dung'), pulse = $('.steps-wrap .pulse'), vis = false, seq = 0, timers = [];
     if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; if (vis && !seq) play(); }, { threshold: .35 }).observe(section);
     function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
     function sweep(i) { if (!pulse || reduce) return; var w = $('.steps').clientWidth / 3; pulse.style.transition = 'none'; pulse.style.opacity = 0; pulse.style.transform = 'translateX(' + (w * i + 130) + 'px)'; pulse.offsetWidth; pulse.style.transition = 'transform .9s var(--ease), opacity .9s'; pulse.style.opacity = 1; pulse.style.transform = 'translateX(' + (w * (i + 1) + 10) + 'px)'; at(900, function () { pulse.style.opacity = 0; }); }
@@ -1011,7 +1046,12 @@ permalink: /spark/
 
   /* ---------------------------------------------------------------- inside Spark: scroll through the layers */
   var pipe = $('#ben-trong'), stack = $('#stack'), layers = $$('.layer', stack), items = $$('#pipe-list li'), packet = $('#packet');
-  var pipeIdx = -1;
+  var pipeIdx = -1, zk = 1;
+  function readZk() { zk = parseFloat(getComputedStyle(stack).getPropertyValue('--zk')) || 1; }
+  readZk(); addEventListener('resize', readZk);
+  // the diagram's own animations only run while it is on screen
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { pipe.classList.toggle('is-live', e[0].isIntersecting); }, { rootMargin: '120px' }).observe(pipe);
+  else pipe.classList.add('is-live');
   function pipeUpdate() {
     if (!pipe) return;
     var r = pipe.getBoundingClientRect(), span = r.height - innerHeight;
@@ -1020,7 +1060,6 @@ permalink: /spark/
     // the active layer rises; neighbours follow a little as the packet passes
     layers.forEach(function (l, i) { var d = Math.abs(i + .5 - f); l.style.setProperty('--lift', clamp(1 - d * 1.15, 0, 1).toFixed(3)); });
     // the packet travels the beam from layer 1 (top) to layer 5 (bottom)
-    var zk = parseFloat(getComputedStyle(stack).getPropertyValue('--zk')) || 1;
     var z = (340 - clamp((f - .5) / (layers.length - 1), 0, 1) * 680) * zk;
     packet.style.setProperty('--pz', z.toFixed(1));
     if (idx !== pipeIdx) { pipeIdx = idx; items.forEach(function (li, i) { li.classList.toggle('is-on', i === idx); if (i === idx) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); }); }
@@ -1048,7 +1087,7 @@ permalink: /spark/
     var body = $('#term-body'), t = TERM[tab], prompt = tab === 'win' ? 'PS> ' : '$ ', i = 0, html = '';
     function put(h, cursor) { body.innerHTML = h + (cursor ? '<span class="cur"></span>' : ''); }
     function at(ms, fn) { termTimers.push(setTimeout(fn, ms)); }
-    if (reduce) { put('<span class="p">' + prompt + '</span><span class="c">' + esc(t.cmd) + '</span>' + t.out.map(function (o) { return '\n' + (o[0] === '#bar' ? '######################################## 100,0%' : '<span class="' + (o[1] || 'd') + '">' + esc(o[0]) + '</span>'); }).join(''), false); return; }
+    if (reduce) { put('<span class="p">' + prompt + '</span><span class="c">' + esc(t.cmd) + '</span>' + t.out.map(function (o) { return '\n' + (o[0] === '#bar' ? '######################################## 100.0%' : '<span class="' + (o[1] || 'd') + '">' + esc(o[0]) + '</span>'); }).join(''), false); return; }
     var typed = '', ms = 260;
     put('<span class="p">' + prompt + '</span>', true);
     for (i = 0; i < t.cmd.length; i++) (function (k) { at(ms + k * 22, function () { typed = t.cmd.slice(0, k + 1); put('<span class="p">' + prompt + '</span><span class="c">' + esc(typed) + '</span>', true); }); })(i);
@@ -1057,8 +1096,8 @@ permalink: /spark/
     t.out.forEach(function (o) {
       if (o[0] === '#bar') {
         var base = html;
-        for (var b = 0; b <= 40; b++) (function (n) { at(ms + n * 38, function () { put(base + '\n<span class="d">' + '#'.repeat(n) + ' '.repeat(40 - n) + ' ' + (n * 2.5).toFixed(1).replace('.', ',') + '%</span>', true); }); })(b);
-        ms += 41 * 38; html += '\n<span class="d">' + '#'.repeat(40) + ' 100,0%</span>'; var done = html; at(ms, function () { put(done, true); });
+        for (var b = 0; b <= 40; b++) (function (n) { at(ms + n * 38, function () { put(base + '\n<span class="d">' + '#'.repeat(n) + ' '.repeat(40 - n) + ' ' + (n * 2.5).toFixed(1) + '%</span>', true); }); })(b);
+        ms += 41 * 38; html += '\n<span class="d">' + '#'.repeat(40) + ' 100.0%</span>'; var done = html; at(ms, function () { put(done, true); });
       } else {
         html += '\n<span class="' + (o[1] || 'd') + '">' + esc(o[0]) + '</span>'; var h = html; at(ms, function () { put(h, true); }); ms += 520;
       }
@@ -1069,49 +1108,29 @@ permalink: /spark/
     new IntersectionObserver(function (e) { if (e[0].isIntersecting && !termOnce) { termOnce = true; runTerm(); } }, { threshold: .4 }).observe($('#term'));
   } else { runTerm(); }
 
-  /* ---------------------------------------------------------------- the three words Spark fixes, decoded as they come into view */
-  $$('.miss .fixed').forEach(function (el) {
-    var dec = $('.dec', el), final = el.dataset.final, glyphs = 'abcdefghijklmnopqrstuvwxyz0123456789', played = false;
-    if (reduce || !('IntersectionObserver' in window)) return;
-    dec.textContent = '';
-    new IntersectionObserver(function (e, ob) {
-      if (!e[0].isIntersecting || played) return; played = true; ob.disconnect();
-      var t0 = performance.now(), delay = $$('.miss .fixed').indexOf(el) * 260;
-      (function step(now) {
-        var k = clamp((now - t0 - delay) / 700, 0, 1), out = '';
-        for (var i = 0; i < final.length; i++) out += final[i] === ' ' ? ' ' : (i / final.length < k ? final[i] : glyphs[(Math.random() * glyphs.length) | 0]);
-        dec.textContent = now - t0 < delay ? '' : out;
-        if (k < 1 || now - t0 < delay) requestAnimationFrame(step); else dec.textContent = final;
-      })(t0);
-    }, { threshold: .8 }).observe(el);
-  });
-
   /* ---------------------------------------------------------------- start: WebGL if it works, the 2D field if not */
   function fallback() {
-    root.classList.remove('gl', 'gl-ready'); root.classList.add('nogl'); scene = null;
-    bgField = field($('.field2d canvas'), { pitch: 16, scale: 0.06, rgb: '170,190,255', alpha: 0.2, radius: 1.5, fade: function (y) { return Math.max(0, 1 - y * 0.9); } });
+    root.classList.remove('gl', 'gl-ready'); root.classList.add('nogl'); scene = null; detachViews();
+    if (!bgField) bgField = field($('.field2d canvas'), { pitch: 16, scale: 0.06, rgb: '170,190,255', alpha: 0.2, radius: 1.5, fade: function (y) { return Math.max(0, 1 - y * 0.9); } });
   }
   function init() {
     setOS(os, false);
     setTab('mac'); termOnce = false;
     $('#term-title').textContent = TERM.mac.title;
-    var go = function () {
-      heroKey = KeyView($('#keyspot'), { main: true, intro: true });
-      bindHero(); bindSteps();
-      var end = $('[data-end]'); if (end) { var ek = KeyView(end, { size: .6 }); }
-      onScroll();
-    };
+    heroKey = KeyView($('#keyspot'), { main: true, intro: true });
+    bindHero(); bindSteps();
+    var end = $('[data-end]'); if (end) KeyView(end, { size: .6 });
+    onScroll();
     var ok = false;
     try { ok = !!document.createElement('canvas').getContext('webgl2'); } catch (e) {}
-    if (!ok) { fallback(); go(); return; }
-    import('/spark/spark3d.js?v=6261fb66').then(function (m) {
+    if (!ok) { fallback(); return; }
+    import('/spark/spark3d.js?v=f1ebbec4').then(function (m) {
       try {
-        scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: function () { fallback(); }, onFrame: function () { root.classList.add('gl-ready'); } });
-        root.classList.add('gl');
-        if (DEBUG) window.__spark = scene;
+        scene = m.start({ canvas: $('#gl'), os: os, reduced: reduce, onLost: fallback, onFrame: function () { root.classList.add('gl-ready'); } });
+        root.classList.add('gl'); if (DEBUG) window.__spark = scene;
+        views.forEach(attachView);
       } catch (e) { fallback(); }
-      go();
-    }).catch(function () { fallback(); go(); });
+    }).catch(fallback);
   }
   // don't wait for the load event: a slow web font would hold the whole 3D scene back
   function boot() { (window.requestIdleCallback || function (f) { setTimeout(f, 60); })(init, { timeout: 700 }); }

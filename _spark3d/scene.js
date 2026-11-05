@@ -12,6 +12,8 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 
 const PLATE_W = 3.5
@@ -204,8 +206,8 @@ function legendTexture(os, font) {
   x.strokeStyle = '#fff'
   x.textBaseline = 'alphabetic'
   if (os === 'mac') {
-    x.font = `600 ${S * 0.32}px ${font}`
-    x.fillText('fn', S * 0.16, S * 0.84)
+    x.font = `600 ${S * 0.38}px ${font}`
+    x.fillText('fn', S * 0.15, S * 0.85)
     // the globe that shares the fn key on current Mac keyboards
     const cx = S * 0.8, cy = S * 0.21, r = S * 0.075
     x.lineWidth = S * 0.011
@@ -268,7 +270,7 @@ export function start(opts) {
   scene.environment = pmrem.fromScene(room, 0.03).texture
   scene.environmentIntensity = 0.8
 
-  const key1 = new DirectionalLight(0xc8d6ff, 1.6)
+  const key1 = new DirectionalLight(0xc8d6ff, 1.0)
   key1.position.set(-6, 10, 7)
   scene.add(key1)
   const rim = new PointLight(0xff7a6e, 55, 20, 2)
@@ -289,7 +291,8 @@ export function start(opts) {
     vertexShader: TERRAIN_VERT, fragmentShader: TERRAIN_FRAG, uniforms: tUniforms,
     transparent: true, depthWrite: false, blending: AdditiveBlending,
   })
-  let terrain = new Points(terrainGeometry(mobile ? 0.24 : 0.135), terrainMat)
+  let density = mobile ? 0.24 : 0.16
+  let terrain = new Points(terrainGeometry(density), terrainMat)
   terrain.frustumCulled = false
   scene.add(terrain)
 
@@ -346,7 +349,7 @@ export function start(opts) {
     const topMat = capSide.clone()
     topMat.emissive = new Color(0xffffff)
     topMat.emissiveMap = legends[os]
-    topMat.emissiveIntensity = 4
+    topMat.emissiveIntensity = 2.5
     const stripMat = new MeshBasicMaterial({ color: new Color(0x4f6cff), toneMapped: false })
     const leakMat = new MeshBasicMaterial({ map: leakTex, color: new Color(0x4f6cff), toneMapped: false, transparent: true, opacity: 0.9, blending: AdditiveBlending, depthWrite: false })
     const plate = new Mesh(plateGeo, plateMat)
@@ -383,24 +386,42 @@ export function start(opts) {
 
   // --- post: bloom, so the legend, light strips and bright dots glow
   let composer, bloom, rt
-  function buildComposer(w, h, pr) {
+  // The frame is cheap by design: scene at most 1.5x, no multisampling (FXAA instead), bloom starting at a quarter of the frame.
+  let msaa = 0, prCap = mobile ? 1.25 : 1.5, bloomOn = true, lite = true, fxaa = null
+  function disposeComposer() {
+    if (composer) { for (const p of composer.passes) p.dispose?.(); composer.dispose?.() }
     rt?.dispose()
-    rt = new WebGLRenderTarget(w * pr, h * pr, { type: HalfFloatType, samples: 4 })
+    composer = rt = bloom = fxaa = null
+  }
+  function buildComposer(w, h, pr) {
+    disposeComposer()
+    rt = new WebGLRenderTarget(w * pr, h * pr, { type: HalfFloatType, samples: msaa })
     composer = new EffectComposer(renderer, rt)
     composer.setPixelRatio(pr)
     composer.setSize(w, h)
     composer.addPass(new RenderPass(scene, camera))
-    bloom = new UnrealBloomPass(new Vector2(w / 2, h / 2), 0.55, 0.55, 0.42)
+    bloom = new UnrealBloomPass(new Vector2(w / 2, h / 2), 0.42, 0.5, 0.5)
+    bloom.enabled = bloomOn
+    if (lite) { const set = bloom.setSize.bind(bloom); bloom.setSize = (bw, bh) => set(Math.max(2, bw >> 1), Math.max(2, bh >> 1)); bloom.setSize(w * pr, h * pr) }
     composer.addPass(bloom)
     composer.addPass(new OutputPass())
+    fxaa = null
+    if (lite) {
+      fxaa = new ShaderPass(FXAAShader)
+      fxaa.material.uniforms.resolution.value.set(1 / (w * pr), 1 / (h * pr))
+      composer.addPass(fxaa)
+    }
   }
 
   // --- sizing
-  let W = 1, H = 1, pr = 1
-  function resize() {
-    W = innerWidth
-    H = innerHeight
-    pr = Math.min(devicePixelRatio || 1, mobile ? 1.5 : quality >= 2 ? 2 : 1.5)
+  let W = 1, H = 1, pr = 1, sized = { w: 0, h: 0, pr: 0, q: -1 }
+  function resize(force) {
+    const nw = innerWidth, nh = innerHeight, npr = Math.min(devicePixelRatio || 1, prCap)
+    // phones: the address bar sliding in and out changes the height by a few dozen px, not worth re-allocating the frame
+    if (!force && mobile && nw === sized.w && Math.abs(nh - sized.h) < 160 && npr === sized.pr) return
+    W = nw
+    H = nh
+    pr = npr
     renderer.setPixelRatio(pr)
     renderer.setSize(W, H, false)
     camera.aspect = W / H
@@ -408,10 +429,20 @@ export function start(opts) {
     camera.fov = W / H < 0.8 ? 40 : 32
     camera.updateProjectionMatrix()
     tUniforms.uScale.value = (H * pr) / (2 * Math.tan((camera.fov * Math.PI) / 360))
-    if (quality >= 2) buildComposer(W, H, pr)
-    if (bloom) bloom.strength = camera.aspect < 0.8 ? 0.34 : 0.55 // phones: less haze over a key that fills the screen
+    if (quality >= 2) {
+      if (!composer || force || sized.q !== quality) buildComposer(W, H, pr)
+      else {
+        composer.setPixelRatio(pr)
+        composer.setSize(W, H)
+        if (fxaa) fxaa.material.uniforms.resolution.value.set(1 / (W * pr), 1 / (H * pr))
+      }
+    }
+    sized = { w: W, h: H, pr, q: quality }
+    if (bloom) bloom.strength = camera.aspect < 0.8 ? 0.3 : 0.42 // phones: less haze over a key that fills the screen
     invalidate()
   }
+  let resizeT = 0
+  const resizeSoon = () => { clearTimeout(resizeT); resizeT = setTimeout(() => resize(false), 120) }
 
   // --- pointer
   const ptr = { x: 0, y: 0, sx: 0, sy: 0, ndc: new Vector2(), moved: 0 }
@@ -439,8 +470,17 @@ export function start(opts) {
   const tintHot = { idle: new Color(0x6f8dff), listening: new Color(0xff6a5c), writing: new Color(0x9fb6ff), done: new Color(0x5ee8a6) }
   const tintLeg = { idle: new Color(0xd2e0ff), listening: new Color(0xffd9d2), writing: new Color(0xe6eeff), done: new Color(0xb8ffdc) }
 
+  // Where each key's spot sits on the page is measured now and then, not every frame (a layout read per frame adds up).
+  let measuredAt = -1e9, measureDirty = true
+  function measureKeys(nowMs) {
+    for (const k of keys) { const r = k.el.getBoundingClientRect(); k.m = { l: r.left + scrollX, t: r.top + scrollY, w: r.width, h: r.height } }
+    measuredAt = nowMs; measureDirty = false
+  }
+  if (window.ResizeObserver) new ResizeObserver(() => { measureDirty = true; invalidate() }).observe(document.documentElement)
   function place(k) {
-    const r = k.el.getBoundingClientRect()
+    if (!k.m) measureKeys(measuredAt)
+    const r = { left: k.m.l - scrollX, top: k.m.t - scrollY, width: k.m.w, height: k.m.h }
+    r.right = r.left + r.width; r.bottom = r.top + r.height
     k.visible = r.bottom > -140 && r.top < H + 140 && r.width > 4
     k.group.visible = k.visible
     if (!k.visible) return
@@ -464,17 +504,36 @@ export function start(opts) {
   }
 
   let shown = false
-  let raf = 0, running = true, last = performance.now() / 1000, frames = 0, slow = 0, tAcc = 0
+  // One loop, ever: anything that wants a frame while one is being drawn is served by that frame's own reschedule.
+  let raf = 0, inFrame = false, running = true, last = performance.now() / 1000, frames = 0, slow = 0, tAcc = 0
   function invalidate() {
-    if (!raf && running) raf = requestAnimationFrame(frame)
+    if (!raf && !inFrame && running) raf = requestAnimationFrame(frame)
   }
 
+  // Nothing is being pressed, scrolled or pointed at: the field only drifts, so 30 fps looks the same and costs half.
+  let lastDraw = 0, lastScrollAt = 0
+  addEventListener('scroll', () => { lastScrollAt = performance.now() }, { passive: true })
+  function calm(nowMs) {
+    if (reduced || g.mode !== 'idle' || g.levelT > 0.01 || nowMs - ptr.moved < 1500 || nowMs - lastScrollAt < 600) return false
+    for (const k of keys) if (k.target > 0 || Math.abs(k.p - k.target) > 0.002 || Math.abs(k.pv) > 0.01 || k.drop > 0.0005 || k.flash > 0) return false
+    return true
+  }
   function frame(nowMs) {
     raf = 0
+    if (!running) return
+    if (calm(nowMs) && nowMs / 1000 - lastDraw < 0.027) { raf = requestAnimationFrame(frame); return }
+    inFrame = true
+    try { step(nowMs) } finally { inFrame = false }
+    const wants = !reduced || rings.length || keys.some((k) => Math.abs(k.p - k.target) > 0.001 || Math.abs(k.pv) > 0.01 || k.drop > 0.0005)
+    if (running && wants && !raf) raf = requestAnimationFrame(frame)
+  }
+  function step(nowMs) {
+    lastDraw = nowMs / 1000
+    const cpu0 = performance.now()
     const now = nowMs / 1000
     const dt = Math.min(0.05, now - last)
+    tAcc += now - last // real elapsed time: the clamped dt above hid slow frames from the frame-rate check
     last = now
-    tAcc += dt
     const time = reduced ? 0 : now
 
     // pointer parallax
@@ -502,6 +561,7 @@ export function start(opts) {
     g.rec += (wantRec - g.rec) * Math.min(1, dt * 7)
     g.level += (g.levelT - g.level) * Math.min(1, dt * 14)
 
+    if (measureDirty || nowMs - measuredAt > 500) measureKeys(nowMs)
     let activeKey = null
     for (const k of keys) {
       place(k)
@@ -526,7 +586,7 @@ export function start(opts) {
       k.tint.lerp(legT, Math.min(1, dt * 10))
       const pulse = m === 'listening' ? 0.5 + g.level * 1.4 : m === 'writing' ? 0.5 + 0.35 * Math.sin(time * 9) : 0
       k.topMat.emissive.copy(k.tint)
-      k.topMat.emissiveIntensity = 3.6 + pulse * 1.2 + k.flash * 1.4
+      k.topMat.emissiveIntensity = 2.5 + pulse * 1.0 + k.flash * 1.2
       const stripI = 0.9 + pulse * 0.8 + k.flash * 1.4
       k.stripMat.color.copy(k.hot).multiplyScalar(stripI)
       k.leakMat.color.copy(k.hot).multiplyScalar(0.8 + pulse * 0.6)
@@ -595,27 +655,35 @@ export function start(opts) {
       if (slow >= 2 && quality > 0) {
         quality--
         slow = 0
-        if (quality < 2) { composer = null; rt?.dispose() }
-        resize()
+        if (quality < 2) disposeComposer()
+        resize(true)
       }
       api.fps = Math.round(fps)
     }
 
-    const busy = !reduced || keys.some((k) => Math.abs(k.p - k.target) > 0.001 || Math.abs(k.pv) > 0.01) || rings.length
-    if (running && busy) raf = requestAnimationFrame(frame)
+    api.cpuMs = api.cpuMs * 0.9 + (performance.now() - cpu0) * 0.1
   }
 
-  addEventListener('resize', resize)
+  addEventListener('resize', resizeSoon)
   addEventListener('scroll', invalidate, { passive: true })
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden
     if (running) { last = performance.now() / 1000; invalidate() }
   })
   canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); running = false; opts.onLost?.() })
-  resize()
+  resize(true)
 
   const api = {
-    fps: 0,
+    fps: 0, cpuMs: 0,
+    /** experiments / support: tune({ pr, msaa, bloom, density }) */
+    tune(o) {
+      if (o.pr != null) prCap = o.pr
+      if (o.lite != null) { lite = o.lite; if (!lite) { msaa = 4; prCap = mobile ? 1.5 : 2 } else { msaa = 0; prCap = mobile ? 1.25 : 1.5 } }
+      if (o.msaa != null) msaa = o.msaa
+      if (o.bloom != null) bloomOn = o.bloom
+      if (o.density != null) { scene.remove(terrain); terrain.geometry.dispose(); terrain = new Points(terrainGeometry(o.density), terrainMat); terrain.frustumCulled = false; scene.add(terrain) }
+      resize(true)
+    },
     addKey,
     /** 0..1: how loud the voice is right now */
     level(v) { g.levelT = v },
